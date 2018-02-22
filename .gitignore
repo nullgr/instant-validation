@@ -1,0 +1,10 @@
+.vscode
+.idea
+.tmp
+stats.json
+node_modules
+/npm-debug.log
+.tern-port
+.DS_Store
+*.lock
+package-lock.json

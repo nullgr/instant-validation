@@ -1,0 +1,69 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "jest",
+    "prettier"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:jest/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "comma-spacing": ["warn"],
+    "indent": ["warn", 2, {"SwitchCase": 1}],
+    "key-spacing": ["warn", {
+      "beforeColon": false,
+      "afterColon": true
+    }],
+    "keyword-spacing": ["warn", {"after": true}],
+    "jsx-quotes": ["warn", "prefer-double"],
+    "no-extra-boolean-cast": "off",
+    "no-multi-spaces": "warn",
+    "no-spaced-func": "warn",
+    "no-unused-vars": "warn",
+    "react/no-danger": "off",
+    "semi": ["warn", "always"],
+    "space-before-blocks": ["warn", "always"],
+    "space-before-function-paren": ["warn", "never"],
+    "spaced-comment": ["warn", "always"],
+    "space-infix-ops": "warn",
+    "space-in-parens": ["warn", "never"],
+    "space-unary-ops": ["warn", {
+      "words": true,
+      "nonwords": false
+    }],
+    "object-curly-spacing": [2, "always"],
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true
+      }
+    ]
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "test": true,
+    "expect": true,
+    "describe": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "arrowFunctions": true,
+      "blockBindings": true,
+      "classes": true,
+      "defaultParams": true,
+      "destructuring": true,
+      "jsx": true,
+      "modules": true,
+      "restParams": true,
+      "templateStrings": true,
+      "spread": true
+    },
+    "sourceType": "module"
+  }
+}
