@@ -19,7 +19,7 @@ const Validator = new Validation({
 
 Then you can use its own checking and state wrapping methods.
 
-In example, simply add validationm when you are initing the state:
+In example, simply add validation with `addValidation` method, when you are initing the state:
 
 ```js
 this.state = Validator.addValidation({
