@@ -1,6 +1,6 @@
 {
   "name": "react-validation-utils",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "Validate react form components, based on their state",
   "main": "build/index.js",
   "scripts": {

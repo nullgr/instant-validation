@@ -5,7 +5,7 @@ Validate react form components, based on their state.
 
 All the state management is under the hood.
 
-Simply create the Validation class instance and describe the fields.
+Create the Validation class instance and describe the fields.
 
 ```js
 const Validator = new Validation({
@@ -13,32 +13,34 @@ const Validator = new Validation({
       rule: emailRules,
       message: 'Please enter a valid email'
     }
-  },
+  }
 });
 ```
 
 Then you can use its own checking and state wrapping methods.
 
-In example, simply add validationm when you are initing the state
+In example, simply add validationm when you are initing the state:
 
 ```js
-  this.state = Validator.addValidation({
-    login: '',
-    password: ''
-  });
+this.state = Validator.addValidation({
+  email: ''
+});
 ```
+That will create a state like `{ email: '', validationStorage: {...}}`.
 
-`validate` is a wrapper, that returns an updater function, and pass it to `this.setState` method
+`validate` is a wrapper, that returns an updater function, and pass it to `this.setState` method.
 
-When you update the field value, you can add validation to it
+When you update the field value (or field values), you can add validation to it (to them).
 
 ```js
 this.setState(
-  Validator.validate({ login: value });
+  Validator.validate({ email: value });
 )
 ```
+Afer this state will be like `{ email: peter@gmail.com, validationStorage: {email: [validation-passed]} }`.
 
-Or you can simply validate all fields at the same time, that will rerender the component
+Or you can simply validate all fields at the same time.
+That will update validationStorage and rerender the component with all the error messages, that you can get from `getErrors` method.
 
 ```js
 this.setState(Validator.validate());
