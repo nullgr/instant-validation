@@ -1,2 +1,8 @@
 src
 __tests__
+.babelrc
+.editorconfig
+.eslintignore
+.eslintrc
+.flowconfig
+.gitignore
