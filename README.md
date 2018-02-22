@@ -5,22 +5,43 @@ Validate react form components, based on their state.
 
 All the state management is under the hood.
 
-Simply create the Validation class instance and add its own state wrapping and checking methods.
-
-`validate` is a wrapper around `this.setState` method parameters
-
-You can simply validate all fields at the same time
+Simply create the Validation class instance and describe the fields.
 
 ```js
-this.setState(Validator.validate())
+const Validator = new Validation({
+  email: {
+      rule: emailRules,
+      message: 'Please enter a valid email'
+    }
+  },
+});
 ```
 
-Or you can check only the fields, whose keys are passed to `this.setState`
+Then you can use its own checking and state wrapping methods.
+
+In example, simply add validationm when you are initing the state
+
+```js
+  this.state = Validator.addValidation({
+    login: '',
+    password: ''
+  });
+```
+
+`validate` is a wrapper, that returns an updater function, and pass it to `this.setState` method
+
+When you update the field value, you can add validation to it
 
 ```js
 this.setState(
-  Validator.validate({ login: value })
+  Validator.validate({ login: value });
 )
+```
+
+Or you can simply validate all fields at the same time, that will rerender the component
+
+```js
+this.setState(Validator.validate());
 ```
 
 Here is the example of a simple React form
