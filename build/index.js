@@ -35,7 +35,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *     }
  *     {
  *       rule: value => value.length >= 5,
- *       message: 'Password should contain at least 5 characters
+ *       message: 'Password should contain at least 5 characters'
  *     }
  *  ]
  * });
