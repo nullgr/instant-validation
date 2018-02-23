@@ -1,20 +1,26 @@
 import Validation from '../src';
-import { requiredRule, requiredRuleBool, lengthRule } from '../src/rules';
+import { requiredRule, lengthRule } from '../src/rules';
 const LENGTH_ERROR = 'Length should be minimum 5 characters';
 const ERROR_EMPTY = 'This field should be filled';
 
 describe('Unit tests for Validation class', () => {
   // here will be stored each updated store phase
-  let stateSnapShot;
+  let state;
 
   const Validator = new Validation({
-    login: {
-      rule: requiredRule,
-      message: ERROR_EMPTY
-    },
-    password: [
+    login: [
+      {
+        rule: requiredRule,
+        message: ERROR_EMPTY
+      },
       {
         rule: lengthRule(5),
+        message: LENGTH_ERROR
+      }
+    ],
+    password: [
+      {
+        rule: lengthRule(8),
         message: LENGTH_ERROR
       },
       {
@@ -26,7 +32,7 @@ describe('Unit tests for Validation class', () => {
     ],
     repeatPass: [
       {
-        rule: lengthRule(5),
+        rule: lengthRule(8),
         message: LENGTH_ERROR
       },
       {
@@ -36,12 +42,12 @@ describe('Unit tests for Validation class', () => {
       }
     ],
     accept: {
-      rule: requiredRuleBool,
+      rule: requiredRule,
       message: ERROR_EMPTY
     }
   });
 
-  test('addValidation method test', () => {
+  test('Validator.addValidation(state)', () => {
     const initState = Validator.addValidation({
       login: '',
       password: '',
@@ -49,25 +55,25 @@ describe('Unit tests for Validation class', () => {
       accept: false
     });
 
-    // update snapshot and compare to result
-    stateSnapShot = {
+    // update state and compare to result
+    state = {
       login: '',
       password: '',
       repeatPass: '',
       accept: false,
       validationStorage: {
         accept: ['prevalidation-failed'],
-        login: ['prevalidation-failed'],
+        login: ['prevalidation-failed', 'prevalidation-failed'],
         password: ['prevalidation-failed', 'validation-passed'],
         repeatPass: ['prevalidation-failed', 'validation-passed']
       }
     };
 
-    expect(initState).toEqual(stateSnapShot);
+    expect(initState).toEqual(state);
   });
 
-  test('getErrors method on prevalidation test', () => {
-    expect(Validator.getErrors(stateSnapShot)).toEqual({
+  test('getErrors after Validator.addValidation', () => {
+    expect(Validator.getErrors(state)).toEqual({
       accept: '',
       login: '',
       password: '',
@@ -75,45 +81,98 @@ describe('Unit tests for Validation class', () => {
     });
   });
 
-  test('validate method test', () => {
-    // treat previously saved snapshot as a previous state
-    const prevState = stateSnapShot;
+  test('Validator.validate({login: value})', () => {
+    const value = 'pit';
 
     // create updater function from Validator to use the result in setState method
-    const updater = Validator.fieldsToValidate([
-      'login',
-      'accept',
-      'password',
-      'repeatPass'
-    ]).validate({
-      login: 'vasia',
-      password: '12345',
-      repeatPass: '12345',
-      accept: false
+    const updater = Validator.validate({
+      login: value
     });
 
     // call the updater function to check the result
-    const updates = updater(prevState);
+    const result = updater(state);
 
     // update snapshot and compare to result
-    stateSnapShot = {
-      login: 'vasia',
-      password: '12345',
-      repeatPass: '12345',
-      accept: false,
+    const expected = {
+      login: value,
+      validationStorage: {
+        accept: ['prevalidation-failed'],
+        login: ['validation-passed', 'validation-failed'],
+        password: ['prevalidation-failed', 'validation-passed'],
+        repeatPass: ['prevalidation-failed', 'validation-passed']
+      }
+    };
+
+    expect(result).toEqual(expected);
+    // result of state updates
+    state = Object.assign({}, state, result);
+  });
+
+  test('getErrors after Validator.validate({ login: value })', () => {
+    expect(Validator.getErrors(state)).toEqual({
+      accept: '',
+      login: LENGTH_ERROR,
+      password: '',
+      repeatPass: ''
+    });
+  });
+
+  test('Validator.validate({login, password, repeatPass})', () => {
+    const loginVal = 'peterson';
+    const passordVal = '123456789a';
+    const passordRVal = '123456789a';
+    const updater = Validator.validate({
+      login: loginVal,
+      password: passordVal,
+      repeatPass: passordRVal
+    });
+    const result = updater(state);
+    const expected = {
+      login: loginVal,
+      password: passordVal,
+      repeatPass: passordRVal,
+      validationStorage: {
+        accept: ['prevalidation-failed'],
+        login: ['validation-passed', 'validation-passed'],
+        password: ['validation-passed', 'validation-passed'],
+        repeatPass: ['validation-passed', 'validation-passed']
+      }
+    };
+    expect(result).toEqual(expected);
+    state = Object.assign({}, state, result);
+  });
+
+  test('getErrors after Validator.validate({login, password, repeatPass})', () => {
+    expect(Validator.getErrors(state)).toEqual({
+      accept: '',
+      login: '',
+      password: '',
+      repeatPass: ''
+    });
+  });
+
+  test('Validator.isFormValid(state) method equals false', () => {
+    expect(Validator.isFormValid(state)).toEqual(false);
+  });
+
+  test('Validator.validate()', () => {
+    const updater = Validator.validate();
+    const result = updater(state);
+    const expected = {
       validationStorage: {
         accept: ['validation-failed'],
-        login: ['validation-passed'],
+        login: ['validation-passed', 'validation-passed'],
         password: ['validation-passed', 'validation-passed'],
         repeatPass: ['validation-passed', 'validation-passed']
       }
     };
 
-    expect(updates).toEqual(stateSnapShot);
+    expect(result).toEqual(expected);
+    state = Object.assign({}, state, result);
   });
 
-  test('getErrors method on validation test', () => {
-    expect(Validator.getErrors(stateSnapShot)).toEqual({
+  test('getErrors after Validator.validate()', () => {
+    expect(Validator.getErrors(state)).toEqual({
       accept: ERROR_EMPTY,
       login: '',
       password: '',
@@ -121,21 +180,12 @@ describe('Unit tests for Validation class', () => {
     });
   });
 
-  test('isFormValid method equals false', () => {
-    expect(Validator.isFormValid(stateSnapShot)).toEqual(false);
-  });
-
-  test('isFormValid method equals true', () => {
+  test('Validator.isFormValid(state) method equals true', () => {
     const updater = Validator.validate({
-      login: 'vasia',
-      password: '12345',
-      repeatPass: '12345',
       accept: true
     });
-
-    // update snapshot with all valid fields
-    stateSnapShot = updater(stateSnapShot);
-
-    expect(Validator.isFormValid(stateSnapShot)).toEqual(true);
+    const result = updater(state);
+    state = Object.assign({}, state, result);
+    expect(Validator.isFormValid(state)).toEqual(true);
   });
 });
