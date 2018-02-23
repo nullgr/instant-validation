@@ -128,7 +128,7 @@ class LoginForm extends React.Component {
 export default LoginForm;
 ```
 
-# Creating validation rules
+## Creating validation rules
 
 `Rule` is a function, that return true, if the field is valid.
 ```js
@@ -171,7 +171,7 @@ this.setState(
 );
 ```
 
-# Choose, how many fields should be validated
+## Choose, how many fields should be validated
 
 When you are adding a Validator with `Validator.addValidation` method, all the fields will be prevalidated.
 Prevalidation means, that you will get no error message, if the field has not passed a validation rule. (`[prevalidation-failed]`)
