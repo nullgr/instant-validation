@@ -140,7 +140,7 @@ To each field you can provide a single `RuleData` object
 amount: {
   rule: minAmount, 
   message: errorMessageText,
-  id: string // id is an optional parameter (if you need to rewrite the rule dynamically)
+  id: 'amountRule' // id is an optional parameter (if you need to rewrite the rule dynamically)
 };
 ```
 
