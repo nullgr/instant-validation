@@ -8,7 +8,7 @@
     "build": "babel src -d build",
     "test": "jest",
     "prepublish": "npm run build",
-    "release": "np"
+    "release": "np --no-yarn"
   },
   "repository": {
     "type": "git",
