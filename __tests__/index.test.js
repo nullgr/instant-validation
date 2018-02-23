@@ -1,5 +1,5 @@
 import Validation from '../src';
-import { requiredRule, requiredRuleBool, lengthRule } from '../src/rules';
+import { requiredRule, lengthRule } from '../src/rules';
 const LENGTH_ERROR = 'Length should be minimum 5 characters';
 const ERROR_EMPTY = 'This field should be filled';
 
@@ -36,7 +36,7 @@ describe('Unit tests for Validation class', () => {
       }
     ],
     accept: {
-      rule: requiredRuleBool,
+      rule: requiredRule,
       message: ERROR_EMPTY
     }
   });
