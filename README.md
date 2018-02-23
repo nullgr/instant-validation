@@ -35,7 +35,7 @@ When you update the field value (or field values), you can add validation to it 
 ```js
 this.setState(
   Validator.validate({ email: value });
-)
+);
 ```
 Afer this state will be like `{ email: peter@gmail.com, validationStorage: {email: [validation-passed]} }`.
 
@@ -126,4 +126,72 @@ class LoginForm extends React.Component {
 }
 
 export default LoginForm;
+```
+
+# Creating validation rules
+
+`Rule` is a function, that return true, if the field is valid.
+```js
+const minAmount = val => val > 10
+```
+
+To each field you can provide a single `RuleData` object
+```js
+amount: {
+  rule: minAmount, 
+  message: errorMessageText,
+  id: 'amountRule' // id is an optional parameter (if you need to rewrite the rule dynamically)
+};
+```
+
+Or, if there are many rules, you can provide an array of `RuleData`s.
+```js
+password: [
+  {
+    rule: requiredRule,
+    message: 'Please fill out the password'
+  },
+  {
+    rule: lengthRule(8),
+    message: 'Password should be at least 8 characters long'
+  }
+]
+```
+
+To dynamically change the rule you can use `Validator.updateRules` method
+```js
+this.setState(
+  Validator
+   .updateRules({
+      amount: {
+        amountRule: value => value >= this.props.account
+      },
+    })
+   .validate({ amount: e.target.value })
+);
+```
+
+# Choose, how many fields should be validated
+
+When you are adding a Validator with `Validator.addValidation` method, all the fields will be prevalidated.
+Prevalidation means, that you will get no error message, if the field has not passed a validation rule. (`[prevalidation-failed]`)
+Validation means, that you will get an error message, if the field has not passed a validation rule.(`[validation-failed]`)
+
+In some cases, when you are updating a single field in state, you need to validate several fields at the same time
+```js
+this.setState(
+  Validator
+   .fieldsToValidate(['amount', 'bill'])
+   .validate({ amount: e.target.value })
+)
+```
+
+In some cases, you need to choose, where to show error messages.
+```js
+this.setState(
+  Validator
+   .fieldsToValidate(['amount', 'bill'])
+   .showErrorsOnFields(['amount'])
+   .validate({ amount: e.target.value })
+);
 ```
