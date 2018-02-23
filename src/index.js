@@ -1,21 +1,9 @@
 // @flow
-/**
- * Validation rule type for one field
- * @example rule: val => val.length > 4
- * state is the optional parameter, you can use it, if you need to compare with field from your component state
- * @example rule: (paymentSumm, state) => state.billAmount >= paymentSumm
- */
 type Rule = (val: any, state: Object) => boolean;
 
 type RuleData = {
   rule: Rule,
-  /**
-   * error message text
-   */
   message: string,
-  /**
-   * (optional) use it in method updateRules as an identifier,
-   */
   id?: string
 };
 
@@ -35,28 +23,12 @@ type FormattedFieldsDescription = {
 };
 
 /**
- * A simple class for fields validation in React.js
+ * A class for fields validation in React.js
  * Use it in your React components for forms,
- * The form should work the classical way, store fields in the local component state and modify fields using this.setState method
+ * The form should work the classical way,
+ * store fields in the local component state and modify fields using this.setState method
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
- * @example
- * const Validator = new Validation({
- *   login: {
- *     rule: value => value.length >= 5,
- *     message: 'Login should contain at least 5 characters'
- *   },
- *   password: [
- *     {
- *       rule: charactersRule,
- *       message: 'Invalid characters in password'
- *     }
- *     {
- *       rule: value => value.length >= 5,
- *       message: 'Password should contain at least 5 characters'
- *     }
- *  ]
- * });
  */
 class Validation {
   fields: FormattedFieldsDescription;
@@ -128,34 +100,6 @@ class Validation {
 
   /**
    * Validate is a method to use inside the setState function
-   * You can simply validate all fields at the same time
-   * @example
-   * this.setState(Validator.validate())
-   * Or Validator can check ONLY the fields, whose keys are passed to the setState
-   * @example
-   * this.setState(
-   *   Validator.validate({ login: value })
-   * )
-   * If you want to manually set fields for validation, you can use fieldsToValidate method BEFORE the validate method
-   * in that case, values for other fields will be taken from unupdated component state
-   * @example
-   * this.setState(
-   *   Validator
-   *    .fieldsToValidate(['newPassword', 'repeatPassword'])
-   *    .validate({ newPassword: e.target.value })
-   * )
-   * If you want to dynamically update the rule, you can do this with updateRules method, using setting the rule by its id
-   * @example
-   * this.setState(
-   *   Validator
-   *    .updateRules({
-   *       repeatPassword: {
-   *         repeatRule: repeatPassword => repeatPassword === e.target.value
-   *       },
-   *     })
-   *    .fieldsToValidate(['newPassword', 'repeatPassword'])
-   *    .validate({ newPassword: e.target.value })
-   * )
    */
   validate(stateUpdates: ?Object, showErrors: boolean = true) {
     let showErrorsHash = {};
