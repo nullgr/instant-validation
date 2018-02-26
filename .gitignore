@@ -7,4 +7,3 @@ node_modules
 .tern-port
 .DS_Store
 *.lock
-package-lock.json
