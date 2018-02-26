@@ -95,8 +95,9 @@ var Validation = function () {
 
       var showErrorsHash = {};
       var showChoosenErrors = false;
-      var keysToValidate = this.fieldsToValidateList.length > 0 ? this.fieldsToValidateList : stateUpdates ? Object.keys(stateUpdates) : Object.keys(this.fields);
+      var fieldsToValidateList = [];
       if (this.fieldsToValidateList.length > 0) {
+        fieldsToValidateList = this.fieldsToValidateList;
         this.fieldsToValidateList = [];
       }
 
@@ -108,7 +109,12 @@ var Validation = function () {
         this.fieldsToShowErrors = [];
       }
 
-      return function (prevState) {
+      return function (prevState, props) {
+        if (typeof stateUpdates === 'function') {
+          // support of updater function
+          stateUpdates = stateUpdates(prevState, props);
+        }
+        var keysToValidate = fieldsToValidateList.length > 0 ? fieldsToValidateList : stateUpdates ? Object.keys(stateUpdates) : Object.keys(_this2.fields);
         var toStorage = {};
         // computing the state as a merge from prevState and stateUpdates to do the right validation
         var state = Object.assign({}, prevState, stateUpdates || {});
