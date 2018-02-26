@@ -17,7 +17,7 @@ const Validator = new Validation({
 });
 ```
 
-Then you can use its own checking and state wrapping methods.
+Then you can use its own checking and state wrapping [methods](#api).
 
 In example, simply add validation with `addValidation` method, when you are initing the state:
 
@@ -26,9 +26,10 @@ this.state = Validator.addValidation({
   email: ''
 });
 ```
-That will create a state like `{ email: '', validationStorage: {...}}`.
+That will create a state like `{ email: '', validationStorage: {email: ['prevalidation-failed']}}`.
 
-`validate` is a wrapper, that returns an updater function, and pass it to `this.setState` method.
+### Validation 
+`validate` is a wrapper, that returns an updater function and pass it to `this.setState` method.
 
 When you update the field value (or field values), you can add validation to it (to them).
 
@@ -37,14 +38,7 @@ this.setState(
   Validator.validate({ email: value });
 );
 ```
-Afer this state will be like `{ email: peter@gmail.com, validationStorage: {email: [validation-passed]} }`.
-
-Or you can simply validate all fields at the same time.
-That will update validationStorage and rerender the component with all the error messages, that you can get from `getErrors` method.
-
-```js
-this.setState(Validator.validate());
-```
+Afer that state will be like `{ email: peter@gmail.com, validationStorage: {email: ['validation-passed']} }`.
 
 ### Form example
 Here is the example of a simple React form
@@ -158,26 +152,33 @@ password: [
   }
 ]
 ```
+If there are many rules, the their priority will be similar to the array order.
 
-To dynamically change the rule you can use `Validator.updateRules` method
+## Api
+
+### constructor({FieldsDescription}, errorsStorageName = 'validationStorage')
+Describe in the constructor all the fields, that you will check. Like in the [example](#form-example).
+By default all validation data will be added to the 'validationStorage' key of the state object. You can change it, if you need. You can describe for each field [1 or many rules](#creating-validation-rules).
+
+### addValidation({state}, showErrorsOnStart = false)
+When you are creating the component state, you can use this method to prevalidate/validate the state fields and save results in a special key in the state ('validationStorage' by default). See the [example](#form-example).
+If you want, you can set `showErrorsOnStart` to true, so fields will be validated and you will get all the errors in the first component render.
+When you are adding a Validator with `Validator.addValidation` method, all the fields will be prevalidated.
+Prevalidation means, that you will get no error message, if the field has not passed a validation rule  (`'prevalidation-failed'`).
+Vэlidation means, that you will get an error message, if the field has not passed a validation rule (`'validation-failed'`).
+
+### validate({state} | null, showErrors = true)
+You should use it inside the this.setState method like it was already described [here](#validation).
+If you want, you can set `showErrors` to false, so fields will be only prevalidated and no errors will appear on them.
+
+By default this method only checks those fields, that are passing to `state` argument.  
+You can simply validate all fields at the same time, passing `null` or `undefined` instead of state argument.
+
 ```js
-this.setState(
-  Validator
-   .updateRules({
-      amount: {
-        amountRule: value => value >= this.props.account
-      },
-    })
-   .validate({ amount: e.target.value })
-);
+this.setState(Validator.validate());
 ```
 
-## Choose, how many fields should be validated
-
-When you are adding a Validator with `Validator.addValidation` method, all the fields will be prevalidated.
-Prevalidation means, that you will get no error message, if the field has not passed a validation rule. (`[prevalidation-failed]`)
-Validation means, that you will get an error message, if the field has not passed a validation rule.(`[validation-failed]`)
-
+### fieldsToValidate(...fields)
 In some cases, when you are updating a single field in state, you need to validate several fields at the same time
 ```js
 this.setState(
@@ -187,6 +188,7 @@ this.setState(
 )
 ```
 
+### showErrorsOnFields(...fields)
 In some cases, you need to choose, where to show error messages.
 ```js
 this.setState(
@@ -197,12 +199,25 @@ this.setState(
 );
 ```
 
-## Api
+### updateRules({fieldsDescription})
+You can use this method o dynamically change the rule.
+```js
+this.setState(
+  Validator
+   .updateRules({
+      amount: { // fieldName
+        amountRule: value => value >= this.props.account // ruleId: ruleFunc
+      },
+    })
+   .validate({ amount: e.target.value })
+);
+```
 
-### constructor({FieldsDescription}, errorsStorageName = 'validationStorage')
-Describe in the constructor all the fields, that you will check. Like in the [example](#form-example).
-By default all validation data will be added to the 'validationStorage' key of the state object. You can change it, if you need.
+### getErrors({state})
+Use this method inside the render function, like in the [example](#form-example). It will return the object with fields keys and their error messages. If the field is valid there will be an empty error string.
 
-### addValidation({state}, showErrorsOnStart = false)
-When you are creating the component state, you can use this method to prevalidate/validate the state fields and save results in a special key in the state ('validationStorage' by default). See the [example](#form-example).
-If you want, you can set `showErrorsOnStart` to true, so fields will be validated and you will get all the errors in the first component render.
+### isFormValid({state})
+Use this method to check, if the field is valid. It will return true, if all the fields in the form are valid. See the [example](#form-example)
+
+## Compatibility 
+This package id fully compatible with the React v.16, because it uses state updater functions inside.
