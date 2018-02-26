@@ -202,3 +202,7 @@ this.setState(
 ### constructor({FieldsDescription}, errorsStorageName = 'validationStorage')
 Describe in the constructor all the fields, that you will check. Like in the [example](#form-example).
 By default all validation data will be added to the 'validationStorage' key of the state object. You can change it, if you need.
+
+### addValidation({state}, showErrorsOnStart = false)
+When you are creating the component state, you can use this method to prevalidate/validate the state fields and save results in a special key in the state ('validationStorage' by default). See the [example](#form-example).
+If you want, you can set `showErrorsOnStart` to true, so fields will be validated and you will get all the errors in the first component render.
