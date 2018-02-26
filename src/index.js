@@ -101,14 +101,12 @@ class Validation {
   /**
    * Validate is a method to use inside the setState function
    */
-  validate(stateUpdates: ?Object, showErrors: boolean = true) {
+  validate(stateUpdates: ?Object | Function, showErrors: boolean = true) {
     let showErrorsHash = {};
     let showChoosenErrors = false;
-    const keysToValidate =
-      this.fieldsToValidateList.length > 0
-        ? this.fieldsToValidateList
-        : stateUpdates ? Object.keys(stateUpdates) : Object.keys(this.fields);
+    let fieldsToValidateList = [];
     if (this.fieldsToValidateList.length > 0) {
+      fieldsToValidateList = this.fieldsToValidateList;
       this.fieldsToValidateList = [];
     }
 
@@ -118,7 +116,15 @@ class Validation {
       this.fieldsToShowErrors = [];
     }
 
-    return (prevState: Object) => {
+    return (prevState: Object, props: ?Object) => {
+      if (typeof stateUpdates === 'function') {
+        // support of updater function
+        stateUpdates = stateUpdates(prevState, props);
+      }
+      const keysToValidate =
+        fieldsToValidateList.length > 0
+          ? fieldsToValidateList
+          : stateUpdates ? Object.keys(stateUpdates) : Object.keys(this.fields);
       let toStorage: Object = {};
       // computing the state as a merge from prevState and stateUpdates to do the right validation
       let state = Object.assign({}, prevState, stateUpdates || {});

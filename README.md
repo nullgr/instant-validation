@@ -167,11 +167,22 @@ When you are adding a Validator with `Validator.addValidation` method, all the f
 Prevalidation means, that you will get no error message, if the field has not passed a validation rule  (`'prevalidation-failed'`).
 Vэlidation means, that you will get an error message, if the field has not passed a validation rule (`'validation-failed'`).
 
-### validate({state} | null, showErrors = true)
+### validate({stateChange} | updater | null, showErrors = true)
 You should use it inside the this.setState method like it was already described [here](#validation).
 If you want, you can set `showErrors` to false, so fields will be only prevalidated and no errors will appear on them.
 
-By default this method only checks those fields, that are passing to `state` argument.  
+By default this method only checks those fields, that are passing in `stateChange` object (or in result object of the updater function, if you use it instead of `stateChange`).
+
+using `stateChange`:
+```js
+this.setState(Validator.validate({login: e.target.value}));
+```
+
+using `updater` function:
+```js
+this.setState(Validator.validate(prevState => login: e.target.value));
+```
+
 You can simply validate all fields at the same time, passing `null` or `undefined` instead of state argument.
 
 ```js
