@@ -118,15 +118,16 @@ describe('Unit tests for Validation class', () => {
       });
     });
 
-    test('Validator.validate({login, password, repeatPass})', () => {
+    test('Validator.validate(updaterFunction)', () => {
       const loginVal = 'peterson';
       const passordVal = '123456789a';
       const passordRVal = '123456789a';
-      const updater = Validator.validate({
+      const updaterFunction = prevState => ({
         login: loginVal,
         password: passordVal,
         repeatPass: passordRVal
       });
+      const updater = Validator.validate(updaterFunction);
       const result = updater(state);
       const expected = {
         login: loginVal,
@@ -143,7 +144,7 @@ describe('Unit tests for Validation class', () => {
       state = Object.assign({}, state, result);
     });
 
-    test('getErrors after Validator.validate({login, password, repeatPass})', () => {
+    test('getErrors after Validator.validate(updaterFunction)', () => {
       expect(Validator.getErrors(state)).toEqual({
         accept: '',
         login: '',
