@@ -46,6 +46,7 @@ That will update validationStorage and rerender the component with all the error
 this.setState(Validator.validate());
 ```
 
+### Form example
 Here is the example of a simple React form
 
 ```js
@@ -195,3 +196,9 @@ this.setState(
    .validate({ amount: e.target.value })
 );
 ```
+
+## Api
+
+### constructor({FieldsDescription}, errorsStorageName = 'validationStorage')
+Describe in the constructor all the fields, that you will check. Like in the [example](#form-example).
+By default all validation data will be added to the 'validationStorage' key of the state object. You can change it, if you need.
