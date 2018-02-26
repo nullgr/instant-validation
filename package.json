@@ -7,6 +7,7 @@
     "dev": "watch 'npm run build' src",
     "build": "babel src -d build",
     "test": "jest",
+    "prepush": "npm test",
     "prepublish": "npm run build",
     "release": "np --no-yarn --no-publish"
   },
@@ -21,9 +22,6 @@
   ],
   "author": "Oleksandr Chernenko (ca@nullgr.com, akazimirkas@gmail.com)",
   "license": "MIT",
-  "pre-push": [
-    "test"
-  ],
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -34,9 +32,9 @@
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-jest": "^20.0.3",
     "eslint-plugin-prettier": "2.3.1",
+    "husky": "^0.14.3",
     "jest": "^22.4.0",
     "np": "^2.20.1",
-    "pre-push": "^0.1.1",
     "prettier": "^1.10.2",
     "watch": "^1.0.1"
   }
