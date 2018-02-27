@@ -36,6 +36,7 @@ class Validation {
   fieldsToShowErrors: Array<string>;
   storage: string;
   statuses: Array<string>;
+  validationStorageName: string;
 
   constructor(
     fields: FieldsDescription,
