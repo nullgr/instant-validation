@@ -195,8 +195,11 @@ var Validation = function () {
     key: 'isFormValid',
     value: function isFormValid(state) {
       var storage = state[this.validationStorageName];
+      if ((typeof state === 'undefined' ? 'undefined' : _typeof(state)) !== 'object') {
+        throw new Error('Invalid state parameter, must be object');
+      }
       if ((typeof storage === 'undefined' ? 'undefined' : _typeof(storage)) !== 'object') {
-        throw new Error('Invalid fieldsMappedToStatuses object, must be object');
+        throw new Error('Invalid storage object, must be object');
       }
 
       var keys = Object.keys(storage);
@@ -219,13 +222,14 @@ var Validation = function () {
     key: 'isFieldValid',
     value: function isFieldValid(state, fieldName) {
       var storage = state[this.validationStorageName];
+      if ((typeof state === 'undefined' ? 'undefined' : _typeof(state)) !== 'object') {
+        throw new Error('Invalid state parameter, must be object');
+      }
       if ((typeof storage === 'undefined' ? 'undefined' : _typeof(storage)) !== 'object') {
         throw new Error('Invalid storage object, must be object');
       }
       var fieldStatuses = storage[fieldName];
       if (!fieldStatuses) {
-        // TODO: how to disable warnings in production
-        console.warn("Attempt to validate field that doesn't exist");
         return false;
       }
 
