@@ -37,6 +37,7 @@ class Validation {
   storage: string;
   statuses: Array<string>;
 
+  // TODO: errorsStorageName is misleading, storage contains fields mapped to statuses but not errors
   constructor(
     fields: FieldsDescription,
     errorsStorageName: string = 'validationStorage'
@@ -202,15 +203,15 @@ class Validation {
   }
 
   isFormValid(state: Object): boolean {
-    const errors = state[this.storage];
-    if (typeof errors !== 'object') {
-      throw new Error('Invalid errors parameter for fields, must be object');
+    const fieldsMappedToStatuses = state[this.storage];
+    if (typeof fieldsMappedToStatuses !== 'object') {
+      throw new Error('Invalid fieldsMappedToStatuses object, must be object');
     }
 
-    const keys = Object.keys(errors);
+    const keys = Object.keys(fieldsMappedToStatuses);
     const [validationPassed] = this.statuses;
     for (let i = 0; i < keys.length; i++) {
-      const currentStatuses = errors[keys[i]];
+      const currentStatuses = fieldsMappedToStatuses[keys[i]];
       for (let j = 0; j < currentStatuses.length; j++) {
         if (currentStatuses[j] !== validationPassed) {
           return false;
@@ -218,6 +219,25 @@ class Validation {
       }
     }
     // if form valid return true
+    return true;
+  }
+
+  isFieldValid(state: Object, fieldName: string): boolean {
+    const fieldsMappedToStatuses = state[this.storage];
+    if (typeof fieldsMappedToStatuses !== 'object') {
+      throw new Error('Invalid fieldsMappedToStatuses object, must be object');
+    }
+    const fieldStatuses = fieldsMappedToStatuses[fieldName];
+    if (!fieldStatuses) {
+      throw new Error("Attempt to validate field that doesn't exist");
+    }
+
+    const [validationPassed] = this.statuses;
+    for (let j = 0; j < fieldStatuses.length; j++) {
+      if (fieldStatuses[j] !== validationPassed) {
+        return false;
+      }
+    }
     return true;
   }
 }
