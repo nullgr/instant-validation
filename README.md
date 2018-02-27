@@ -156,7 +156,7 @@ If there are many rules, the their priority will be similar to the array order.
 
 ## Api
 
-### constructor({FieldsDescription}, errorsStorageName = 'validationStorage')
+### constructor({FieldsDescription}, validationStorageName = 'validationStorage')
 Describe in the constructor all the fields, that you will check. Like in the [example](#form-example).
 By default all validation data will be added to the 'validationStorage' key of the state object. You can change it, if you need. You can describe for each field [1 or many rules](#creating-validation-rules).
 
