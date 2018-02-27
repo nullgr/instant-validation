@@ -190,5 +190,27 @@ describe('Unit tests for Validation class', () => {
       state = Object.assign({}, state, result);
       expect(Validator.isFormValid(state)).toEqual(true);
     });
+
+    test('Validator.isFieldValid(state,"login") method returns false', () => {
+      const updater = Validator.validate({
+        login: ''
+      });
+      const result = updater(state);
+      state = Object.assign({}, state, result);
+      expect(Validator.isFieldValid(state, 'login')).toEqual(false);
+    });
+
+    test('Validator.isFieldValid(state,"password") method returns true', () => {
+      expect(Validator.isFieldValid(state, 'password')).toEqual(true);
+    });
+
+    test('Validator.isFieldValid(state,"login") method returns true after login field became validated', () => {
+      const updater = Validator.validate({
+        login: 'peterson'
+      });
+      const result = updater(state);
+      state = Object.assign({}, state, result);
+      expect(Validator.isFieldValid(state, 'login')).toEqual(true);
+    });
   });
 });
