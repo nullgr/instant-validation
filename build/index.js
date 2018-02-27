@@ -32,7 +32,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var Validation = function () {
   function Validation(fields) {
-    var errorsStorageName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'validationStorage';
+    var validationStorageName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'validationStorage';
 
     _classCallCheck(this, Validation);
 
@@ -43,7 +43,7 @@ var Validation = function () {
     this.fields = allRulesInArrays(fields);
     this.fieldsToValidateList = [];
     this.fieldsToShowErrors = [];
-    this.storage = errorsStorageName;
+    this.validationStorageName = validationStorageName;
     this.statuses = ['validation-passed', 'prevalidation-failed', 'validation-failed'];
   }
 
@@ -79,7 +79,7 @@ var Validation = function () {
         return toStorage[key] = _this._validateField(state[key], _this.fields[key], state, showErrorsOnStart);
       });
 
-      return Object.assign(state, _defineProperty({}, this.storage, toStorage));
+      return Object.assign(state, _defineProperty({}, this.validationStorageName, toStorage));
     }
 
     /**
@@ -119,14 +119,14 @@ var Validation = function () {
         // computing the state as a merge from prevState and stateUpdates to do the right validation
         var state = Object.assign({}, prevState, stateUpdates || {});
         // clean the service error storage field, so the rule will have no acces to it
-        delete state[_this2.storage];
+        delete state[_this2.validationStorageName];
         keysToValidate.map(function (key) {
           if (_this2.fields[key]) {
             toStorage[key] = _this2._validateField(state[key], _this2.fields[key], prevState, showChoosenErrors ? showErrorsHash[key] : showErrors);
           }
         });
         _this2.fieldsToShowErrors = [];
-        return Object.assign(stateUpdates || {}, _defineProperty({}, _this2.storage, Object.assign({}, prevState[_this2.storage], toStorage)));
+        return Object.assign(stateUpdates || {}, _defineProperty({}, _this2.validationStorageName, Object.assign({}, prevState[_this2.validationStorageName], toStorage)));
       };
     }
   }, {
@@ -176,7 +176,7 @@ var Validation = function () {
       var validationFailed = this.statuses[2];
 
       keys.map(function (key) {
-        var current = state[_this4.storage][key];
+        var current = state[_this4.validationStorageName][key];
         // check every rule
         for (var i = 0; i < current.length; i++) {
           if (current[i] === validationFailed) {
@@ -194,18 +194,18 @@ var Validation = function () {
   }, {
     key: 'isFormValid',
     value: function isFormValid(state) {
-      var errors = state[this.storage];
-      if ((typeof errors === 'undefined' ? 'undefined' : _typeof(errors)) !== 'object') {
-        throw new Error('Invalid errors parameter for fields, must be object');
+      var storage = state[this.validationStorageName];
+      if ((typeof storage === 'undefined' ? 'undefined' : _typeof(storage)) !== 'object') {
+        throw new Error('Invalid fieldsMappedToStatuses object, must be object');
       }
 
-      var keys = Object.keys(errors);
+      var keys = Object.keys(storage);
 
       var _statuses2 = _slicedToArray(this.statuses, 1),
           validationPassed = _statuses2[0];
 
       for (var i = 0; i < keys.length; i++) {
-        var currentStatuses = errors[keys[i]];
+        var currentStatuses = storage[keys[i]];
         for (var j = 0; j < currentStatuses.length; j++) {
           if (currentStatuses[j] !== validationPassed) {
             return false;
@@ -213,6 +213,30 @@ var Validation = function () {
         }
       }
       // if form valid return true
+      return true;
+    }
+  }, {
+    key: 'isFieldValid',
+    value: function isFieldValid(state, fieldName) {
+      var storage = state[this.validationStorageName];
+      if ((typeof storage === 'undefined' ? 'undefined' : _typeof(storage)) !== 'object') {
+        throw new Error('Invalid storage object, must be object');
+      }
+      var fieldStatuses = storage[fieldName];
+      if (!fieldStatuses) {
+        // TODO: how to disable warnings in production
+        console.warn("Attempt to validate field that doesn't exist");
+        return false;
+      }
+
+      var _statuses3 = _slicedToArray(this.statuses, 1),
+          validationPassed = _statuses3[0];
+
+      for (var j = 0; j < fieldStatuses.length; j++) {
+        if (fieldStatuses[j] !== validationPassed) {
+          return false;
+        }
+      }
       return true;
     }
   }]);
