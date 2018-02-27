@@ -212,5 +212,11 @@ describe('Unit tests for Validation class', () => {
       state = Object.assign({}, state, result);
       expect(Validator.isFieldValid(state, 'login')).toEqual(true);
     });
+
+    test('Validator.isFieldValid(state,"asdasd") method throws error due to attempt to validate not existed field', () => {
+      expect(() => {
+        Validator.isFieldValid(state, 'asdasd');
+      }).toThrow();
+    });
   });
 });
