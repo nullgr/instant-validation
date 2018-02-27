@@ -48,8 +48,7 @@
   "globals": {
     "test": true,
     "expect": true,
-    "describe": true,
-    "NODE_ENV": true
+    "describe": true
   },
   "parserOptions": {
     "ecmaVersion": 6,
