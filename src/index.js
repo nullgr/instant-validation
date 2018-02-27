@@ -1,4 +1,7 @@
 // @flow
+declare var NODE_ENV: string;
+const developmentMode = NODE_ENV !== 'production';
+
 type Rule = (val: any, state: Object) => boolean;
 
 type RuleData = {
@@ -232,7 +235,7 @@ class Validation {
       throw new Error('Invalid storage object, must be object');
     }
     const fieldStatuses = storage[fieldName];
-    if (!fieldStatuses) {
+    if (developmentMode && !fieldStatuses) {
       // TODO: how to disable warnings in production
       console.warn("Attempt to validate field that doesn't exist");
       return false;
