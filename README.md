@@ -156,7 +156,7 @@ If there are many rules, the their priority will be similar to the array order.
 
 ## Api
 
-### constructor({FieldsDescription}, errorsStorageName = 'validationStorage')
+### constructor({FieldsDescription}, validationStorageName = 'validationStorage')
 Describe in the constructor all the fields, that you will check. Like in the [example](#form-example).
 By default all validation data will be added to the 'validationStorage' key of the state object. You can change it, if you need. You can describe for each field [1 or many rules](#creating-validation-rules).
 
@@ -228,7 +228,11 @@ this.setState(
 Use this method inside the render function, like in the [example](#form-example). It will return the object with fields keys and their error messages. If the field is valid there will be an empty error string.
 
 ### isFormValid({state})
-Use this method to check, if the field is valid. It will return true, if all the fields in the form are valid. See the [example](#form-example)
+Use this method to check, if the form is valid. It will return true, if all the fields in the form are valid. See the [example](#form-example)
+
+### isFieldValid({state}, fieldName)
+Use this method to check, if particular field is valid. Returns true if it is valid, false otherwise
+
 
 ## Compatibility 
 This package id fully compatible with the React v.16, because it uses state updater functions inside.
