@@ -19,6 +19,7 @@
     "keyword-spacing": ["warn", {"after": true}],
     "jsx-quotes": ["warn", "prefer-double"],
     "no-extra-boolean-cast": "off",
+    "no-console": 0,
     "no-multi-spaces": "warn",
     "no-spaced-func": "warn",
     "no-unused-vars": "warn",

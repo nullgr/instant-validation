@@ -37,10 +37,9 @@ class Validation {
   storage: string;
   statuses: Array<string>;
 
-  // TODO: errorsStorageName is misleading, storage contains fields mapped to statuses but not errors
   constructor(
     fields: FieldsDescription,
-    errorsStorageName: string = 'validationStorage'
+    validationStorageName: string = 'validationStorage'
   ) {
     if (typeof fields !== 'object') {
       throw new Error('Invalid fields parameter for fields, must be object');
@@ -49,7 +48,7 @@ class Validation {
     this.fields = allRulesInArrays(fields);
     this.fieldsToValidateList = [];
     this.fieldsToShowErrors = [];
-    this.storage = errorsStorageName;
+    this.validationStorageName = validationStorageName;
     this.statuses = [
       'validation-passed',
       'prevalidation-failed',
@@ -95,7 +94,7 @@ class Validation {
     );
 
     return Object.assign(state, {
-      [this.storage]: toStorage
+      [this.validationStorageName]: toStorage
     });
   }
 
@@ -130,7 +129,7 @@ class Validation {
       // computing the state as a merge from prevState and stateUpdates to do the right validation
       let state = Object.assign({}, prevState, stateUpdates || {});
       // clean the service error storage field, so the rule will have no acces to it
-      delete state[this.storage];
+      delete state[this.validationStorageName];
       keysToValidate.map(key => {
         if (this.fields[key]) {
           toStorage[key] = this._validateField(
@@ -143,7 +142,11 @@ class Validation {
       });
       this.fieldsToShowErrors = [];
       return Object.assign(stateUpdates || {}, {
-        [this.storage]: Object.assign({}, prevState[this.storage], toStorage)
+        [this.validationStorageName]: Object.assign(
+          {},
+          prevState[this.validationStorageName],
+          toStorage
+        )
       });
     };
   }
@@ -186,7 +189,7 @@ class Validation {
     const validationFailed = this.statuses[2];
 
     keys.map(key => {
-      const current = state[this.storage][key];
+      const current = state[this.validationStorageName][key];
       // check every rule
       for (let i = 0; i < current.length; i++) {
         if (current[i] === validationFailed) {
@@ -203,15 +206,15 @@ class Validation {
   }
 
   isFormValid(state: Object): boolean {
-    const fieldsMappedToStatuses = state[this.storage];
-    if (typeof fieldsMappedToStatuses !== 'object') {
+    const storage = state[this.validationStorageName];
+    if (typeof storage !== 'object') {
       throw new Error('Invalid fieldsMappedToStatuses object, must be object');
     }
 
-    const keys = Object.keys(fieldsMappedToStatuses);
+    const keys = Object.keys(storage);
     const [validationPassed] = this.statuses;
     for (let i = 0; i < keys.length; i++) {
-      const currentStatuses = fieldsMappedToStatuses[keys[i]];
+      const currentStatuses = storage[keys[i]];
       for (let j = 0; j < currentStatuses.length; j++) {
         if (currentStatuses[j] !== validationPassed) {
           return false;
@@ -223,13 +226,15 @@ class Validation {
   }
 
   isFieldValid(state: Object, fieldName: string): boolean {
-    const fieldsMappedToStatuses = state[this.storage];
-    if (typeof fieldsMappedToStatuses !== 'object') {
-      throw new Error('Invalid fieldsMappedToStatuses object, must be object');
+    const storage = state[this.validationStorageName];
+    if (typeof storage !== 'object') {
+      throw new Error('Invalid storage object, must be object');
     }
-    const fieldStatuses = fieldsMappedToStatuses[fieldName];
+    const fieldStatuses = storage[fieldName];
     if (!fieldStatuses) {
-      throw new Error("Attempt to validate field that doesn't exist");
+      // TODO: how to disable warnings in production
+      console.warn("Attempt to validate field that doesn't exist");
+      return false;
     }
 
     const [validationPassed] = this.statuses;
