@@ -165,7 +165,7 @@ When you are creating the component state, you can use this method to prevalidat
 If you want, you can set `showErrorsOnStart` to true, so fields will be validated and you will get all the errors in the first component render.
 When you are adding a Validator with `Validator.addValidation` method, all the fields will be prevalidated.
 Prevalidation means, that you will get no error message, if the field has not passed a validation rule  (`'prevalidation-failed'`).
-Vэlidation means, that you will get an error message, if the field has not passed a validation rule (`'validation-failed'`).
+Validation means, that you will get an error message, if the field has not passed a validation rule (`'validation-failed'`).
 
 ### validate({stateChange} | updater | null, showErrors = true)
 You should use it inside the this.setState method like it was already described [here](#validation).
@@ -235,4 +235,4 @@ Use this method to check, if particular field is valid. Returns true if it is va
 
 
 ## Compatibility 
-This package id fully compatible with the React v.16, because it uses state updater functions inside.
+This package is fully compatible with the React v.16, because it uses state updater functions inside.
