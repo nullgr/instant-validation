@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "dev": "watch 'npm run build' src",
-    "build": "babel src -d build",
+    "build": "babel src -d build && babel types -d build --copy-files",
     "test": "jest",
     "prepush": "npm test",
     "prepublish": "npm run build",
