@@ -207,14 +207,9 @@ class Validation {
   }
 
   isFormValid(state: Object): boolean {
-    const storage = state[this.validationStorageName];
-    if (typeof state !== 'object') {
-      throw new Error('Invalid state parameter, must be object');
-    }
-    if (typeof storage !== 'object') {
-      throw new Error('Invalid storage object, must be object');
-    }
+    checkState(state, this.validationStorageName);
 
+    const storage = state[this.validationStorageName];
     const keys = Object.keys(storage);
     const [validationPassed] = this.statuses;
     for (let i = 0; i < keys.length; i++) {
@@ -230,13 +225,9 @@ class Validation {
   }
 
   isFieldValid(state: Object, fieldName: string): boolean {
+    checkState(state, this.validationStorageName);
+
     const storage = state[this.validationStorageName];
-    if (typeof state !== 'object') {
-      throw new Error('Invalid state parameter, must be object');
-    }
-    if (typeof storage !== 'object') {
-      throw new Error('Invalid storage object, must be object');
-    }
     const fieldStatuses = storage[fieldName];
     if (!fieldStatuses) {
       return false;
@@ -263,6 +254,21 @@ const allRulesInArrays = (
       : [fields[field]];
   });
   return formattedFields;
+};
+
+const checkState = (state: Object, validationStorageName: string) => {
+  if (typeof state !== 'object') {
+    throw new Error('Invalid state parameter, must be object');
+  }
+
+  if (!state[validationStorageName]) {
+    throw new Error(`State parameter doesn't contain ${validationStorageName} field, 
+    it seems that you didn't invoke addValidation method`);
+  }
+
+  if (typeof state[validationStorageName] !== 'object') {
+    throw new Error('Invalid storage object, must be object');
+  }
 };
 
 export default Validation;

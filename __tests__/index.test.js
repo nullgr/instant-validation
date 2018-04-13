@@ -1,7 +1,7 @@
 import Validation from '../src';
 import { requiredRule, lengthRule } from '../src/rules';
 
-describe('Unit tests for Validation class', () => {
+describe('Unit tests for right using of Validation class', () => {
   describe('Check all methods consistently', () => {
     const LENGTH_ERROR = 'Length should be minimum 5 characters';
     const ERROR_EMPTY = 'This field should be filled';
