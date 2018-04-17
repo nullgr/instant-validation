@@ -46,7 +46,7 @@ class Validation {
       throw new Error('Invalid fields parameter for fields, must be object');
     }
 
-    this.fields = _convertAllRulesInArrays(fields);
+    this.fields = _convertAllRulesToArrays(fields);
     this.fieldsToValidateList = [];
     this.fieldsToShowErrors = [];
     this.validationStorageName = validationStorageName;
@@ -225,7 +225,7 @@ class Validation {
   }
 }
 
-function _convertAllRulesInArrays(
+function _convertAllRulesToArrays(
   fields: FieldsDescription
 ): FormattedFieldsDescription {
   let formattedFields = {};
