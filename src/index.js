@@ -46,7 +46,7 @@ class Validation {
       throw new Error('Invalid fields parameter for fields, must be object');
     }
 
-    this.fields = allRulesInArrays(fields);
+    this.fields = _convertAllRulesInArrays(fields);
     this.fieldsToValidateList = [];
     this.fieldsToShowErrors = [];
     this.validationStorageName = validationStorageName;
@@ -55,26 +55,6 @@ class Validation {
       'prevalidation-failed',
       'validation-failed'
     ];
-  }
-
-  _validateField(
-    fieldValue: any,
-    fieldRules: RuleData[],
-    state: Object,
-    showErrors: boolean
-  ): string | string[] {
-    const [
-      validationPassed,
-      prevalidationFailed,
-      validationFailed
-    ] = this.statuses;
-
-    // validate every rule
-    return fieldRules.map(item => {
-      return item.rule(fieldValue, state)
-        ? validationPassed
-        : showErrors ? validationFailed : prevalidationFailed;
-    });
   }
 
   addValidation(state: Object, showErrorsOnStart: boolean = false) {
@@ -86,7 +66,8 @@ class Validation {
 
     Object.keys(this.fields).map(
       key =>
-        (toStorage[key] = this._validateField(
+        (toStorage[key] = _validateField(
+          this.statuses,
           state[key],
           this.fields[key],
           state,
@@ -133,7 +114,8 @@ class Validation {
       delete state[this.validationStorageName];
       keysToValidate.map(key => {
         if (this.fields[key]) {
-          toStorage[key] = this._validateField(
+          toStorage[key] = _validateField(
+            this.statuses,
             state[key],
             this.fields[key],
             prevState,
@@ -207,7 +189,7 @@ class Validation {
   }
 
   isFormValid(state: Object): boolean {
-    checkState(state, this.validationStorageName);
+    _checkState(state, this.validationStorageName);
 
     const storage = state[this.validationStorageName];
     const keys = Object.keys(storage);
@@ -225,7 +207,7 @@ class Validation {
   }
 
   isFieldValid(state: Object, fieldName: string): boolean {
-    checkState(state, this.validationStorageName);
+    _checkState(state, this.validationStorageName);
 
     const storage = state[this.validationStorageName];
     const fieldStatuses = storage[fieldName];
@@ -243,9 +225,9 @@ class Validation {
   }
 }
 
-const allRulesInArrays = (
+function _convertAllRulesInArrays(
   fields: FieldsDescription
-): FormattedFieldsDescription => {
+): FormattedFieldsDescription {
   let formattedFields = {};
 
   Object.keys(fields).forEach(field => {
@@ -254,9 +236,26 @@ const allRulesInArrays = (
       : [fields[field]];
   });
   return formattedFields;
-};
+}
 
-const checkState = (state: Object, validationStorageName: string) => {
+function _validateField(
+  statuses: Array<string>,
+  fieldValue: any,
+  fieldRules: RuleData[],
+  state: Object,
+  showErrors: boolean
+): string | string[] {
+  const [validationPassed, prevalidationFailed, validationFailed] = statuses;
+
+  // validate every rule
+  return fieldRules.map(item => {
+    return item.rule(fieldValue, state)
+      ? validationPassed
+      : showErrors ? validationFailed : prevalidationFailed;
+  });
+}
+
+function _checkState(state: Object, validationStorageName: string) {
   if (typeof state !== 'object') {
     throw new Error('Invalid state parameter, must be object');
   }
@@ -269,6 +268,6 @@ const checkState = (state: Object, validationStorageName: string) => {
   if (typeof state[validationStorageName] !== 'object') {
     throw new Error('Invalid storage object, must be object');
   }
-};
+}
 
 export default Validation;
