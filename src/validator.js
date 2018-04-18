@@ -14,13 +14,24 @@ import type {
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
-//   fields: FormattedFieldsDescription;
-//   fieldsToValidateList: Array<string>;
-//   fieldsToShowErrors: Array<string>;
-//   statuses: Array<string>;
-//   validationStorage: Object;
 
-function Validator(fields: FieldsDescription) {
+function Validator(
+  fields: FieldsDescription
+): {
+  fields: FormattedFieldsDescription,
+  fieldsToValidateList: Array<string>,
+  fieldsToShowErrors: Array<string>,
+  statuses: Array<string>,
+  validationStorage: Object,
+  addValidation: Function,
+  validate: Function,
+  updateRules: Function,
+  fieldsToValidate: Function,
+  showErrorsOnFields: Function,
+  getErrors: Function,
+  isFormValid: Function,
+  isFieldValid: Function
+} {
   if (typeof fields !== 'object') {
     throw new Error('Invalid fields parameter for fields, must be object');
   }
@@ -34,6 +45,7 @@ function Validator(fields: FieldsDescription) {
     'prevalidation-failed',
     'validation-failed'
   ];
+  return this;
 }
 
 Validator.prototype = {
