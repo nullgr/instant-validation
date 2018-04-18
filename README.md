@@ -4,7 +4,12 @@
 
 Validate react form components, based on their state.
 
-All the state management is under the hood.
+Why to use:
+
+1. All the state management is under the hood.
+2. Incapsulation of all logic related to validation,
+   you should only call needed method and library will care about details
+3. Easy integration to existed components
 
 Create the Validation class instance and describe the fields.
 
