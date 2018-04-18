@@ -31,7 +31,7 @@ function Validator(fields: FieldsDescription) {
   this.fields = this._convertAllRulesToArrays(fields);
   this.fieldsToValidateList = [];
   this.fieldsToShowErrors = [];
-  this.validationStorage = {};
+  this.validationStorage = undefined;
   this.statuses = [
     'validation-passed',
     'prevalidation-failed',
@@ -44,7 +44,7 @@ Validator.prototype = {
     if (typeof state !== 'object') {
       throw new Error('Invalid state parameter for fields, must be object');
     }
-
+    this.validationStorage = {};
     Object.keys(this.fields).map(
       key =>
         (this.validationStorage[key] = this._validateField(
@@ -65,6 +65,8 @@ Validator.prototype = {
     stateUpdates: ?Object | Function,
     showErrors: boolean = true
   ) {
+    this._checkIfValidationWasAdded();
+
     let showErrorsHash = {};
     let showChoosenErrors = false;
     let fieldsToValidateList = [];
@@ -109,6 +111,8 @@ Validator.prototype = {
   updateRules: function(updatedRules: {
     [key: string]: { [key: string]: Rule }
   }) {
+    this._checkIfValidationWasAdded();
+
     Object.keys(updatedRules).map(k => {
       if (this.fields[k]) {
         const rulesToUpdate = Object.keys(updatedRules[k]);
@@ -130,16 +134,24 @@ Validator.prototype = {
   },
 
   fieldsToValidate: function(fieldsList: Array<string>) {
+    // isn't critical for library using
+    // this._checkIfValidationWasAdded();
+
     this.fieldsToValidateList = [...fieldsList];
     return this;
   },
 
   showErrorsOnFields: function(fieldsList: Array<string>) {
+    // isn't critical for library using
+    // this._checkIfValidationWasAdded();
+
     this.fieldsToShowErrors = [...fieldsList];
     return this;
   },
 
   getErrors: function() {
+    this._checkIfValidationWasAdded();
+
     const keys = Object.keys(this.fields),
       objErrors: Object = {};
 
@@ -162,6 +174,8 @@ Validator.prototype = {
   },
 
   isFormValid: function(): boolean {
+    this._checkIfValidationWasAdded();
+
     const keys = Object.keys(this.validationStorage);
     const [validationPassed] = this.statuses;
 
@@ -178,7 +192,7 @@ Validator.prototype = {
   },
 
   isFieldValid: function(fieldName: string): boolean {
-    // this._checkState(state);
+    this._checkIfValidationWasAdded();
 
     const fieldStatuses = this.validationStorage[fieldName];
     if (!fieldStatuses) {
@@ -227,21 +241,11 @@ Validator.prototype = {
     });
   },
 
-  _checkState: function(state: Object) {
-    if (typeof state !== 'object') {
-      throw new Error('Invalid state parameter, must be object');
+  _checkIfValidationWasAdded: function() {
+    if (typeof this.validationStorage === 'undefined') {
+      throw new Error(`It seems that you didn't invoke addValidation method and try to invoke 
+          another method of Validator. Please invoke addValidation method first`);
     }
-
-    // need to check if addValidation was called
-
-    // if (!state[validationStorageName]) {
-    //   throw new Error(`State parameter doesn't contain ${validationStorageName} field,
-    // it seems that you didn't invoke addValidation method`);
-    // }
-
-    // if (typeof state[validationStorageName] !== 'object') {
-    //   throw new Error('Invalid storage object, must be object');
-    // }
   }
 };
 

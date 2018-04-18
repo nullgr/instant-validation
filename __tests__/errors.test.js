@@ -1,5 +1,6 @@
 import Validation from '../src';
-import { requiredRule, lengthRule } from '../src/rules';
+import { createValidator } from '../src/testUtils';
+import { requiredRule } from '../src/rules';
 
 describe('Unit tests for wrong using of Validation class', () => {
   test("should throw error if Validator wasn't created correctly", () => {
@@ -25,48 +26,22 @@ describe('Unit tests for wrong using of Validation class', () => {
       ]
     });
   });
-  testValidatorApi('isFormValid');
-  testValidatorApi('isFieldValid');
+  testFailingOfValidatorMethod('validate');
+  testFailingOfValidatorMethod('updateRules');
+  testFailingOfValidatorMethod('isFormValid');
+  testFailingOfValidatorMethod('isFieldValid');
+  testFailingOfValidatorMethod('getErrors');
 });
 
-function testValidatorApi(functionName) {
-  const LENGTH_ERROR = 'Length should be minimum 5 characters';
-  const ERROR_EMPTY = 'This field should be filled';
+function testFailingOfValidatorMethod(functionName) {
+  const Validator = createValidator(false);
+  // const state = Validator.addValidation({ login: '' });
 
-  const Validator = new Validation({
-    login: [
-      {
-        rule: requiredRule,
-        message: ERROR_EMPTY
-      },
-      {
-        rule: lengthRule(5),
-        message: LENGTH_ERROR
-      }
-    ]
-  });
-  const state = Validator.addValidation({ login: '' });
-
-  test(`should throw error if Validator.${functionName} was invoked with wrong arguments`, () => {
+  test(`should throw error if Validator.${functionName} was invoked befor Validator.addValidation`, () => {
     expect(() => {
-      Validator[functionName](12);
-    }).toThrowError('Invalid state parameter, must be object');
-
-    expect(() => {
-      Validator[functionName]({ login: '' });
+      Validator[functionName]();
     }).toThrowError(
-      `State parameter doesn't contain ${Validator.validationStorageName}`
+      `It seems that you didn't invoke addValidation method and try to invoke`
     );
-
-    expect(() => {
-      Validator[functionName]({
-        login: '',
-        [Validator.validationStorageName]: 'str'
-      });
-    }).toThrowError('Invalid storage object, must be object');
-  });
-
-  test(`shouldn't throw error if Validator.${functionName} was invoked with right arguments`, () => {
-    Validator[functionName](state);
   });
 }
