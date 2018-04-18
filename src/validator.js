@@ -1,12 +1,10 @@
 // @flow
-import {
+import type {
   Rule,
   RuleData,
   FieldsDescription,
   FormattedFieldsDescription
 } from './types';
-/* eslint-disable */
-const log = console.log;
 
 /**
  * A class for fields validation in React.js
@@ -16,7 +14,6 @@ const log = console.log;
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
-// class Validation {
 //   fields: FormattedFieldsDescription;
 //   fieldsToValidateList: Array<string>;
 //   fieldsToShowErrors: Array<string>;
@@ -244,4 +241,3 @@ Validator.prototype = {
 };
 
 export default Validator;
-export { FieldsDescription };

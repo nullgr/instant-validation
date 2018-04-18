@@ -57,8 +57,8 @@ this.setState(
 This is equiavalent to:
 
 ```js
+Validator.validate({ email: value })(this.state, this.props);
 this.setState({ email: value });
-Validator.validate({ email: value });
 ```
 
 ### Form example
@@ -122,8 +122,8 @@ class LoginForm extends React.Component {
     // validate the field and set state
     // It is equilvalent to:
     // ```
+    //  Validator.validate({ [name]: value })(this.state, this.props)
     //  this.setState({ [name]: value })
-    //  Validator.validate({ [name]: value })
     // ```
 
     this.setState(Validator.validate({ [name]: value }));

@@ -5,8 +5,10 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
+    "flow": "flow",
     "dev": "watch 'npm run build' src",
-    "build": "babel src -d build && babel types -d build --copy-files",
+    "build":
+      "babel src -d build --ignore testUtils && babel types -d build --copy-files",
     "test": "jest",
     "prepush": "npm test",
     "prepublish": "npm run build"
@@ -15,11 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/nullgr/react-validation-utils.git"
   },
-  "keywords": [
-    "react",
-    "validation",
-    "validator"
-  ],
+  "keywords": ["react", "validation", "validator"],
   "author": "Oleksandr Chernenko (ca@nullgr.com, akazimirkas@gmail.com)",
   "license": "MIT",
   "devDependencies": {
@@ -32,6 +30,7 @@
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-jest": "^20.0.3",
     "eslint-plugin-prettier": "2.3.1",
+    "flow-bin": "^0.70.0",
     "husky": "^0.14.3",
     "jest": "^22.4.0",
     "prettier": "^1.10.2",

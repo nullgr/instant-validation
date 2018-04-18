@@ -1,6 +1,10 @@
 [include]
 ./src/**
+./__tests__/**
 
 [ignore]
 .*/node_modules/.*
+
+[libs]
+flow-typed
 

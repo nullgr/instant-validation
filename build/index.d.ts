@@ -11,32 +11,26 @@ type FieldsDescription = {
 };
 
 export default class Validator<State> {
-  constructor(fields: FieldsDescription, validationStorageName?: string);
-
-  // 'State' type in methods below is right only in argument of addValidation method
-  //
-  // In all another methods 'State' type is incorrect,
-  // in real scenario it contains one more field [validationStorageName]
-  //
-  // In most cases user of library shouldn't care about [validationStorageName] field
-  // in component state, so this inaccuracy isn't very serious, but at the same time
-  // it simplifies the use of library
+  constructor(fields: FieldsDescription);
 
   addValidation(state: State, showErrorsOnStart?: boolean): Readonly<State>;
 
   validate(
-    stateUpdates: (prevState: Readonly<State>) => State,
+    stateUpdates: (
+      prevState: Readonly<State>
+    ) => State | { [key in keyof State]: string } | null,
     showErrors?: boolean
   ): ((prevState: Readonly<State>) => State);
 
-  validate(
-    stateUpdates?: { [key in keyof State]: string } | null,
-    showErrors?: boolean
-  ): Readonly<State>;
+  updateRules(updatedRules: { [key: string]: { [key: string]: Rule } }): this;
 
-  getErrors(state: State): { [key in keyof State]: string };
+  fieldsToValidate(fieldsList: Array<[keyof State]>): this;
 
-  isFormValid(state: State): boolean;
+  showErrorsOnFields(fieldsList: Array<[keyof State]>): this;
 
-  isFieldValid(state: State, fieldName: string): boolean;
+  getErrors(): { [key in keyof State]: string };
+
+  isFormValid(): boolean;
+
+  isFieldValid(fieldName: string): boolean;
 }

@@ -1,3 +1,5 @@
+// @flow
+
 import { requiredRule, lengthRule } from '../rules';
 
 export const LENGTH_ERROR = 'Length should be minimum 5 characters';
@@ -7,6 +9,7 @@ export function createValidator(publicApi: boolean) {
   const Validator = publicApi
     ? require('../index').default
     : require('../validator').default;
+  // return new Validator(3);
   return new Validator({
     login: [
       {
