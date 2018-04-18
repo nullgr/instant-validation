@@ -8,8 +8,6 @@ var _validator = require('./validator');
 
 var _validator2 = _interopRequireDefault(_validator);
 
-var _types = require('./types');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Represents Public API of library, every method presented there
