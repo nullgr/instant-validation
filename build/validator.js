@@ -18,11 +18,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
-//   fields: FormattedFieldsDescription;
-//   fieldsToValidateList: Array<string>;
-//   fieldsToShowErrors: Array<string>;
-//   statuses: Array<string>;
-//   validationStorage: Object;
 
 function Validator(fields) {
   if ((typeof fields === 'undefined' ? 'undefined' : _typeof(fields)) !== 'object') {
@@ -34,6 +29,7 @@ function Validator(fields) {
   this.fieldsToShowErrors = [];
   this.validationStorage = undefined;
   this.statuses = ['validation-passed', 'prevalidation-failed', 'validation-failed'];
+  return this;
 }
 
 
