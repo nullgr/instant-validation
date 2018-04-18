@@ -1,22 +1,17 @@
 {
   "parser": "babel-eslint",
-  "plugins": [
-    "jest",
-    "prettier"
-  ],
-  "extends": [
-    "eslint:recommended",
-    "plugin:jest/recommended",
-    "prettier"
-  ],
+  "plugins": ["jest", "prettier"],
+  "extends": ["eslint:recommended", "plugin:jest/recommended", "prettier"],
   "rules": {
     "comma-spacing": ["warn"],
-    "indent": ["warn", 2, {"SwitchCase": 1}],
-    "key-spacing": ["warn", {
-      "beforeColon": false,
-      "afterColon": true
-    }],
-    "keyword-spacing": ["warn", {"after": true}],
+    "key-spacing": [
+      "warn",
+      {
+        "beforeColon": false,
+        "afterColon": true
+      }
+    ],
+    "keyword-spacing": ["warn", { "after": true }],
     "jsx-quotes": ["warn", "prefer-double"],
     "no-extra-boolean-cast": "off",
     "no-multi-spaces": "warn",
@@ -29,10 +24,13 @@
     "spaced-comment": ["warn", "always"],
     "space-infix-ops": "warn",
     "space-in-parens": ["warn", "never"],
-    "space-unary-ops": ["warn", {
-      "words": true,
-      "nonwords": false
-    }],
+    "space-unary-ops": [
+      "warn",
+      {
+        "words": true,
+        "nonwords": false
+      }
+    ],
     "object-curly-spacing": [2, "always"],
     "prettier/prettier": [
       "error",
@@ -46,6 +44,7 @@
     "node": true
   },
   "globals": {
+    "jest": true,
     "test": true,
     "expect": true,
     "describe": true
