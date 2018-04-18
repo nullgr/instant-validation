@@ -9,7 +9,7 @@
     "dev": "watch 'npm run build' src",
     "build":
       "babel src -d build --ignore testUtils && babel types -d build --copy-files",
-    "test": "jest",
+    "test": "flow && jest",
     "prepush": "npm test",
     "prepublish": "npm run build"
   },
