@@ -28,7 +28,14 @@ this.state = Validator.prevalidate({
 });
 ```
 
-You will get `{ email: ''}` in your state
+This is equiavalent to:
+
+```js
+this.state = {
+  email: ""
+};
+Validator.prevalidate({ email: "" });
+```
 
 ### Validation
 
@@ -42,7 +49,12 @@ this.setState(
 );
 ```
 
-Afer that state will be like `{ email: peter@gmail.com }`.
+This is equiavalent to:
+
+```js
+this.setState({ email: value });
+Validator.validate({ email: value });
+```
 
 ### Form example
 
