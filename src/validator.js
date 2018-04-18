@@ -40,7 +40,7 @@ function Validator(fields: FieldsDescription) {
 }
 
 Validator.prototype = {
-  prevalidate: function(state: Object, showErrorsOnStart: boolean = false) {
+  addValidation: function(state: Object, showErrorsOnStart: boolean = false) {
     if (typeof state !== 'object') {
       throw new Error('Invalid state parameter for fields, must be object');
     }
@@ -237,8 +237,8 @@ Validator.prototype = {
 
   _checkIfValidationWasAdded: function() {
     if (typeof this.validationStorage === 'undefined') {
-      throw new Error(`It seems that you didn't invoke prevalidate method and try to invoke 
-          another method of Validator. Please invoke prevalidate method first`);
+      throw new Error(`It seems that you didn't invoke addValidation method and try to invoke 
+          another method of Validator. Please invoke addValidation method first`);
     }
   }
 };

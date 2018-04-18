@@ -14,8 +14,8 @@ import { Rule, FieldsDescription } from './types';
 function ValidationPublicApi(fields: FieldsDescription) {
   const validator = new Validator(fields);
 
-  this.prevalidate = function(state: Object) {
-    return validator.prevalidate(state);
+  this.addValidation = function(state: Object) {
+    return validator.addValidation(state);
   };
 
   this.validate = function(

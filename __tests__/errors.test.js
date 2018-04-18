@@ -36,11 +36,11 @@ describe('Unit tests for wrong using of Validation class', () => {
 function testFailingOfValidatorMethod(functionName) {
   const Validator = createValidator(false);
 
-  test(`should throw error if Validator.${functionName} was invoked before Validator.prevalidate`, () => {
+  test(`should throw error if Validator.${functionName} was invoked before Validator.addValidation`, () => {
     expect(() => {
       Validator[functionName]();
     }).toThrowError(
-      `It seems that you didn't invoke prevalidate method and try to invoke`
+      `It seems that you didn't invoke addValidation method and try to invoke`
     );
   });
 }

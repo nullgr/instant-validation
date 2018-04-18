@@ -25,10 +25,10 @@ const Validator = new Validation({
 
 Then you can use its own checking and state wrapping [methods](#api).
 
-In example, simply add validation with `prevalidate` method, when you are initing the state:
+In example, simply add validation with `addValidation` method, when you are initing the state:
 
 ```js
-this.state = Validator.prevalidate({
+this.state = Validator.addValidation({
   email: ""
 });
 ```
@@ -39,7 +39,7 @@ This is equiavalent to:
 this.state = {
   email: ""
 };
-Validator.prevalidate({ email: "" });
+Validator.addValidation({ email: "" });
 ```
 
 ### Validation
@@ -106,12 +106,12 @@ class LoginForm extends React.Component {
     //    login: "",
     //    password: ""
     //  }
-    //  Validator.prevalidate({
+    //  Validator.addValidation({
     //    login: "",
     //    password: ""
     //  })
     // ```
-    this.state = Validator.prevalidate({
+    this.state = Validator.addValidation({
       login: "",
       password: ""
     });
@@ -203,11 +203,11 @@ If there are many rules, the their priority will be similar to the array order.
 Describe in the constructor all the fields, that you will check. Like in the [example](#form-example).
 You can describe for each field [1 or many rules](#creating-validation-rules).
 
-### prevalidate({state}, showErrorsOnStart = false)
+### addValidation({state}, showErrorsOnStart = false)
 
-When you are creating the component state, you can use this method to prevalidate/validate the state fields. See the [example](#form-example).
+When you are creating the component state, you can use this method to addValidation/validate the state fields. See the [example](#form-example).
 If you want, you can set `showErrorsOnStart` to true, so fields will be validated and you will get all the errors in the first component render.
-When you are adding a Validator with `Validator.prevalidate` method, all the fields will be prevalidated.
+When you are adding a Validator with `Validator.addValidation` method, all the fields will be prevalidated.
 Prevalidation means, that you will get no error message, if the field has not passed a validation rule (`'prevalidation-failed'`).
 Validation means, that you will get an error message, if the field has not passed a validation rule (`'validation-failed'`).
 

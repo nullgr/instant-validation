@@ -12,11 +12,11 @@ function getInitialState() {
 // TODO: test fieldsToValidate, showErrorsOnFields, updateRules
 
 describe('Unit tests for inner implementation of Validator class', () => {
-  test(`Validator.prevalidate(state) should set properties on validationStorage and 
+  test(`Validator.addValidation(state) should set properties on validationStorage and 
       return state passed in arguments`, () => {
     const Validator = createValidator(false);
     const state = getInitialState();
-    const resultState = Validator.prevalidate(state);
+    const resultState = Validator.addValidation(state);
 
     const validationStorage = {
       accept: ['prevalidation-failed'],
@@ -32,7 +32,7 @@ describe('Unit tests for inner implementation of Validator class', () => {
   test('getErrors returns state properties with empty strings', () => {
     const Validator = createValidator(false);
     const state = getInitialState();
-    Validator.prevalidate(state);
+    Validator.addValidation(state);
 
     expect(Validator.getErrors()).toEqual({
       accept: '',
@@ -48,7 +48,7 @@ describe('Unit tests for inner implementation of Validator class', () => {
         3) After its execution getErrors() returns object with error message for login field`, () => {
     const Validator = createValidator(false);
     const state = getInitialState();
-    Validator.prevalidate(state);
+    Validator.addValidation(state);
 
     const value = 'pit';
 
@@ -85,7 +85,7 @@ describe('Unit tests for inner implementation of Validator class', () => {
           3) After its execution getErrors() returns object with empty strings as a values`, () => {
     const Validator = createValidator(false);
     const state = getInitialState();
-    Validator.prevalidate(state);
+    Validator.addValidation(state);
 
     const loginVal = 'peterson';
     const passwordVal = '123456789a';
@@ -127,12 +127,12 @@ describe('Unit tests for inner implementation of Validator class', () => {
   });
 
   test(`Validator.isFormValid() method:
-          1) returns false at once after prevalidate was invoked
+          1) returns false at once after addValidation was invoked
           2) returns true after validation with valid fields
           3) returns false after invalidation one field`, () => {
     const Validator = createValidator(false);
     const state = getInitialState();
-    Validator.prevalidate(state);
+    Validator.addValidation(state);
     expect(Validator.isFormValid()).toEqual(false);
 
     const stateSnapshot = Validator.validate({
@@ -155,12 +155,12 @@ describe('Unit tests for inner implementation of Validator class', () => {
   });
 
   test(`Validator.isFieldValid(login) method:
-          1) returns false at once after prevalidate was invoked
+          1) returns false at once after addValidation was invoked
           2) returns true after validation with valid login field
           3) returns false after invalidation login field`, () => {
     const Validator = createValidator(false);
     const state = getInitialState();
-    Validator.prevalidate(state);
+    Validator.addValidation(state);
     expect(Validator.isFieldValid('login')).toEqual(false);
 
     const stateSnapshot = Validator.validate({
@@ -176,9 +176,9 @@ describe('Unit tests for inner implementation of Validator class', () => {
     expect(Validator.isFieldValid('login')).toEqual(false);
   });
 
-  test('Test of following methods together: prevalidate, isFormValid, isFieldValid, validate, getErrors', () => {
+  test('Test of following methods together: addValidation, isFormValid, isFieldValid, validate, getErrors', () => {
     const Validator = createValidator(false);
-    const state = Validator.prevalidate(getInitialState());
+    const state = Validator.addValidation(getInitialState());
 
     // 1. check on start
     expect(Validator.isFieldValid('login')).toEqual(false);

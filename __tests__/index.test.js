@@ -9,7 +9,7 @@ const funcArgument = { someField: '' };
 const funcReturnValue = { someField: 'Uasia' };
 
 const mockValidatorObject = {
-  prevalidate: jest.fn(() => funcReturnValue),
+  addValidation: jest.fn(() => funcReturnValue),
   validate: jest.fn(() => funcReturnValue),
   updateRules: jest.fn(() => funcReturnValue),
   fieldsToValidate: jest.fn(() => funcReturnValue),
@@ -27,7 +27,7 @@ jest.mock('../src/validator', () => {
 
 describe(`Test if public api invokes correct validation library method 
           with right argument and return right value`, () => {
-  testConcreteMethod('prevalidate');
+  testConcreteMethod('addValidation');
   testConcreteMethod('validate', 2);
   testConcreteMethod('updateRules');
   testConcreteMethod('fieldsToValidate');
