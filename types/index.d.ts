@@ -11,7 +11,7 @@ type FieldsDescription = {
 };
 
 export default class Validator<State> {
-  constructor(fields: FieldsDescription, validationStorageName?: string);
+  constructor(fields: FieldsDescription);
 
   addValidation(state: State, showErrorsOnStart?: boolean): Readonly<State>;
 
@@ -21,6 +21,12 @@ export default class Validator<State> {
     ) => State | { [key in keyof State]: string } | null,
     showErrors?: boolean
   ): ((prevState: Readonly<State>) => State);
+
+  updateRules(updatedRules: { [key: string]: { [key: string]: Rule } }): this;
+
+  fieldsToValidate(fieldsList: Array<[keyof State]>): this;
+
+  showErrorsOnFields(fieldsList: Array<[keyof State]>): this;
 
   getErrors(state: State): { [key in keyof State]: string };
 

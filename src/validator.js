@@ -134,17 +134,11 @@ Validator.prototype = {
   },
 
   fieldsToValidate: function(fieldsList: Array<string>) {
-    // isn't critical for library using
-    // this._checkIfValidationWasAdded();
-
     this.fieldsToValidateList = [...fieldsList];
     return this;
   },
 
   showErrorsOnFields: function(fieldsList: Array<string>) {
-    // isn't critical for library using
-    // this._checkIfValidationWasAdded();
-
     this.fieldsToShowErrors = [...fieldsList];
     return this;
   },
