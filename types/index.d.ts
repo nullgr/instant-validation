@@ -13,7 +13,7 @@ type FieldsDescription = {
 export default class Validator<State> {
   constructor(fields: FieldsDescription);
 
-  addValidation(state: State, showErrorsOnStart?: boolean): Readonly<State>;
+  prevalidate(state: State, showErrorsOnStart?: boolean): Readonly<State>;
 
   validate(
     stateUpdates: (
