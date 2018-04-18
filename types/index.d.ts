@@ -28,9 +28,9 @@ export default class Validator<State> {
 
   showErrorsOnFields(fieldsList: Array<[keyof State]>): this;
 
-  getErrors(state: State): { [key in keyof State]: string };
+  getErrors(): { [key in keyof State]: string };
 
-  isFormValid(state: State): boolean;
+  isFormValid(): boolean;
 
-  isFieldValid(state: State, fieldName: string): boolean;
+  isFieldValid(fieldName: string): boolean;
 }
