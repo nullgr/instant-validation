@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/react-validation-utils.svg)](https://badge.fury.io/js/react-validation-utils)
 
-## This is something like proposal to current validation library, this description doesn't match current API
+## **This is something like proposal to current validation library, this description doesn't match current API**
 
 Validate react form components, based on their state.
 
@@ -27,49 +27,11 @@ const validator = new Validator({
 
 Then you can use its own checking and state wrapping [methods](#api).
 
-In example, simply add validation with `initialize` method, when you are initing the state:
-
-```js
-this.state = validator.initialize({
-  email: ""
-});
-```
-
-This is equiavalent to:
-
-```js
-this.state = {
-  email: ""
-};
-validator.initialize({ email: "" });
-```
-
-### Validation
-
-`validate` function tells to `validator` object how state will be changed in React component
-and `validator` internally executes validation for this future state.
-
-Returns the same object passed in argument, it allows pass `validate` invocation inside `this.setState`
-(it is just shorter form).
-
-```js
-this.setState(
-  validator.validate({ email: value });
-);
-```
-
-This is equiavalent to:
-
-```js
-validator.validate({ email: value });
-this.setState({ email: value });
-```
-
 ### Form example
 
 Here is the example of a simple React form
 
-````js
+```js
 import * as React from "react";
 import Validator from "react-validation-utils";
 import { requiredRule, lengthRule } from "react-validation-utils/build/rules";
@@ -94,70 +56,60 @@ const validator = new Validator({
       rule: lengthRule(8),
       message: "Password should be at least 8 characters long"
     }
+  ],
+  passwordRepeat: [
+    {
+      rule: shouldEqual("password"), // just example of rule
+      message: "Password should match"
+    }
   ]
 });
 
-class LoginForm extends React.Component {
+class RegistrationForm extends React.Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-
-    // Prevalidate all fields and initialize state
-    // It is equilvalent to:
-    // ```
-    //  this.state = {
-    //    login: "",
-    //    password: ""
-    //  }
-    //  validator.initialize({
-    //    login: "",
-    //    password: ""
-    //  })
-    // ```
-    this.state = validator.initialize({
+    this.state = {
       login: "",
-      password: ""
-    });
+      password: "",
+      passwordRepeat: ""
+    };
   }
 
   onChange(e) {
     const { name, value } = e.target;
-    // validate the field and set state
-    // It is equilvalent to:
-    // ```
-    //  validator.validate({ [name]: value })
-    //  this.setState({ [name]: value })
-    // ```
-
-    this.setState(validator.validate({ [name]: value }));
+    if ((name === "password") | (name === "passwordRepeat")) {
+      validator.fieldsToValidate(["password", "passwordRepeat"]);
+    }
+    this.setState({ [name]: value });
   }
 
   onSubmit(e) {
     e.preventDefault();
-    // if your code doesn't work as expected - it may be caused by
-    // desynchronization of your component state and Validator state
-    // to check if state in component and Validator are syncronized
-    // you can use method validator.isSynchronized(this.state);
-
-    // check validated and prevalidated fields
-    if (!Validator.isFormValid()) {
+    if (!Validator.isFormValid(this.state)) {
       return;
     }
     this.props.onSubmit(this.state);
   }
 
   render() {
-    const { login, password } = this.state;
+    const { login, password, passwordRepeat } = this.state;
     // get error messages from invalid fields, if they were validated.
     // prevalidated fields will receive no error messages, but they cause Validator.isFormValid to return false
-    const errors = Validator.getErrors();
+    const errors = Validator.getErrors(this.state);
     return (
       <form>
         <input name="login" value={login} onChange={this.onChange} />
         <div className="error">{errors.login}</div>
         <input name="password" value={password} onChange={this.onChange} />
         <div className="error">{errors.password}</div>
+        <input
+          name="passwordRepeat"
+          value={passwordRepeat}
+          onChange={this.onChange}
+        />
+        <div className="error">{errors.passwordRepeat}</div>
         <button onClick={this.onSubmit} type="submit">
           Enter
         </button>
@@ -167,7 +119,7 @@ class LoginForm extends React.Component {
 }
 
 export default LoginForm;
-````
+```
 
 ## Creating validation rules
 
