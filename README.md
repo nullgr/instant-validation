@@ -2,6 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/react-validation-utils.svg)](https://badge.fury.io/js/react-validation-utils)
 
+## This is something like proposal to current validation library, this description doesn't match current API
+
 Validate react form components, based on their state.
 
 Why to use:
@@ -11,10 +13,10 @@ Why to use:
    you should only call needed method and library will care about details
 3. Easy integration to existed components
 
-Create the Validation class instance and describe the fields.
+Create the Validator class instance and describe the fields.
 
 ```js
-const Validator = new Validation({
+const validator = new Validator({
   email: {
       rule: emailRules,
       message: 'Please enter a valid email'
@@ -25,10 +27,10 @@ const Validator = new Validation({
 
 Then you can use its own checking and state wrapping [methods](#api).
 
-In example, simply add validation with `addValidation` method, when you are initing the state:
+In example, simply add validation with `initialize` method, when you are initing the state:
 
 ```js
-this.state = Validator.addValidation({
+this.state = validator.initialize({
   email: ""
 });
 ```
@@ -39,25 +41,27 @@ This is equiavalent to:
 this.state = {
   email: ""
 };
-Validator.addValidation({ email: "" });
+validator.initialize({ email: "" });
 ```
 
 ### Validation
 
-`validate` is a wrapper, that returns an updater function and pass it to `this.setState` method.
+`validate` function tells to `validator` object how state will be changed in React component
+and `validator` internally executes validation for this future state.
 
-When you update the field value (or field values), you can add validation to it (to them).
+Returns the same object passed in argument, it allows pass `validate` invocation inside `this.setState`
+(it is just shorter form).
 
 ```js
 this.setState(
-  Validator.validate({ email: value });
+  validator.validate({ email: value });
 );
 ```
 
 This is equiavalent to:
 
 ```js
-Validator.validate({ email: value })(this.state, this.props);
+validator.validate({ email: value });
 this.setState({ email: value });
 ```
 
@@ -67,10 +71,10 @@ Here is the example of a simple React form
 
 ````js
 import * as React from "react";
-import Validation from "react-validation-utils";
+import Validator from "react-validation-utils";
 import { requiredRule, lengthRule } from "react-validation-utils/build/rules";
 
-const Validator = new Validation({
+const validator = new Validator({
   login: [
     {
       rule: requiredRule,
@@ -106,12 +110,12 @@ class LoginForm extends React.Component {
     //    login: "",
     //    password: ""
     //  }
-    //  Validator.addValidation({
+    //  validator.initialize({
     //    login: "",
     //    password: ""
     //  })
     // ```
-    this.state = Validator.addValidation({
+    this.state = validator.initialize({
       login: "",
       password: ""
     });
@@ -122,19 +126,23 @@ class LoginForm extends React.Component {
     // validate the field and set state
     // It is equilvalent to:
     // ```
-    //  Validator.validate({ [name]: value })(this.state, this.props)
+    //  validator.validate({ [name]: value })
     //  this.setState({ [name]: value })
     // ```
 
-    this.setState(Validator.validate({ [name]: value }));
+    this.setState(validator.validate({ [name]: value }));
   }
 
   onSubmit(e) {
     e.preventDefault();
+    // if your code doesn't work as expected - it may be caused by
+    // desynchronization of your component state and Validator state
+    // to check if state in component and Validator are syncronized
+    // you can use method validator.isSynchronized(this.state);
+
     // check validated and prevalidated fields
     if (!Validator.isFormValid()) {
-      // validate all fields in the state to show all error messages
-      return this.setState(Validator.validate());
+      return;
     }
     this.props.onSubmit(this.state);
   }
@@ -203,7 +211,7 @@ If there are many rules, the their priority will be similar to the array order.
 Describe in the constructor all the fields, that you will check. Like in the [example](#form-example).
 You can describe for each field [1 or many rules](#creating-validation-rules).
 
-### addValidation({state}, showErrorsOnStart = false)
+### initialize({state}, showErrorsOnStart = false)
 
 When you are creating the component state, you can use this method to addValidation/validate the state fields. See the [example](#form-example).
 If you want, you can set `showErrorsOnStart` to true, so fields will be validated and you will get all the errors in the first component render.
