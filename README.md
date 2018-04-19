@@ -79,7 +79,7 @@ class RegistrationForm extends React.Component {
 
   onChange(e) {
     const { name, value } = e.target;
-    if ((name === "password") | (name === "passwordRepeat")) {
+    if (name === "password" || name === "passwordRepeat") {
       validator.fieldsToValidate(["password", "passwordRepeat"]);
     }
     this.setState({ [name]: value });
