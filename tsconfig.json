@@ -3,10 +3,11 @@
     "baseUrl": "./",
     "module": "esnext",
     "target": "es5",
+    "outDir": "build",
     "declaration": true,
     "lib": ["es6", "dom"],
-    "sourceMap": true,
-    "allowJs": true,
+    "sourceMap": false,
+    "allowJs": false,
     "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "src",
@@ -18,5 +19,5 @@
     "noUnusedLocals": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", ".tmp", "build"]
+  "exclude": ["node_modules", ".tmp", "build", "src/testUtils"]
 }

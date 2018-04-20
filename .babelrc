@@ -1,4 +1,0 @@
-{
-  "presets": ["env", "typescript"],
-  "plugins": ["transform-class-properties"]
-}

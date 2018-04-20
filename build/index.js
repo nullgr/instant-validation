@@ -1,14 +1,4 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _validator = _interopRequireDefault(require("./validator"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+import Validator from './validator';
 // Represents Public API of library, every method presented there
 // may be used by user and should be described in README file
 //
@@ -19,41 +9,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //     this is useful for reducing of initial render time,
 //     if project have a lot of forms(therefore a lot of instances of Validator object)
 function ValidationPublicApi(fields) {
-  var validator = new _validator.default(fields);
-
-  this.addValidation = function (state) {
-    return validator.addValidation(state);
-  };
-
-  this.validate = function (stateUpdates) {
-    var showErrors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    return validator.validate(stateUpdates, showErrors);
-  };
-
-  this.updateRules = function (updatedRules) {
-    return validator.updateRules(updatedRules);
-  };
-
-  this.fieldsToValidate = function (fieldsList) {
-    return validator.fieldsToValidate(fieldsList);
-  };
-
-  this.showErrorsOnFields = function (fieldsList) {
-    return validator.showErrorsOnFields(fieldsList);
-  };
-
-  this.getErrors = function () {
-    return validator.getErrors();
-  };
-
-  this.isFormValid = function () {
-    return validator.isFormValid();
-  };
-
-  this.isFieldValid = function (fieldName) {
-    return validator.isFieldValid(fieldName);
-  };
+    var validator = new Validator(fields);
+    this.addValidation = function (state) {
+        return validator.addValidation(state);
+    };
+    this.validate = function (stateUpdates, showErrors) {
+        if (showErrors === void 0) { showErrors = true; }
+        return validator.validate(stateUpdates, showErrors);
+    };
+    this.updateRules = function (updatedRules) {
+        return validator.updateRules(updatedRules);
+    };
+    this.fieldsToValidate = function (fieldsList) {
+        return validator.fieldsToValidate(fieldsList);
+    };
+    this.showErrorsOnFields = function (fieldsList) {
+        return validator.showErrorsOnFields(fieldsList);
+    };
+    this.getErrors = function () {
+        return validator.getErrors();
+    };
+    this.isFormValid = function () {
+        return validator.isFormValid();
+    };
+    this.isFieldValid = function (fieldName) {
+        return validator.isFieldValid(fieldName);
+    };
 }
-
-var _default = ValidationPublicApi;
-exports.default = _default;
+export default ValidationPublicApi;
