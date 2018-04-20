@@ -1,3 +1,4 @@
 {
-  "presets": ["env", "flow"]
+  "presets": ["env", "typescript"],
+  "plugins": ["transform-class-properties"]
 }

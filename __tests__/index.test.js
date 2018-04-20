@@ -1,5 +1,3 @@
-// @flow
-
 import { createValidator } from '../src/testUtils';
 
 // This test method just checks if Public Api methods call right methods of

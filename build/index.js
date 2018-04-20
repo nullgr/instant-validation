@@ -1,12 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _validator = require('./validator');
-
-var _validator2 = _interopRequireDefault(_validator);
+var _validator = _interopRequireDefault(require("./validator"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //     this is useful for reducing of initial render time,
 //     if project have a lot of forms(therefore a lot of instances of Validator object)
 function ValidationPublicApi(fields) {
-  var validator = new _validator2.default(fields);
+  var validator = new _validator.default(fields);
 
   this.addValidation = function (state) {
     return validator.addValidation(state);
@@ -28,7 +27,6 @@ function ValidationPublicApi(fields) {
 
   this.validate = function (stateUpdates) {
     var showErrors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
     return validator.validate(stateUpdates, showErrors);
   };
 
@@ -56,4 +54,6 @@ function ValidationPublicApi(fields) {
     return validator.isFieldValid(fieldName);
   };
 }
-exports.default = ValidationPublicApi;
+
+var _default = ValidationPublicApi;
+exports.default = _default;

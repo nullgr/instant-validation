@@ -5,11 +5,10 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "flow": "flow",
+    "checktypes": "tsc --noEmit -p ./tsconfig.json",
     "dev": "watch 'npm run build' src",
-    "build":
-      "flow && babel src -d build --ignore testUtils && babel types -d build --copy-files",
-    "test": "flow && jest",
+    "build": "npm run checktypes && babel src -d build --ignore testUtils --extensions '.ts' && babel types -d build --copy-files",
+    "test": "npm run checktypes && jest",
     "prepush": "npm test",
     "prepublish": "npm run build"
   },
@@ -17,23 +16,34 @@
     "type": "git",
     "url": "git+https://github.com/nullgr/react-validation-utils.git"
   },
-  "keywords": ["react", "validation", "validator"],
+  "keywords": [
+    "react",
+    "validation",
+    "validator"
+  ],
   "author": "Oleksandr Chernenko (ca@nullgr.com, akazimirkas@gmail.com)",
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.24.1",
+    "@types/node": "^9.6.6",
+    "babel-cli": "^7.0.0-beta.3",
     "babel-eslint": "^7.2.3",
-    "babel-jest": "^22.1.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-flow": "^6.23.0",
+    "babel-jest": "^22.4.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^7.0.0-beta.3",
+    "babel-preset-typescript": "^7.0.0-alpha.19",
     "eslint": "4.12.1",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-jest": "^20.0.3",
     "eslint-plugin-prettier": "2.3.1",
-    "flow-bin": "^0.70.0",
     "husky": "^0.14.3",
-    "jest": "^22.4.0",
-    "prettier": "^1.10.2",
+    "jest": "^22.4.3",
+    "prettier": "^1.12.1",
+    "typescript": "^2.8.3",
+    "typescript-eslint-parser": "^15.0.0",
     "watch": "^1.0.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.44",
+    "babel-core": "^7.0.0-bridge.0"
   }
 }

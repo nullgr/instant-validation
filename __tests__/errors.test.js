@@ -1,20 +1,20 @@
-import Validation from '../src';
-import { createValidator } from '../src/testUtils';
-import { requiredRule } from '../src/rules';
+import Validation from "../src/index.ts";
+import { createValidator } from "../src/testUtils";
+import { requiredRule } from "../src/rules";
 
-describe('Unit tests for wrong using of Validation class', () => {
+describe("Unit tests for wrong using of Validation class", () => {
   test("should throw error if Validator wasn't created correctly", () => {
     expect(() => {
       new Validation(123);
-    }).toThrowError('Invalid fields parameter for fields, must be object');
+    }).toThrowError("Invalid fields parameter for fields, must be object");
 
     expect(() => {
-      new Validation('122');
-    }).toThrowError('Invalid fields parameter for fields, must be object');
+      new Validation("122");
+    }).toThrowError("Invalid fields parameter for fields, must be object");
 
     expect(() => {
       new Validation(() => {});
-    }).toThrowError('Invalid fields parameter for fields, must be object');
+    }).toThrowError("Invalid fields parameter for fields, must be object");
   });
 
   test("shouldn't throw error if Validtor was created correctly", () => {
@@ -26,11 +26,11 @@ describe('Unit tests for wrong using of Validation class', () => {
       ]
     });
   });
-  testFailingOfValidatorMethod('validate');
-  testFailingOfValidatorMethod('updateRules');
-  testFailingOfValidatorMethod('isFormValid');
-  testFailingOfValidatorMethod('isFieldValid');
-  testFailingOfValidatorMethod('getErrors');
+  testFailingOfValidatorMethod("validate");
+  testFailingOfValidatorMethod("updateRules");
+  testFailingOfValidatorMethod("isFormValid");
+  testFailingOfValidatorMethod("isFieldValid");
+  testFailingOfValidatorMethod("getErrors");
 });
 
 function testFailingOfValidatorMethod(functionName) {

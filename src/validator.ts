@@ -1,5 +1,4 @@
-// @flow
-import type {
+import {
   Rule,
   RuleData,
   FieldsDescription,
@@ -15,70 +14,61 @@ import type {
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
 
-function Validator(
-  fields: FieldsDescription
-): {
-  fields: FormattedFieldsDescription,
-  fieldsToValidateList: Array<string>,
-  fieldsToShowErrors: Array<string>,
-  statuses: Array<string>,
-  validationStorage: Object,
-  addValidation: Function,
-  validate: Function,
-  updateRules: Function,
-  fieldsToValidate: Function,
-  showErrorsOnFields: Function,
-  getErrors: Function,
-  isFormValid: Function,
-  isFieldValid: Function
-} {
-  if (typeof fields !== 'object') {
-    throw new Error('Invalid fields parameter for fields, must be object');
-  }
+class Validator {
+  fields: FormattedFieldsDescription;
+  fieldsToValidateList: Array<string>;
+  fieldsToShowErrors: Array<string>;
+  validationStorage?: object;
+  statuses: Array<string>;
 
-  this.fields = this._convertAllRulesToArrays(fields);
-  this.fieldsToValidateList = [];
-  this.fieldsToShowErrors = [];
-  this.validationStorage = undefined;
-  this.statuses = [
-    'validation-passed',
-    'prevalidation-failed',
-    'validation-failed'
-  ];
-  return this;
-}
+  constructor(fields: FieldsDescription) {
+    if (typeof fields !== 'object') {
+      throw new Error('Invalid fields parameter for fields, must be object');
+    }
+  
+    this.fields = this._convertAllRulesToArrays(fields);
+    this.fieldsToValidateList = [];
+    this.fieldsToShowErrors = [];
+    this.validationStorage = undefined;
+    this.statuses = [
+      'validation-passed',
+      'prevalidation-failed',
+      'validation-failed'
+    ];
+  };
 
-Validator.prototype = {
-  addValidation: function(state: Object, showErrorsOnStart: boolean = false) {
+  addValidation(state: Object, showErrorsOnStart: boolean = false) {
     if (typeof state !== 'object') {
       throw new Error('Invalid state parameter for fields, must be object');
     }
-    this.validationStorage = {};
-    Object.keys(this.fields).map(
-      key =>
-        (this.validationStorage[key] = this._validateField(
+    const validationStorage = this.validationStorage = {};
+    Object.keys(this.fields).forEach(
+      key => {
+        validationStorage[key] = this._validateField(
           state[key],
           this.fields[key],
           state,
           showErrorsOnStart
-        ))
+        );
+
+      }
     );
 
     return state;
-  },
+  };
 
   /**
    * Validate is a method to use inside the setState function
    */
-  validate: function(
-    stateUpdates: ?Object | Function,
+  validate(
+    stateUpdates: object | Function | null,
     showErrors: boolean = true
   ) {
     this._checkIfValidationWasAdded();
 
     let showErrorsHash = {};
     let showChoosenErrors = false;
-    let fieldsToValidateList = [];
+    let fieldsToValidateList: Array<string> = [];
     if (this.fieldsToValidateList.length > 0) {
       fieldsToValidateList = this.fieldsToValidateList;
       this.fieldsToValidateList = [];
@@ -86,11 +76,11 @@ Validator.prototype = {
 
     if (this.fieldsToShowErrors.length > 0) {
       showChoosenErrors = true;
-      this.fieldsToShowErrors.forEach(f => (showErrorsHash[f] = true));
+      this.fieldsToShowErrors.forEach((f: string) => (showErrorsHash[f] = true));
       this.fieldsToShowErrors = [];
     }
 
-    return (prevState: Object, props: ?Object) => {
+    return (prevState: Object, props?: Object | null) => {
       if (typeof stateUpdates === 'function') {
         // support of updater function
         stateUpdates = stateUpdates(prevState, props);
@@ -98,12 +88,14 @@ Validator.prototype = {
       const keysToValidate =
         fieldsToValidateList.length > 0
           ? fieldsToValidateList
-          : stateUpdates ? Object.keys(stateUpdates) : Object.keys(this.fields);
+          : stateUpdates
+            ? Object.keys(stateUpdates)
+            : Object.keys(this.fields);
       // computing the state as a merge from prevState and stateUpdates to do the right validation
       let state = Object.assign({}, prevState, stateUpdates || {});
 
-      keysToValidate.map(key => {
-        if (this.fields[key]) {
+      keysToValidate.forEach(key => {
+        if (this.fields[key] && this.validationStorage) {
           this.validationStorage[key] = this._validateField(
             state[key],
             this.fields[key],
@@ -115,9 +107,9 @@ Validator.prototype = {
       this.fieldsToShowErrors = [];
       return Object.assign(stateUpdates || {});
     };
-  },
+  };
 
-  updateRules: function(updatedRules: {
+  updateRules(updatedRules: {
     [key: string]: { [key: string]: Rule }
   }) {
     this._checkIfValidationWasAdded();
@@ -127,7 +119,7 @@ Validator.prototype = {
         const rulesToUpdate = Object.keys(updatedRules[k]);
         rulesToUpdate.forEach(ruleId => {
           let ruleIndex = -1;
-          this.fields[k].forEach((f, i) => {
+          this.fields[k].forEach((f: any, i: number) => {
             if (f.id && f.id === ruleId) {
               ruleIndex = i;
             }
@@ -140,26 +132,27 @@ Validator.prototype = {
     });
 
     return this;
-  },
+  };
 
-  fieldsToValidate: function(fieldsList: Array<string>) {
+  fieldsToValidate(fieldsList: Array<string>) {
     this.fieldsToValidateList = [...fieldsList];
     return this;
-  },
+  };
 
-  showErrorsOnFields: function(fieldsList: Array<string>) {
+  showErrorsOnFields(fieldsList: Array<string>) {
     this.fieldsToShowErrors = [...fieldsList];
     return this;
-  },
+  };
 
-  getErrors: function() {
+  getErrors() {
     this._checkIfValidationWasAdded();
 
     const keys = Object.keys(this.fields),
       objErrors: Object = {};
 
     const validationFailed = this.statuses[2];
-    keys.map(key => {
+    keys.forEach(key => {
+      if(!this.validationStorage) return;
       const current = this.validationStorage[key];
       // check every rule
       for (let i = 0; i < current.length; i++) {
@@ -173,11 +166,12 @@ Validator.prototype = {
       return;
     });
 
-    return objErrors;
-  },
+    return objErrors
+  };
 
-  isFormValid: function(): boolean {
+  isFormValid(): boolean {
     this._checkIfValidationWasAdded();
+    if(!this.validationStorage) return false;
 
     const keys = Object.keys(this.validationStorage);
     const [validationPassed] = this.statuses;
@@ -192,10 +186,11 @@ Validator.prototype = {
     }
     // if form valid return true
     return true;
-  },
+  };
 
-  isFieldValid: function(fieldName: string): boolean {
+  isFieldValid(fieldName: string): boolean {
     this._checkIfValidationWasAdded();
+    if (!this.validationStorage) return false;
 
     const fieldStatuses = this.validationStorage[fieldName];
     if (!fieldStatuses) {
@@ -209,22 +204,23 @@ Validator.prototype = {
       }
     }
     return true;
-  },
+  };
 
-  _convertAllRulesToArrays: function(
+  _convertAllRulesToArrays(
     fields: FieldsDescription
   ): FormattedFieldsDescription {
     let formattedFields = {};
 
     Object.keys(fields).forEach(field => {
       formattedFields[field] = Array.isArray(fields[field])
+      // @ts-ignore
         ? [...fields[field]]
         : [fields[field]];
     });
     return formattedFields;
-  },
+  };
 
-  _validateField: function(
+  _validateField(
     fieldValue: any,
     fieldRules: RuleData[],
     state: Object,
@@ -240,11 +236,13 @@ Validator.prototype = {
     return fieldRules.map(item => {
       return item.rule(fieldValue, state)
         ? validationPassed
-        : showErrors ? validationFailed : prevalidationFailed;
+        : showErrors
+          ? validationFailed
+          : prevalidationFailed;
     });
-  },
+  };
 
-  _checkIfValidationWasAdded: function() {
+  _checkIfValidationWasAdded() {
     if (typeof this.validationStorage === 'undefined') {
       throw new Error(`It seems that you didn't invoke addValidation method and try to invoke 
           another method of Validator. Please invoke addValidation method first`);

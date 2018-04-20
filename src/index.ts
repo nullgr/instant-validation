@@ -1,6 +1,5 @@
-// @flow
 import Validator from './validator';
-import type { Rule, FieldsDescription } from './types';
+import { Rule, FieldsDescription } from './types';
 
 // Represents Public API of library, every method presented there
 // may be used by user and should be described in README file
@@ -19,7 +18,7 @@ function ValidationPublicApi(fields: FieldsDescription) {
   };
 
   this.validate = function(
-    stateUpdates: ?Object | Function,
+    stateUpdates: Object | null | Function,
     showErrors: boolean = true
   ) {
     return validator.validate(stateUpdates, showErrors);

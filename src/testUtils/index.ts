@@ -1,5 +1,3 @@
-// @flow
-
 import { requiredRule, lengthRule } from '../rules';
 
 export const LENGTH_ERROR = 'Length should be minimum 5 characters';
@@ -28,7 +26,7 @@ export function createValidator(publicApi: boolean) {
       },
       {
         id: 'repeatRule',
-        rule: (val, state) =>
+        rule: (val: string, state: any) =>
           state.repeatPass === val || !val || !state.repeatPass,
         message: ''
       }
@@ -40,7 +38,7 @@ export function createValidator(publicApi: boolean) {
       },
       {
         id: 'repeatRule',
-        rule: (val, state) => val === state.newPass || !val || !state.newPass,
+        rule: (val: string, state: any) => val === state.newPass || !val || !state.newPass,
         message: ''
       }
     ],
