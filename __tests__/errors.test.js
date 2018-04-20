@@ -1,6 +1,6 @@
-import Validation from "../src/index.ts";
-import { createValidator } from "../src/testUtils";
-import { requiredRule } from "../src/rules";
+import { createValidator } from "./testUtils";
+import Validation from "../build/index";
+import { requiredRule } from "../build/rules";
 
 describe("Unit tests for wrong using of Validation class", () => {
   test("should throw error if Validator wasn't created correctly", () => {

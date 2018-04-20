@@ -1,12 +1,12 @@
-import { requiredRule, lengthRule } from '../rules';
+import { requiredRule, lengthRule } from "../../build/rules";
 
-export const LENGTH_ERROR = 'Length should be minimum 5 characters';
-export const ERROR_EMPTY = 'This field should be filled';
+export const LENGTH_ERROR = "Length should be minimum 5 characters";
+export const ERROR_EMPTY = "This field should be filled";
 
-export function createValidator(publicApi: boolean) {
+export function createValidator(publicApi) {
   const Validator = publicApi
-    ? require('../index').default
-    : require('../validator').default;
+    ? require("../../build/index").default
+    : require("../../build/validator").default;
   // return new Validator(3);
   return new Validator({
     login: [
@@ -25,10 +25,10 @@ export function createValidator(publicApi: boolean) {
         message: LENGTH_ERROR
       },
       {
-        id: 'repeatRule',
-        rule: (val: string, state: any) =>
+        id: "repeatRule",
+        rule: (val, state) =>
           state.repeatPass === val || !val || !state.repeatPass,
-        message: ''
+        message: ""
       }
     ],
     repeatPass: [
@@ -37,9 +37,9 @@ export function createValidator(publicApi: boolean) {
         message: LENGTH_ERROR
       },
       {
-        id: 'repeatRule',
-        rule: (val: string, state: any) => val === state.newPass || !val || !state.newPass,
-        message: ''
+        id: "repeatRule",
+        rule: (val, state) => val === state.newPass || !val || !state.newPass,
+        message: ""
       }
     ],
     accept: {

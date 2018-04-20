@@ -1,10 +1,10 @@
-import { createValidator } from '../src/testUtils';
+import { createValidator } from "./testUtils";
 
 // This test method just checks if Public Api methods call right methods of
 // Validator object, passing right arguments  and returning right values
 
-const funcArgument = { someField: '' };
-const funcReturnValue = { someField: 'Uasia' };
+const funcArgument = { someField: "" };
+const funcReturnValue = { someField: "Uasia" };
 
 const mockValidatorObject = {
   addValidation: jest.fn(() => funcReturnValue),
@@ -17,7 +17,7 @@ const mockValidatorObject = {
   isFieldValid: jest.fn(() => funcReturnValue)
 };
 
-jest.mock('../src/validator', () => {
+jest.mock("../build/validator", () => {
   return function() {
     return mockValidatorObject;
   };
@@ -25,17 +25,17 @@ jest.mock('../src/validator', () => {
 
 describe(`Test if public api invokes correct validation library method 
           with right argument and return right value`, () => {
-  testConcreteMethod('addValidation');
-  testConcreteMethod('validate', 2);
-  testConcreteMethod('updateRules');
-  testConcreteMethod('fieldsToValidate');
-  testConcreteMethod('showErrorsOnFields');
-  testConcreteMethod('getErrors', 0);
-  testConcreteMethod('isFormValid', 0);
-  testConcreteMethod('isFieldValid');
+  testConcreteMethod("addValidation");
+  testConcreteMethod("validate", 2);
+  testConcreteMethod("updateRules");
+  testConcreteMethod("fieldsToValidate");
+  testConcreteMethod("showErrorsOnFields");
+  testConcreteMethod("getErrors", 0);
+  testConcreteMethod("isFormValid", 0);
+  testConcreteMethod("isFieldValid");
 });
 
-function testConcreteMethod(methodName: string, numberOfArgs: number = 1) {
+function testConcreteMethod(methodName, numberOfArgs = 1) {
   test(`${methodName} method`, () => {
     const Validator = createValidator(true);
 

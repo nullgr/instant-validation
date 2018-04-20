@@ -12,20 +12,39 @@
     "prepublish": "npm run build",
     "build": "tsc"
   },
+  "jest": {
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+      "\\.(js|jsx)$": "babel-jest"
+    },
+    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
+    "modulePaths": ["./"],
+    "moduleFileExtensions": ["js", "jsx", "json", "ts", "tsx"],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+        "identity-obj-proxy",
+      "\\.(css|scss)$": "identity-obj-proxy"
+    },
+    "testPathIgnorePatterns": ["testUtils"],
+    "globals": {
+      "ts-jest": {
+        "useBabelrc": false,
+        "tsConfigFile": "./tsconfig.json"
+      }
+    },
+    "testURL": "http://localhost"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nullgr/react-validation-utils.git"
   },
-  "keywords": [
-    "react",
-    "validation",
-    "validator"
-  ],
+  "keywords": ["react", "validation", "validator"],
   "author": "Oleksandr Chernenko (ca@nullgr.com, akazimirkas@gmail.com)",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^9.6.6",
     "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.6.1",
     "eslint": "4.12.1",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-jest": "^20.0.3",
@@ -33,8 +52,12 @@
     "husky": "^0.14.3",
     "jest": "^22.4.3",
     "prettier": "^1.12.1",
+    "ts-jest": "^22.4.4",
     "typescript": "^2.8.3",
     "typescript-eslint-parser": "^15.0.0",
     "watch": "^1.0.1"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.0"
   }
 }
