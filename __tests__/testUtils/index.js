@@ -1,12 +1,12 @@
-import { requiredRule, lengthRule } from "../../build/rules";
+import { requiredRule, lengthRule } from "../../src/rules";
 
 export const LENGTH_ERROR = "Length should be minimum 5 characters";
 export const ERROR_EMPTY = "This field should be filled";
 
 export function createValidator(publicApi) {
   const Validator = publicApi
-    ? require("../../build/index").default
-    : require("../../build/validator").default;
+    ? require("../../src/index").default
+    : require("../../src/validator").default;
   // return new Validator(3);
   return new Validator({
     login: [

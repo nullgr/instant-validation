@@ -1,6 +1,6 @@
 import { createValidator } from "./testUtils";
-import Validation from "../build/index";
-import { requiredRule } from "../build/rules";
+import Validation from "../src/index";
+import { requiredRule } from "../src/rules";
 
 describe("Unit tests for wrong using of Validation class", () => {
   test("should throw error if Validator wasn't created correctly", () => {

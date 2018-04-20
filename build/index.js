@@ -8,6 +8,7 @@ import Validator from './validator';
 //  3) Also small benefit: in Validator we declare methods on prototype, but not on actual function -
 //     this is useful for reducing of initial render time,
 //     if project have a lot of forms(therefore a lot of instances of Validator object)
+// TODO: rewrite via typescript classes
 function ValidationPublicApi(fields) {
     var validator = new Validator(fields);
     this.addValidation = function (state) {

@@ -17,7 +17,7 @@ const mockValidatorObject = {
   isFieldValid: jest.fn(() => funcReturnValue)
 };
 
-jest.mock("../build/validator", () => {
+jest.mock("../src/validator", () => {
   return function() {
     return mockValidatorObject;
   };

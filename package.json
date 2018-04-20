@@ -14,7 +14,7 @@
   },
   "jest": {
     "transform": {
-      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+      "\\.(ts|tsx)$": "ts-jest",
       "\\.(js|jsx)$": "babel-jest"
     },
     "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
@@ -28,7 +28,7 @@
     "testPathIgnorePatterns": ["testUtils"],
     "globals": {
       "ts-jest": {
-        "useBabelrc": false,
+        "useBabelrc": true,
         "tsConfigFile": "./tsconfig.json"
       }
     },
