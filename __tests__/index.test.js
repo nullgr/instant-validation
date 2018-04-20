@@ -1,216 +1,50 @@
-import Validation from '../src';
-import { requiredRule, lengthRule } from '../src/rules';
+import { createValidator } from "./testUtils";
 
-describe('Unit tests for Validation class', () => {
-  describe('Check all methods consistently', () => {
-    const LENGTH_ERROR = 'Length should be minimum 5 characters';
-    const ERROR_EMPTY = 'This field should be filled';
-    // here will be stored each updated store phase
-    let state;
+// This test method just checks if Public Api methods call right methods of
+// Validator object, passing right arguments  and returning right values
 
-    const Validator = new Validation({
-      login: [
-        {
-          rule: requiredRule,
-          message: ERROR_EMPTY
-        },
-        {
-          rule: lengthRule(5),
-          message: LENGTH_ERROR
-        }
-      ],
-      password: [
-        {
-          rule: lengthRule(8),
-          message: LENGTH_ERROR
-        },
-        {
-          id: 'repeatRule',
-          rule: (val, state) =>
-            state.repeatPass === val || !val || !state.repeatPass,
-          message: ''
-        }
-      ],
-      repeatPass: [
-        {
-          rule: lengthRule(8),
-          message: LENGTH_ERROR
-        },
-        {
-          id: 'repeatRule',
-          rule: (val, state) => val === state.newPass || !val || !state.newPass,
-          message: ''
-        }
-      ],
-      accept: {
-        rule: requiredRule,
-        message: ERROR_EMPTY
-      }
-    });
+const funcArgument = { someField: "" };
+const funcReturnValue = { someField: "Uasia" };
 
-    test('Validator.addValidation(state)', () => {
-      const initState = Validator.addValidation({
-        login: '',
-        password: '',
-        repeatPass: '',
-        accept: false
-      });
+const mockValidatorObject = {
+  addValidation: jest.fn(() => funcReturnValue),
+  validate: jest.fn(() => funcReturnValue),
+  updateRules: jest.fn(() => funcReturnValue),
+  fieldsToValidate: jest.fn(() => funcReturnValue),
+  showErrorsOnFields: jest.fn(() => funcReturnValue),
+  getErrors: jest.fn(() => funcReturnValue),
+  isFormValid: jest.fn(() => funcReturnValue),
+  isFieldValid: jest.fn(() => funcReturnValue)
+};
 
-      // update state and compare to result
-      state = {
-        login: '',
-        password: '',
-        repeatPass: '',
-        accept: false,
-        validationStorage: {
-          accept: ['prevalidation-failed'],
-          login: ['prevalidation-failed', 'prevalidation-failed'],
-          password: ['prevalidation-failed', 'validation-passed'],
-          repeatPass: ['prevalidation-failed', 'validation-passed']
-        }
-      };
+jest.mock("../src/validator", () => {
+  return function() {
+    return mockValidatorObject;
+  };
+});
 
-      expect(initState).toEqual(state);
-    });
+describe(`Test if public api invokes correct validation library method 
+          with right argument and return right value`, () => {
+  testConcreteMethod("addValidation");
+  testConcreteMethod("validate", 2);
+  testConcreteMethod("updateRules");
+  testConcreteMethod("fieldsToValidate");
+  testConcreteMethod("showErrorsOnFields");
+  testConcreteMethod("getErrors", 0);
+  testConcreteMethod("isFormValid", 0);
+  testConcreteMethod("isFieldValid");
+});
 
-    test('getErrors after Validator.addValidation', () => {
-      expect(Validator.getErrors(state)).toEqual({
-        accept: '',
-        login: '',
-        password: '',
-        repeatPass: ''
-      });
-    });
+function testConcreteMethod(methodName, numberOfArgs = 1) {
+  test(`${methodName} method`, () => {
+    const Validator = createValidator(true);
 
-    test('Validator.validate({login: value})', () => {
-      const value = 'pit';
+    const args = Array(numberOfArgs).fill(funcArgument);
 
-      // create updater function from Validator to use the result in setState method
-      const updater = Validator.validate({
-        login: value
-      });
+    expect(Validator[methodName].apply(null, args)).toEqual(funcReturnValue);
 
-      // call the updater function to check the result
-      const result = updater(state);
-
-      // update snapshot and compare to result
-      const expected = {
-        login: value,
-        validationStorage: {
-          accept: ['prevalidation-failed'],
-          login: ['validation-passed', 'validation-failed'],
-          password: ['prevalidation-failed', 'validation-passed'],
-          repeatPass: ['prevalidation-failed', 'validation-passed']
-        }
-      };
-
-      expect(result).toEqual(expected);
-      // result of state updates
-      state = Object.assign({}, state, result);
-    });
-
-    test('getErrors after Validator.validate({ login: value })', () => {
-      expect(Validator.getErrors(state)).toEqual({
-        accept: '',
-        login: LENGTH_ERROR,
-        password: '',
-        repeatPass: ''
-      });
-    });
-
-    test('Validator.validate(updaterFunction)', () => {
-      const loginVal = 'peterson';
-      const passordVal = '123456789a';
-      const passordRVal = '123456789a';
-      const updaterFunction = prevState => ({
-        login: loginVal,
-        password: passordVal,
-        repeatPass: passordRVal
-      });
-      const updater = Validator.validate(updaterFunction);
-      const result = updater(state);
-      const expected = {
-        login: loginVal,
-        password: passordVal,
-        repeatPass: passordRVal,
-        validationStorage: {
-          accept: ['prevalidation-failed'],
-          login: ['validation-passed', 'validation-passed'],
-          password: ['validation-passed', 'validation-passed'],
-          repeatPass: ['validation-passed', 'validation-passed']
-        }
-      };
-      expect(result).toEqual(expected);
-      state = Object.assign({}, state, result);
-    });
-
-    test('getErrors after Validator.validate(updaterFunction)', () => {
-      expect(Validator.getErrors(state)).toEqual({
-        accept: '',
-        login: '',
-        password: '',
-        repeatPass: ''
-      });
-    });
-
-    test('Validator.isFormValid(state) method equals false', () => {
-      expect(Validator.isFormValid(state)).toEqual(false);
-    });
-
-    test('Validator.validate()', () => {
-      const updater = Validator.validate();
-      const result = updater(state);
-      const expected = {
-        validationStorage: {
-          accept: ['validation-failed'],
-          login: ['validation-passed', 'validation-passed'],
-          password: ['validation-passed', 'validation-passed'],
-          repeatPass: ['validation-passed', 'validation-passed']
-        }
-      };
-
-      expect(result).toEqual(expected);
-      state = Object.assign({}, state, result);
-    });
-
-    test('getErrors after Validator.validate()', () => {
-      expect(Validator.getErrors(state)).toEqual({
-        accept: ERROR_EMPTY,
-        login: '',
-        password: '',
-        repeatPass: ''
-      });
-    });
-
-    test('Validator.isFormValid(state) method equals true', () => {
-      const updater = Validator.validate({
-        accept: true
-      });
-      const result = updater(state);
-      state = Object.assign({}, state, result);
-      expect(Validator.isFormValid(state)).toEqual(true);
-    });
-
-    test('Validator.isFieldValid(state,"login") method returns false', () => {
-      const updater = Validator.validate({
-        login: ''
-      });
-      const result = updater(state);
-      state = Object.assign({}, state, result);
-      expect(Validator.isFieldValid(state, 'login')).toEqual(false);
-    });
-
-    test('Validator.isFieldValid(state,"password") method returns true', () => {
-      expect(Validator.isFieldValid(state, 'password')).toEqual(true);
-    });
-
-    test('Validator.isFieldValid(state,"login") method returns true after login field became validated', () => {
-      const updater = Validator.validate({
-        login: 'peterson'
-      });
-      const result = updater(state);
-      state = Object.assign({}, state, result);
-      expect(Validator.isFieldValid(state, 'login')).toEqual(true);
+    args.forEach((arg, index) => {
+      expect(mockValidatorObject[methodName].mock.calls[0][index]).toEqual(arg);
     });
   });
-});
+}
