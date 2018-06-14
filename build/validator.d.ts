@@ -1,36 +1,30 @@
-import { Rule, RuleData, FieldsDescription, FormattedFieldsDescription } from './types';
+import { FieldsDescription, Statuses, ShowErrorMessagesOn, ErrorMessages, FormattedFieldsDescription } from './types';
 /**
  * A class for fields validation in React.js
  * Use it in your React components for forms,
  * The form should work the classical way,
  * store fields in the local component state and modify fields using this.setState method
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
+ * @author Yurii Fediv <y.fediv@nullgr.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
-declare class Validator {
+declare class Validator<State> {
     fields: FormattedFieldsDescription;
+    values: Partial<State>;
+    valuesAreSet: boolean;
+    statuses: Statuses;
+    showErrorMessagesOn: ShowErrorMessagesOn;
     fieldsToValidateList: Array<string>;
-    fieldsToShowErrors: Array<string>;
-    validationStorage?: object;
-    statuses: Array<string>;
     constructor(fields: FieldsDescription);
-    addValidation(state: Object, showErrorsOnStart?: boolean): Object;
-    /**
-     * Validate is a method to use inside the setState function
-     */
-    validate(stateUpdates: object | Function | null, showErrors?: boolean): (prevState: Object, props?: Object | null | undefined) => any;
-    updateRules(updatedRules: {
-        [key: string]: {
-            [key: string]: Rule;
-        };
-    }): this;
-    fieldsToValidate(fieldsList: Array<string>): this;
-    showErrorsOnFields(fieldsList: Array<string>): this;
-    getErrors(): Object;
+    private convertAllRulesToArrays(fields);
+    private updateValidationStatuses(updatedValues);
+    private validateField(fieldValue, fieldRules);
+    private countDiff(state);
+    setInitialValues(state: State): State;
+    validate(state: State): State;
+    getStatuses(forEveryRule?: boolean): Statuses;
+    getErrors(): ErrorMessages;
+    showErrors(fieldsNames?: Array<string>, show?: boolean): void;
     isFormValid(): boolean;
-    isFieldValid(fieldName: string): boolean;
-    _convertAllRulesToArrays(fields: FieldsDescription): FormattedFieldsDescription;
-    _validateField(fieldValue: any, fieldRules: RuleData[], state: Object, showErrors: boolean): string | string[];
-    _checkIfValidationWasAdded(): void;
 }
 export default Validator;

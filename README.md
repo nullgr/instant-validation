@@ -2,8 +2,6 @@
 
 [![npm version](https://badge.fury.io/js/react-validation-utils.svg)](https://badge.fury.io/js/react-validation-utils)
 
-## **This is something like proposal to current validation library, this description doesn't match current API**
-
 Validate react form components, based on their state.
 
 Why to use:
@@ -56,12 +54,6 @@ const validator = new Validator({
       rule: lengthRule(8),
       message: "Password should be at least 8 characters long"
     }
-  ],
-  passwordRepeat: [
-    {
-      rule: shouldEqual("password"), // just example of rule
-      message: "Password should match"
-    }
   ]
 });
 
@@ -70,19 +62,14 @@ class RegistrationForm extends React.Component {
     super();
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = {
+    this.state = validator.setInitialValues({
       login: "",
-      password: "",
-      passwordRepeat: ""
-    };
+      password: ""
+    });
   }
 
   onChange(e) {
-    const { name, value } = e.target;
-    if (name === "password" || name === "passwordRepeat") {
-      validator.fieldsToValidate(["password", "passwordRepeat"]);
-    }
-    this.setState({ [name]: value });
+    this.setState({ [name]: e.target.value });
   }
 
   onSubmit(e) {
@@ -95,9 +82,8 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { login, password, passwordRepeat } = this.state;
-    // get error messages from invalid fields, if they were validated.
-    // prevalidated fields will receive no error messages, but they cause Validator.isFormValid to return false
-    const errors = Validator.getErrors(this.state);
+    const errors = validator.validate(this.state).getErrors();
+    // By default error messages will appear on those invalid fields, which user has already touched (edited).
     return (
       <form>
         <input name="login" value={login} onChange={this.onChange} />
@@ -110,7 +96,7 @@ class RegistrationForm extends React.Component {
           onChange={this.onChange}
         />
         <div className="error">{errors.passwordRepeat}</div>
-        <button onClick={this.onSubmit} type="submit">
+        <button onClick={this.onSubmit} type="submit" disabled={!validator.isFormValid()} >
           Enter
         </button>
       </form>
@@ -163,86 +149,43 @@ If there are many rules, the their priority will be similar to the array order.
 Describe in the constructor all the fields, that you will check. Like in the [example](#form-example).
 You can describe for each field [1 or many rules](#creating-validation-rules).
 
-### initialize({state}, showErrorsOnStart = false)
+### setInitialValues({state})
 
-When you are creating the component state, you can use this method to addValidation/validate the state fields. See the [example](#form-example).
-If you want, you can set `showErrorsOnStart` to true, so fields will be validated and you will get all the errors in the first component render.
-When you are adding a Validator with `Validator.addValidation` method, all the fields will be prevalidated.
-Prevalidation means, that you will get no error message, if the field has not passed a validation rule (`'prevalidation-failed'`).
-Validation means, that you will get an error message, if the field has not passed a validation rule (`'validation-failed'`).
+When you are creating the component state, you will need to store initial field values and do their initial validation.
+Just pass the state and the validator will recognize and validate the fields, he need to work witdh.
 
-### validate({stateChange} | updater | null, showErrors = true)
+### validate({state})
 
-You should use it inside the this.setState method like it was already described [here](#validation).
-If you want, you can set `showErrors` to false, so fields will be only prevalidated and no errors will appear on them.
-
-By default this method only checks those fields, that are passing in `stateChange` object (or in result object of the updater function, if you use it instead of `stateChange`).
-
-using `stateChange`:
-
-```js
-this.setState(Validator.validate({ login: e.target.value }));
-```
-
-using `updater` function:
-
-```js
-this.setState(Validator.validate((prevState => login: e.target.value)));
-```
-
-You can simply validate all fields at the same time, passing `null` or `undefined` instead of state argument.
-
-```js
-this.setState(Validator.validate());
-```
-
-### fieldsToValidate(...fields)
-
-In some cases, when you are updating a single field in state, you need to validate several fields at the same time
-
-```js
-this.setState(
-  Validator.fieldsToValidate(["amount", "bill"]).validate({
-    amount: e.target.value
-  })
-);
-```
-
-### showErrorsOnFields(...fields)
-
-In some cases, you need to choose, where to show error messages.
-
-```js
-this.setState(
-  Validator.fieldsToValidate(["amount", "bill"])
-    .showErrorsOnFields(["amount"])
-    .validate({ amount: e.target.value })
-);
-```
-
-### updateRules({fieldsDescription})
-
-You can use this method o dynamically change the rule.
-
-```js
-this.setState(
-  Validator.updateRules({
-    amount: {
-      // fieldName
-      amountRule: value => value >= this.props.account // ruleId: ruleFunc
-    }
-  }).validate({ amount: e.target.value })
-);
-```
+Each time you invoke the `validate` method, fields will be validated and their statuses will be updated.
+Validating rules will be applied only to changed fields, because of their previous values and statuses memoization. (That's why we need `setInitialValues` method.)
+In React the best way to use `validate` is in render() method.
+It is useful to use `getErrors` or `getStatuses` chained to validate method like in [example](#form-example).
 
 ### getErrors()
 
-Use this method inside the render function, like in the [example](#form-example). It will return the object with fields keys and their error messages. If the field is valid there will be an empty error string.
+This method will return an object with error-messages for those invalid fields, whose error-message-showing status is activated.
+
+### getStatuses(forEveryRule = false)
+
+This method will return an object with true or false values for valid or invalid fields.
+You can use optional parameter `forEveryRule`, to get array's with every rule checking status.
 
 ### isFormValid()
 
 Use this method to check, if the form is valid. It will return true, if all the fields in the form are valid. See the [example](#form-example)
 
-### isFieldValid(fieldName)
+### showErrors([fieldNames], show = true)
 
-Use this method to check, if particular field is valid. Returns true if it is valid, false otherwise
+By default, error messages will appear for those invalid fields, which user has already touched (edited).
+In rare cases you will need this method, if you want to show/hide errors for all fields.
+
+```js
+  validator.showErrors();
+];
+```
+
+Or for some of the fields.
+
+```js
+  validator.showErrors(['name', 'message'], false);
+];

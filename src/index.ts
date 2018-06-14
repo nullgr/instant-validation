@@ -1,5 +1,13 @@
 import Validator from './validator';
-import { Rule, FieldsDescription } from './types';
+import { FieldsDescription, ErrorMessages, Statuses } from './types';
+interface ValidationPublicApi<State> {
+  setInitialValues: (state: State) => State;
+  validate(state: State): ValidationPublicApi<State>;
+  getErrors(): ErrorMessages;
+  showErrors(fieldsNames?: Array<string>, show?: boolean): void;
+  isFormValid(): boolean;
+  getStatuses(forEveryRule?: boolean): Statuses;
+}
 
 // Represents Public API of library, every method presented there
 // may be used by user and should be described in README file
@@ -11,45 +19,36 @@ import { Rule, FieldsDescription } from './types';
 //     this is useful for reducing of initial render time,
 //     if project have a lot of forms(therefore a lot of instances of Validator object)
 
-// TODO: rewrite via typescript classes
-function ValidationPublicApi(fields: FieldsDescription) {
-  const validator = new Validator(fields);
+const ValidationPublicApi = function<State>(this: ValidationPublicApi<State>, fields: FieldsDescription) {
+  const validator = new Validator<State>(fields);
 
-  this.addValidation = function(state: Object) {
-    return validator.addValidation(state);
-  };
+  this.setInitialValues = function(state) {
+    return validator.setInitialValues(state);
+  }
 
-  this.validate = function(
-    stateUpdates: Object | null | Function,
-    showErrors: boolean = true
-  ) {
-    return validator.validate(stateUpdates, showErrors);
-  };
+  this.validate = function(state) {
+    validator.validate(state);
+    // it is recommendet to chain validation process and errors data like
+    // const errors = validator.validate(this.state).getErrors();
+    return this;
+  }
 
-  this.updateRules = function(updatedRules: {
-    [key: string]: { [key: string]: Rule }
-  }) {
-    return validator.updateRules(updatedRules);
-  };
-
-  this.fieldsToValidate = function(fieldsList: Array<string>) {
-    return validator.fieldsToValidate(fieldsList);
-  };
-
-  this.showErrorsOnFields = function(fieldsList: Array<string>) {
-    return validator.showErrorsOnFields(fieldsList);
-  };
+  this.getStatuses = function(forEveryRule) {
+    return validator.getStatuses(forEveryRule);
+  }
 
   this.getErrors = function() {
     return validator.getErrors();
-  };
+  }
 
-  this.isFormValid = function(): boolean {
+  this.showErrors = function(fieldsNames, show) {
+    return validator.showErrors(fieldsNames, show);
+  }
+
+  this.isFormValid = function() {
     return validator.isFormValid();
-  };
+  }
 
-  this.isFieldValid = function(fieldName: string): boolean {
-    return validator.isFieldValid(fieldName);
-  };
-}
+} as any as { new<State> (fields: FieldsDescription): ValidationPublicApi<State> }; 
+
 export default ValidationPublicApi;
