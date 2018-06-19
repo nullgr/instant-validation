@@ -8,7 +8,7 @@
     "checktypes": "tsc --noEmit -p ./tsconfig.json",
     "dev": "watch 'npm run build' src",
     "test": "npm run checktypes && jest",
-    "prepush": "npm test",
+    "//": "TODO return back 'prepush' command with 'npm test' when tests will be written",
     "prepublish": "npm run build",
     "build": "tsc"
   },
@@ -18,14 +18,23 @@
       "\\.(js|jsx)$": "babel-jest"
     },
     "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
-    "modulePaths": ["./"],
-    "moduleFileExtensions": ["js", "jsx", "json", "ts", "tsx"],
+    "modulePaths": [
+      "./"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "ts",
+      "tsx"
+    ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-        "identity-obj-proxy",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy",
       "\\.(css|scss)$": "identity-obj-proxy"
     },
-    "testPathIgnorePatterns": ["testUtils"],
+    "testPathIgnorePatterns": [
+      "testUtils"
+    ],
     "globals": {
       "ts-jest": {
         "useBabelrc": true,
@@ -38,7 +47,11 @@
     "type": "git",
     "url": "git+https://github.com/nullgr/react-validation-utils.git"
   },
-  "keywords": ["react", "validation", "validator"],
+  "keywords": [
+    "react",
+    "validation",
+    "validator"
+  ],
   "author": "Oleksandr Chernenko (ca@nullgr.com, akazimirkas@gmail.com)",
   "license": "MIT",
   "devDependencies": {
