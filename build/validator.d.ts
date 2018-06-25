@@ -1,9 +1,6 @@
 import { FieldsDescription, Statuses, ShowErrorMessagesOn, ErrorMessages, FormattedFieldsDescription } from './types';
 /**
- * A class for fields validation in React.js
- * Use it in your React components for forms,
- * The form should work the classical way,
- * store fields in the local component state and modify fields using this.setState method
+ * A simle class for fields validation based on their state object (like in React.js local state)
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Yurii Fediv <y.fediv@nullgr.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
@@ -14,7 +11,6 @@ declare class Validator<State> {
     valuesAreSet: boolean;
     statuses: Statuses;
     showErrorMessagesOn: ShowErrorMessagesOn;
-    fieldsToValidateList: Array<string>;
     constructor(fields: FieldsDescription);
     private convertAllRulesToArrays(fields);
     private updateValidationStatuses(updatedValues);

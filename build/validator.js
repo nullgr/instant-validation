@@ -1,8 +1,5 @@
 /**
- * A class for fields validation in React.js
- * Use it in your React components for forms,
- * The form should work the classical way,
- * store fields in the local component state and modify fields using this.setState method
+ * A simle class for fields validation based on their state object (like in React.js local state)
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Yurii Fediv <y.fediv@nullgr.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
@@ -14,6 +11,7 @@ var Validator = /** @class */ (function () {
         }
         this.fields = this.convertAllRulesToArrays(fields);
         this.values = {};
+        // TODO add if setInitialValues was called checkinng
         this.valuesAreSet = false;
         this.statuses = {};
         this.showErrorMessagesOn = {};
