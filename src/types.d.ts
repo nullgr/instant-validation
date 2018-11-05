@@ -11,7 +11,7 @@ export type RuleData = {
  * you can use both, object or array of objects with RuleData
  */
 export type FieldsDescription = {
-  [key: string]: RuleData | RuleData[];
+  [key: string]: RuleData[];
 };
 
 /**
@@ -23,7 +23,7 @@ export type FormattedFieldsDescription = {
 
 export type Statuses = {
   [key: string]: Array<boolean>;
-}
+};
 
 export type ShowErrorMessagesOn = {
   [key: string]: boolean;
@@ -31,4 +31,4 @@ export type ShowErrorMessagesOn = {
 
 export type ErrorMessages = {
   [key: string]: string;
-}
+};
