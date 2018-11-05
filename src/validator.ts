@@ -14,35 +14,33 @@ import {
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
 class Validator<State> {
-  fieldsInputData: FormattedFieldsDescription;
-  fieldsOutputData: Partial<State>;
-  fieldsOutputDataAreSet: boolean;
-  statuses: Statuses;
-  showErrorMessagesOn: ShowErrorMessagesOn;
+  validationDescription: FormattedFieldsDescription;
+  validationState: Partial<State>;
+  isInitValidationStateSet: boolean;
 
   constructor(fields: FieldsDescription) {
     if (typeof fields !== 'object') {
       throw new Error('Invalid fields parameter for fields, must be object');
     }
     // { rules, message } Objects
-    this.fieldsInputData = fields;
+    this.validationDescription = fields;
 
     // { value, showError, statuses } Objects
-    this.fieldsOutputData = {};
+    this.validationState = {};
 
     // TODO if setInitialValues was called checkinng
-    this.fieldsOutputDataAreSet = false;
+    this.isInitValidationStateSet = false;
   }
 
   private updateValidationStatuses(fieldObj: Partial<State>) {
     Object.keys(fieldObj).forEach(fieldName => {
       fieldObj[fieldName].statuses = this.validateField(
         fieldObj[fieldName].value,
-        this.fieldsInputData[fieldName]
+        this.validationDescription[fieldName]
       );
     });
 
-    console.log(this.fieldsOutputData);
+    console.log(this.validationState);
   }
 
   private validateField(
@@ -57,16 +55,16 @@ class Validator<State> {
   private countDiff(state: State): Partial<State> {
     let diff = {};
 
-    Object.keys(this.fieldsOutputData).forEach(fieldName => {
+    Object.keys(this.validationState).forEach(fieldName => {
       // TODO: take out condition out of the method
       if (
         typeof state[fieldName] !== 'undefined' &&
-        state[fieldName] !== this.fieldsOutputData[fieldName].value
+        state[fieldName] !== this.validationState[fieldName].value
       ) {
         diff[fieldName] = {
           value: state[fieldName],
           showError: true,
-          statuses: this.fieldsOutputData[fieldName].statuses
+          statuses: this.validationState[fieldName].statuses
         };
       }
     });
@@ -76,14 +74,14 @@ class Validator<State> {
   }
 
   setInitialValues(state: State): State {
-    Object.keys(this.fieldsInputData).forEach(fieldName => {
+    Object.keys(this.validationDescription).forEach(fieldName => {
       if (typeof state[fieldName] !== 'undefined') {
-        this.fieldsOutputData[fieldName] = {
+        this.validationState[fieldName] = {
           value: state[fieldName],
           showError: false,
-          statuses: this.fieldsInputData[fieldName].map(rule => false)
+          statuses: this.validationDescription[fieldName].map(rule => false)
         };
-        this.fieldsOutputDataAreSet = true;
+        this.isInitValidationStateSet = true;
       } else {
         throw new Error(
           `It seems that you didn't passed a field ${fieldName} value`
@@ -91,17 +89,17 @@ class Validator<State> {
       }
     });
 
-    this.updateValidationStatuses(this.fieldsOutputData);
+    this.updateValidationStatuses(this.validationState);
     return state;
   }
 
   validate(state: State): State {
-    if (!this.fieldsOutputDataAreSet) {
+    if (!this.isInitValidationStateSet) {
       this.setInitialValues(state);
     } else {
       const diff = this.countDiff(state);
       // TODO something because of line sequence
-      this.fieldsOutputData = Object.assign({}, this.fieldsOutputData, diff);
+      this.validationState = Object.assign({}, this.validationState, diff);
       this.updateValidationStatuses(diff);
     }
     return state;
@@ -139,7 +137,9 @@ class Validator<State> {
       for (let i = 0; i < current.length; i++) {
         if (!current[i] && this.showErrorMessagesOn[fieldName]) {
           // always return the first failed rule error
-          errorMessages[fieldName] = this.fieldsInputData[fieldName][i].message;
+          errorMessages[fieldName] = this.validationDescription[fieldName][
+            i
+          ].message;
           return;
         }
       }
