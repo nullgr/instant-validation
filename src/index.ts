@@ -1,17 +1,10 @@
 import Validator from './validator';
-import {
-  FieldsDescription,
-  ValidateReturn
-  // ErrorMessages,
-  // Statuses
-} from './types';
+import { FieldsDescription, ValidateReturn } from './types';
+
 interface ValidationPublicApi<State> {
   setInitialValues: (state: State) => State;
   validate(state: State): ValidateReturn;
-  // getErrors(): ErrorMessages;
-  // showErrors(fieldsNames?: Array<string>, show?: boolean): void;
   // isFormValid(): boolean;
-  // getStatuses(forEveryRule?: boolean): Statuses;
 }
 
 // Represents Public API of library, every method presented there
@@ -36,22 +29,7 @@ const ValidationPublicApi = (function<State>(
 
   this.validate = function(state) {
     return validator.validate(state);
-    // it is recommendet to chain validation process and errors data like
-    // const errors = validator.validate(this.state).getErrors();
-    // return this;
   };
-
-  // this.getStatuses = function(forEveryRule) {
-  //   return validator.getStatuses(forEveryRule);
-  // };
-
-  // this.getErrors = function() {
-  //   return validator.getErrors();
-  // };
-
-  // this.showErrors = function(fieldsNames, show) {
-  //   return validator.showErrors(fieldsNames, show);
-  // };
 
   // this.isFormValid = function() {
   //   return validator.isFormValid();
