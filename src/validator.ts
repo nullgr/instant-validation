@@ -113,14 +113,16 @@ class Validator<State> {
     } else {
       const changedField = this.countDiff(state);
 
-      Object.keys(changedField).length !== 0 &&
+      if (Object.keys(changedField).length !== 0) {
         // TODO something because of line sequence
-        ((this.validationState = Object.assign(
+        this.validationState = Object.assign(
           {},
           this.validationState,
           changedField
-        )),
-        this.updateValidationStatuses(changedField));
+        ));
+
+        this.updateValidationStatuses(changedField);
+      }
     }
     return state;
   }
