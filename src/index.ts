@@ -1,13 +1,13 @@
 import Validator from './validator';
 import {
   FieldsDescription,
-  ValidatorReturn
+  ValidateReturn
   // ErrorMessages,
   // Statuses
 } from './types';
 interface ValidationPublicApi<State> {
   setInitialValues: (state: State) => State;
-  validate(state: State): ValidatorReturn;
+  validate(state: State): ValidateReturn;
   // getErrors(): ErrorMessages;
   // showErrors(fieldsNames?: Array<string>, show?: boolean): void;
   // isFormValid(): boolean;

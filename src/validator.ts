@@ -3,7 +3,7 @@ import {
   FieldsDescription,
   FieldValidationState,
   FormValidationState,
-  ValidatorReturn,
+  ValidateReturn,
   // Statuses,
   // ShowErrorMessagesOn,
   ErrorMessages,
@@ -105,7 +105,7 @@ class Validator<State> {
     return state;
   }
 
-  validate(state: State): ValidatorReturn {
+  validate(state: State): ValidateReturn {
     if (!this.isInitValidationStateSet) {
       this.setInitialValues(state);
     } else {

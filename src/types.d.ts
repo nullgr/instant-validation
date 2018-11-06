@@ -33,7 +33,7 @@ export type FormValidationState = {
 /**
  * ValidatorReturn type describes what exactly validate method returns
  */
-export type ValidatorReturn = {
+export type ValidateReturn = {
   [key: string]: ErrorMessages;
 };
 
