@@ -69,17 +69,6 @@ class Validator<State> {
         showError: true,
         statuses: this.validationState[fieldName].statuses
       };
-      // return (
-      //   !(
-      //     typeof state[fieldName] === 'undefined' ||
-      //     state[fieldName] === this.validationState[fieldName].value
-      //   ) &&
-      //   (diff[fieldName] = {
-      //     value: state[fieldName],
-      //     showError: true,
-      //     statuses: this.validationState[fieldName].statuses
-      //   })
-      // );
     });
 
     console.log(diff);
@@ -119,7 +108,7 @@ class Validator<State> {
           {},
           this.validationState,
           changedField
-        ));
+        );
 
         this.updateValidationStatuses(changedField);
       }

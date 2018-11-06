@@ -42,17 +42,6 @@ var Validator = /** @class */ (function () {
                 showError: true,
                 statuses: _this.validationState[fieldName].statuses
             };
-            // return (
-            //   !(
-            //     typeof state[fieldName] === 'undefined' ||
-            //     state[fieldName] === this.validationState[fieldName].value
-            //   ) &&
-            //   (diff[fieldName] = {
-            //     value: state[fieldName],
-            //     showError: true,
-            //     statuses: this.validationState[fieldName].statuses
-            //   })
-            // );
         });
         console.log(diff);
         return diff;
@@ -79,10 +68,11 @@ var Validator = /** @class */ (function () {
         }
         else {
             var changedField = this.countDiff(state);
-            Object.keys(changedField).length !== 0 &&
+            if (Object.keys(changedField).length !== 0) {
                 // TODO something because of line sequence
-                ((this.validationState = Object.assign({}, this.validationState, changedField)),
-                    this.updateValidationStatuses(changedField));
+                this.validationState = Object.assign({}, this.validationState, changedField);
+                this.updateValidationStatuses(changedField);
+            }
         }
         return state;
     };
