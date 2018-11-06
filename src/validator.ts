@@ -4,8 +4,6 @@ import {
   FieldValidationState,
   FormValidationState,
   ValidateReturn,
-  // Statuses,
-  // ShowErrorMessagesOn,
   ErrorMessages,
   FormattedFieldsDescription
 } from './types';
@@ -123,38 +121,6 @@ class Validator<State> {
     }
     return { errors: this.getErrors() };
   }
-
-  // getStatuses(forEveryRule = false): Statuses {
-  //   if (forEveryRule) {
-  //     return this.statuses;
-  //   }
-
-  //   const keys = Object.keys(this.statuses);
-  //   const res = {};
-  //   keys.forEach(fieldName => {
-  //     const current = this.statuses[fieldName];
-  //     // check every rule
-  //     for (let i = 0; i < current.length; i++) {
-  //       if (!current[i]) {
-  //         // always return the first failed rule error
-  //         res[fieldName] = false;
-  //         return;
-  //       }
-  //     }
-  //     res[fieldName] = true;
-  //     return;
-  //   });
-  //   return res;
-  // }
-
-  // showErrors(fieldsNames?: Array<string>, show = true) {
-  //   if (!fieldsNames) {
-  //     fieldsNames = Object.keys(this.showErrorMessagesOn);
-  //   }
-  //   fieldsNames.forEach(fieldName => {
-  //     this.showErrorMessagesOn[fieldName] = show;
-  //   });
-  // }
 
   // isFormValid(): boolean {
   //   const keys = Object.keys(this.statuses);

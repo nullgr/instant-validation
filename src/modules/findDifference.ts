@@ -4,7 +4,7 @@ function findDifference<State>(
   state: State,
   actualValidationState: FormValidationState
 ): FieldValidationState | {} {
-  let diff = {};
+  let difference = {};
 
   Object.keys(actualValidationState).forEach(fieldName => {
     if (
@@ -14,15 +14,15 @@ function findDifference<State>(
       return;
     }
 
-    diff[fieldName] = {
+    difference[fieldName] = {
       ...actualValidationState[fieldName],
       value: state[fieldName],
       showError: true
     };
   });
 
-  console.log(diff);
-  return diff;
+  console.log(difference);
+  return difference;
 }
 
 export { findDifference };
