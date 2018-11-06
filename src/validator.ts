@@ -56,17 +56,30 @@ class Validator<State> {
 
     Object.keys(this.validationState).forEach(fieldName => {
       // TODO: take out condition out of the method
-      return (
-        !(
-          typeof state[fieldName] === 'undefined' ||
-          state[fieldName] === this.validationState[fieldName].value
-        ) &&
-        (diff[fieldName] = {
-          value: state[fieldName],
-          showError: true,
-          statuses: this.validationState[fieldName].statuses
-        })
-      );
+
+      if (
+        typeof state[fieldName] === 'undefined' ||
+        state[fieldName] === this.validationState[fieldName].value
+      ) {
+        return;
+      }
+
+      diff[fieldName] = {
+        value: state[fieldName],
+        showError: true,
+        statuses: this.validationState[fieldName].statuses
+      };
+      // return (
+      //   !(
+      //     typeof state[fieldName] === 'undefined' ||
+      //     state[fieldName] === this.validationState[fieldName].value
+      //   ) &&
+      //   (diff[fieldName] = {
+      //     value: state[fieldName],
+      //     showError: true,
+      //     statuses: this.validationState[fieldName].statuses
+      //   })
+      // );
     });
 
     console.log(diff);
