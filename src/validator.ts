@@ -1,9 +1,9 @@
 import {
   RuleData,
   FieldsDescription,
-  Statuses,
-  ShowErrorMessagesOn,
-  ErrorMessages,
+  // Statuses,
+  // ShowErrorMessagesOn,
+  // ErrorMessages,
   FormattedFieldsDescription
 } from './types';
 
@@ -39,7 +39,6 @@ class Validator<State> {
         this.validationDescription[fieldName]
       );
     });
-
     console.log(this.validationState);
   }
 
@@ -57,16 +56,17 @@ class Validator<State> {
 
     Object.keys(this.validationState).forEach(fieldName => {
       // TODO: take out condition out of the method
-      if (
-        typeof state[fieldName] !== 'undefined' &&
-        state[fieldName] !== this.validationState[fieldName].value
-      ) {
-        diff[fieldName] = {
+      return (
+        !(
+          typeof state[fieldName] === 'undefined' ||
+          state[fieldName] === this.validationState[fieldName].value
+        ) &&
+        (diff[fieldName] = {
           value: state[fieldName],
           showError: true,
           statuses: this.validationState[fieldName].statuses
-        };
-      }
+        })
+      );
     });
 
     console.log(diff);
@@ -75,18 +75,19 @@ class Validator<State> {
 
   setInitialValues(state: State): State {
     Object.keys(this.validationDescription).forEach(fieldName => {
-      if (typeof state[fieldName] !== 'undefined') {
-        this.validationState[fieldName] = {
-          value: state[fieldName],
-          showError: false,
-          statuses: this.validationDescription[fieldName].map(rule => false)
-        };
-        this.isInitValidationStateSet = true;
-      } else {
+      if (typeof state[fieldName] === 'undefined') {
         throw new Error(
-          `It seems that you didn't passed a field ${fieldName} value`
+          `It seems that you didn't passed a field '${fieldName}' value`
         );
       }
+
+      this.isInitValidationStateSet = true;
+
+      this.validationState[fieldName] = {
+        value: state[fieldName],
+        showError: false,
+        statuses: this.validationDescription[fieldName].map(rule => false)
+      };
     });
 
     this.updateValidationStatuses(this.validationState);
@@ -97,81 +98,87 @@ class Validator<State> {
     if (!this.isInitValidationStateSet) {
       this.setInitialValues(state);
     } else {
-      const diff = this.countDiff(state);
-      // TODO something because of line sequence
-      this.validationState = Object.assign({}, this.validationState, diff);
-      this.updateValidationStatuses(diff);
+      const changedField = this.countDiff(state);
+
+      Object.keys(changedField).length !== 0 &&
+        // TODO something because of line sequence
+        ((this.validationState = Object.assign(
+          {},
+          this.validationState,
+          changedField
+        )),
+        this.updateValidationStatuses(changedField));
     }
     return state;
   }
 
-  getStatuses(forEveryRule = false): Statuses {
-    if (forEveryRule) {
-      return this.statuses;
-    }
+  // getStatuses(forEveryRule = false): Statuses {
+  //   if (forEveryRule) {
+  //     return this.statuses;
+  //   }
 
-    const keys = Object.keys(this.statuses);
-    const res = {};
-    keys.forEach(fieldName => {
-      const current = this.statuses[fieldName];
-      // check every rule
-      for (let i = 0; i < current.length; i++) {
-        if (!current[i]) {
-          // always return the first failed rule error
-          res[fieldName] = false;
-          return;
-        }
-      }
-      res[fieldName] = true;
-      return;
-    });
-    return res;
-  }
+  //   const keys = Object.keys(this.statuses);
+  //   const res = {};
+  //   keys.forEach(fieldName => {
+  //     const current = this.statuses[fieldName];
+  //     // check every rule
+  //     for (let i = 0; i < current.length; i++) {
+  //       if (!current[i]) {
+  //         // always return the first failed rule error
+  //         res[fieldName] = false;
+  //         return;
+  //       }
+  //     }
+  //     res[fieldName] = true;
+  //     return;
+  //   });
+  //   return res;
+  // }
 
-  getErrors(): ErrorMessages {
-    const keys = Object.keys(this.statuses);
-    const errorMessages: ErrorMessages = {};
-    keys.forEach(fieldName => {
-      const current = this.statuses[fieldName];
-      // check every rule
-      for (let i = 0; i < current.length; i++) {
-        if (!current[i] && this.showErrorMessagesOn[fieldName]) {
-          // always return the first failed rule error
-          errorMessages[fieldName] = this.validationDescription[fieldName][
-            i
-          ].message;
-          return;
-        }
-      }
-      errorMessages[fieldName] = '';
-      return;
-    });
+  // getErrors(): ErrorMessages {
+  //   const keys = Object.keys(this.statuses);
+  //   const errorMessages: ErrorMessages = {};
+  //   keys.forEach(fieldName => {
+  //     const current = this.statuses[fieldName];
+  //     // check every rule
+  //     for (let i = 0; i < current.length; i++) {
+  //       if (!current[i] && this.showErrorMessagesOn[fieldName]) {
+  //         // always return the first failed rule error
+  //         errorMessages[fieldName] = this.validationDescription[fieldName][
+  //           i
+  //         ].message;
+  //         return;
+  //       }
+  //     }
+  //     errorMessages[fieldName] = '';
+  //     return;
+  //   });
 
-    return errorMessages;
-  }
+  //   return errorMessages;
+  // }
 
-  showErrors(fieldsNames?: Array<string>, show = true) {
-    if (!fieldsNames) {
-      fieldsNames = Object.keys(this.showErrorMessagesOn);
-    }
-    fieldsNames.forEach(fieldName => {
-      this.showErrorMessagesOn[fieldName] = show;
-    });
-  }
+  // showErrors(fieldsNames?: Array<string>, show = true) {
+  //   if (!fieldsNames) {
+  //     fieldsNames = Object.keys(this.showErrorMessagesOn);
+  //   }
+  //   fieldsNames.forEach(fieldName => {
+  //     this.showErrorMessagesOn[fieldName] = show;
+  //   });
+  // }
 
-  isFormValid(): boolean {
-    const keys = Object.keys(this.statuses);
-    for (let i = 0; i < keys.length; i++) {
-      const currentStatuses = this.statuses[keys[i]];
-      for (let j = 0; j < currentStatuses.length; j++) {
-        if (!currentStatuses[j]) {
-          return false;
-        }
-      }
-    }
-    // if form valid return true
-    return true;
-  }
+  // isFormValid(): boolean {
+  //   const keys = Object.keys(this.statuses);
+  //   for (let i = 0; i < keys.length; i++) {
+  //     const currentStatuses = this.statuses[keys[i]];
+  //     for (let j = 0; j < currentStatuses.length; j++) {
+  //       if (!currentStatuses[j]) {
+  //         return false;
+  //       }
+  //     }
+  //   }
+  //   // if form valid return true
+  //   return true;
+  // }
 }
 
 export default Validator;
