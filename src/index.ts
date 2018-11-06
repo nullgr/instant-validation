@@ -1,12 +1,13 @@
 import Validator from './validator';
 import {
-  FieldsDescription
+  FieldsDescription,
+  ValidatorReturn
   // ErrorMessages,
   // Statuses
 } from './types';
 interface ValidationPublicApi<State> {
   setInitialValues: (state: State) => State;
-  validate(state: State): ValidationPublicApi<State>;
+  validate(state: State): ValidatorReturn;
   // getErrors(): ErrorMessages;
   // showErrors(fieldsNames?: Array<string>, show?: boolean): void;
   // isFormValid(): boolean;
@@ -34,10 +35,10 @@ const ValidationPublicApi = (function<State>(
   };
 
   this.validate = function(state) {
-    validator.validate(state);
+    return validator.validate(state);
     // it is recommendet to chain validation process and errors data like
     // const errors = validator.validate(this.state).getErrors();
-    return this;
+    // return this;
   };
 
   // this.getStatuses = function(forEveryRule) {

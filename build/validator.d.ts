@@ -1,4 +1,4 @@
-import { FieldsDescription, FormattedFieldsDescription } from './types';
+import { FieldsDescription, FormValidationState, ValidatorReturn, FormattedFieldsDescription } from './types';
 /**
  * A simle class for fields validation based on their state object (like in React.js local state)
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
@@ -7,13 +7,13 @@ import { FieldsDescription, FormattedFieldsDescription } from './types';
  */
 declare class Validator<State> {
     validationDescription: FormattedFieldsDescription;
-    validationState: Partial<State>;
+    validationState: FormValidationState | {};
     isInitValidationStateSet: boolean;
     constructor(fields: FieldsDescription);
+    private getErrors();
     private updateValidationStatuses(fieldObj);
     private validateField(fieldValue, fieldRules);
-    private countDiff(state);
     setInitialValues(state: State): State;
-    validate(state: State): State;
+    validate(state: State): ValidatorReturn;
 }
 export default Validator;

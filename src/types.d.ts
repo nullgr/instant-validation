@@ -8,10 +8,33 @@ export type RuleData = {
 
 /**
  * FieldsDescription type for using it in constructor
- * you can use both, object or array of objects with RuleData
+ * you only can use array of objects with RuleData
  */
 export type FieldsDescription = {
   [key: string]: RuleData[];
+};
+
+/**
+ * FieldValidationState type describes each field validation info
+ */
+export type FieldValidationState = {
+  value: string;
+  showError: boolean;
+  statuses: boolean[];
+};
+
+/**
+ * FormValidationState type describes whole form validation info
+ */
+export type FormValidationState = {
+  [key: string]: FieldValidationState;
+};
+
+/**
+ * ValidatorReturn type describes what exactly validate method returns
+ */
+export type ValidatorReturn = {
+  [key: string]: ErrorMessages;
 };
 
 /**

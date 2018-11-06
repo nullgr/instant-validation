@@ -1,11 +1,16 @@
 import {
   RuleData,
   FieldsDescription,
+  FieldValidationState,
+  FormValidationState,
+  ValidatorReturn,
   // Statuses,
   // ShowErrorMessagesOn,
-  // ErrorMessages,
+  ErrorMessages,
   FormattedFieldsDescription
 } from './types';
+
+import { findDifference } from './modules';
 
 /**
  * A simle class for fields validation based on their state object (like in React.js local state)
@@ -13,9 +18,10 @@ import {
  * @author Yurii Fediv <y.fediv@nullgr.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
+
 class Validator<State> {
   validationDescription: FormattedFieldsDescription;
-  validationState: Partial<State>;
+  validationState: FormValidationState | {};
   isInitValidationStateSet: boolean;
 
   constructor(fields: FieldsDescription) {
@@ -28,11 +34,37 @@ class Validator<State> {
     // { value, showError, statuses } Objects
     this.validationState = {};
 
-    // TODO if setInitialValues was called checkinng
+    // if setInitialValues was called checkinng
     this.isInitValidationStateSet = false;
   }
 
-  private updateValidationStatuses(fieldObj: Partial<State>) {
+  private getErrors(): ErrorMessages {
+    const fieldNames = Object.keys(this.validationState);
+    const errorMessages: ErrorMessages = {};
+
+    fieldNames.forEach(fieldName => {
+      const statuses = this.validationState[fieldName].statuses;
+      const showError = this.validationState[fieldName].showError;
+      // check every rule
+      for (let i = 0; i < statuses.length; i++) {
+        if (!statuses[i] && showError) {
+          // always return the first failed rule error
+          errorMessages[fieldName] = this.validationDescription[fieldName][
+            i
+          ].message;
+          return;
+        }
+      }
+      errorMessages[fieldName] = '';
+      return;
+    });
+
+    return errorMessages;
+  }
+
+  private updateValidationStatuses(
+    fieldObj: FormValidationState | FieldValidationState
+  ) {
     Object.keys(fieldObj).forEach(fieldName => {
       fieldObj[fieldName].statuses = this.validateField(
         fieldObj[fieldName].value,
@@ -49,30 +81,6 @@ class Validator<State> {
     return fieldRules.map(item => {
       return item.rule(fieldValue);
     });
-  }
-
-  private countDiff(state: State): Partial<State> {
-    let diff = {};
-
-    Object.keys(this.validationState).forEach(fieldName => {
-      // TODO: take out condition out of the method
-
-      if (
-        typeof state[fieldName] === 'undefined' ||
-        state[fieldName] === this.validationState[fieldName].value
-      ) {
-        return;
-      }
-
-      diff[fieldName] = {
-        value: state[fieldName],
-        showError: true,
-        statuses: this.validationState[fieldName].statuses
-      };
-    });
-
-    console.log(diff);
-    return diff;
   }
 
   setInitialValues(state: State): State {
@@ -93,27 +101,27 @@ class Validator<State> {
     });
 
     this.updateValidationStatuses(this.validationState);
+
     return state;
   }
 
-  validate(state: State): State {
+  validate(state: State): ValidatorReturn {
     if (!this.isInitValidationStateSet) {
       this.setInitialValues(state);
     } else {
-      const changedField = this.countDiff(state);
+      const changedField = findDifference<State>(state, this.validationState);
 
       if (Object.keys(changedField).length !== 0) {
-        // TODO something because of line sequence
-        this.validationState = Object.assign(
-          {},
-          this.validationState,
-          changedField
-        );
+        // TODO something because of sequence of two control constructures below
+        this.validationState = {
+          ...this.validationState,
+          ...changedField
+        };
 
         this.updateValidationStatuses(changedField);
       }
     }
-    return state;
+    return { errors: this.getErrors() };
   }
 
   // getStatuses(forEveryRule = false): Statuses {
@@ -137,28 +145,6 @@ class Validator<State> {
   //     return;
   //   });
   //   return res;
-  // }
-
-  // getErrors(): ErrorMessages {
-  //   const keys = Object.keys(this.statuses);
-  //   const errorMessages: ErrorMessages = {};
-  //   keys.forEach(fieldName => {
-  //     const current = this.statuses[fieldName];
-  //     // check every rule
-  //     for (let i = 0; i < current.length; i++) {
-  //       if (!current[i] && this.showErrorMessagesOn[fieldName]) {
-  //         // always return the first failed rule error
-  //         errorMessages[fieldName] = this.validationDescription[fieldName][
-  //           i
-  //         ].message;
-  //         return;
-  //       }
-  //     }
-  //     errorMessages[fieldName] = '';
-  //     return;
-  //   });
-
-  //   return errorMessages;
   // }
 
   // showErrors(fieldsNames?: Array<string>, show = true) {
