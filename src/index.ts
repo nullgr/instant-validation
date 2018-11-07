@@ -2,7 +2,6 @@ import Validator from './validator';
 import { FieldsDescription, ValidateReturn } from './types';
 
 interface ValidationPublicApi<State> {
-  setInitialValues: (state: State) => State;
   validate(state: State): ValidateReturn;
   isFormValid(): boolean;
 }
@@ -22,10 +21,6 @@ const ValidationPublicApi = (function<State>(
   fields: FieldsDescription
 ) {
   const validator = new Validator<State>(fields);
-
-  this.setInitialValues = function(state) {
-    return validator.setInitialValues(state);
-  };
 
   this.validate = function(state) {
     return validator.validate(state);
