@@ -46,14 +46,6 @@ export type FormattedFieldsDescription = {
   [key: string]: RuleData[];
 };
 
-export type Statuses = {
-  [key: string]: Array<boolean>;
-};
-
-export type ShowErrorMessagesOn = {
-  [key: string]: boolean;
-};
-
 export type ErrorMessages =
   | {
       [key: string]: string;
