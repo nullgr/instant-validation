@@ -18,6 +18,8 @@ var Validator = /** @class */ (function () {
         if (typeof fields !== 'object') {
             throw new Error('Invalid fields parameter for fields, must be object');
         }
+        // errors object
+        this.errors = {};
         // { rules, message } Objects
         this.validationDescription = fields;
         // { value, showError, statuses } Objects
@@ -25,32 +27,20 @@ var Validator = /** @class */ (function () {
         // if setInitialValues was called checkinng
         this.isInitValidationStateSet = false;
     }
-    Validator.prototype.getErrors = function () {
+    Validator.prototype.updateValidationStatuses = function (partialValidationState) {
         var _this = this;
-        var fieldNames = Object.keys(this.validationState);
-        var errorMessages = {};
-        fieldNames.forEach(function (fieldName) {
-            var statuses = _this.validationState[fieldName].statuses;
-            var showError = _this.validationState[fieldName].showError;
-            // check every rule
-            for (var i = 0; i < statuses.length; i++) {
-                if (!statuses[i] && showError) {
-                    // always return the first failed rule error
-                    errorMessages[fieldName] = _this.validationDescription[fieldName][i].message;
-                    return;
-                }
-            }
-            errorMessages[fieldName] = '';
-            return;
+        Object.keys(partialValidationState).forEach(function (fieldName) {
+            var validatedStatuses = _this.validateField(partialValidationState[fieldName].value, _this.validationDescription[fieldName]);
+            // Updating statuses
+            partialValidationState[fieldName].statuses = validatedStatuses;
+            // Updating errors
+            _this.errors[fieldName] = _this.findFirstFailedRuleMessage(_this.validationDescription[fieldName], validatedStatuses);
         });
-        return errorMessages;
     };
-    Validator.prototype.updateValidationStatuses = function (fieldObj) {
-        var _this = this;
-        Object.keys(fieldObj).forEach(function (fieldName) {
-            fieldObj[fieldName].statuses = _this.validateField(fieldObj[fieldName].value, _this.validationDescription[fieldName]);
-        });
-        console.log(this.validationState);
+    Validator.prototype.findFirstFailedRuleMessage = function (fieldDescripton, statuses) {
+        return statuses.indexOf(false) === -1
+            ? ''
+            : fieldDescripton[statuses.indexOf(false)].message;
     };
     Validator.prototype.validateField = function (fieldValue, fieldRules) {
         return fieldRules.map(function (item) {
@@ -63,7 +53,11 @@ var Validator = /** @class */ (function () {
             if (typeof state[fieldName] === 'undefined') {
                 throw new Error("It seems that you didn't passed a field '" + fieldName + "' value");
             }
+            // Initial errors object formation
+            _this.errors[fieldName] = _this.validationDescription[fieldName][0].message;
+            // Initial validation has been launched, so - flag = true
             _this.isInitValidationStateSet = true;
+            // Initial validation state formation
             _this.validationState[fieldName] = {
                 value: state[fieldName],
                 showError: false,
@@ -85,7 +79,7 @@ var Validator = /** @class */ (function () {
                 this.updateValidationStatuses(changedField);
             }
         }
-        return { errors: this.getErrors() };
+        return { errors: this.errors };
     };
     return Validator;
 }());
