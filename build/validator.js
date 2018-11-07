@@ -55,15 +55,15 @@ var Validator = /** @class */ (function () {
             }
             // Initial errors object formation
             _this.errors[fieldName] = _this.validationDescription[fieldName][0].message;
-            // Initial validation has been launched, so - flag = true
-            _this.isInitValidationStateSet = true;
             // Initial validation state formation
             _this.validationState[fieldName] = {
                 value: state[fieldName],
                 showError: false,
-                statuses: _this.validationDescription[fieldName].map(function (rule) { return false; })
+                statuses: []
             };
         });
+        // Initial validation has been launched, so - flag = true
+        this.isInitValidationStateSet = true;
         this.updateValidationStatuses(this.validationState);
         return state;
     };
@@ -80,6 +80,24 @@ var Validator = /** @class */ (function () {
             }
         }
         return { errors: this.errors };
+    };
+    Validator.prototype.isFormValid = function () {
+        var _this = this;
+        var isFormValid = true;
+        Object.keys(this.errors).forEach(function (fieldName) {
+            if (_this.errors[fieldName] !== '')
+                isFormValid = false;
+        });
+        // for (let i = 0; i < keys.length; i++) {
+        //   const currentStatuses = this.statuses[keys[i]];
+        //   for (let j = 0; j < currentStatuses.length; j++) {
+        //     if (!currentStatuses[j]) {
+        //       return false;
+        //     }
+        //   }
+        // }
+        // if form valid return true
+        return isFormValid;
     };
     return Validator;
 }());

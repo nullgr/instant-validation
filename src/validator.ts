@@ -89,16 +89,16 @@ class Validator<State> {
       // Initial errors object formation
       this.errors[fieldName] = this.validationDescription[fieldName][0].message;
 
-      // Initial validation has been launched, so - flag = true
-      this.isInitValidationStateSet = true;
-
       // Initial validation state formation
       this.validationState[fieldName] = {
         value: state[fieldName],
         showError: false,
-        statuses: this.validationDescription[fieldName].map(rule => false)
+        statuses: []
       };
     });
+
+    // Initial validation has been launched, so - flag = true
+    this.isInitValidationStateSet = true;
 
     this.updateValidationStatuses(this.validationState);
 
@@ -124,19 +124,15 @@ class Validator<State> {
     return { errors: this.errors };
   }
 
-  // isFormValid(): boolean {
-  //   const keys = Object.keys(this.statuses);
-  //   for (let i = 0; i < keys.length; i++) {
-  //     const currentStatuses = this.statuses[keys[i]];
-  //     for (let j = 0; j < currentStatuses.length; j++) {
-  //       if (!currentStatuses[j]) {
-  //         return false;
-  //       }
-  //     }
-  //   }
-  //   // if form valid return true
-  //   return true;
-  // }
+  isFormValid(): boolean {
+    let isFormValid = true;
+
+    Object.keys(this.errors).forEach(fieldName => {
+      if (this.errors[fieldName] !== '') isFormValid = false;
+    });
+
+    return isFormValid;
+  }
 }
 
 export default Validator;

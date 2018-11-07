@@ -16,5 +16,6 @@ declare class Validator<State> {
     private validateField(fieldValue, fieldRules);
     setInitialValues(state: State): State;
     validate(state: State): ValidateReturn;
+    isFormValid(): boolean;
 }
 export default Validator;

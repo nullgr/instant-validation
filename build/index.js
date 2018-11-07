@@ -16,8 +16,8 @@ var ValidationPublicApi = function (fields) {
     this.validate = function (state) {
         return validator.validate(state);
     };
-    // this.isFormValid = function() {
-    //   return validator.isFormValid();
-    // };
+    this.isFormValid = function () {
+        return validator.isFormValid();
+    };
 };
 export default ValidationPublicApi;

@@ -4,7 +4,7 @@ import { FieldsDescription, ValidateReturn } from './types';
 interface ValidationPublicApi<State> {
   setInitialValues: (state: State) => State;
   validate(state: State): ValidateReturn;
-  // isFormValid(): boolean;
+  isFormValid(): boolean;
 }
 
 // Represents Public API of library, every method presented there
@@ -31,9 +31,9 @@ const ValidationPublicApi = (function<State>(
     return validator.validate(state);
   };
 
-  // this.isFormValid = function() {
-  //   return validator.isFormValid();
-  // };
+  this.isFormValid = function() {
+    return validator.isFormValid();
+  };
 } as any) as {
   new <State>(fields: FieldsDescription): ValidationPublicApi<State>;
 };
