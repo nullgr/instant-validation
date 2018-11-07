@@ -26,9 +26,11 @@ export type FieldValidationState = {
 /**
  * FormValidationState type describes whole form validation info
  */
-export type FormValidationState = {
-  [key: string]: FieldValidationState;
-};
+export type FormValidationState =
+  | {
+      [key: string]: FieldValidationState;
+    }
+  | {};
 
 /**
  * ValidatorReturn type describes what exactly validate method returns
@@ -44,14 +46,8 @@ export type FormattedFieldsDescription = {
   [key: string]: RuleData[];
 };
 
-export type Statuses = {
-  [key: string]: Array<boolean>;
-};
-
-export type ShowErrorMessagesOn = {
-  [key: string]: boolean;
-};
-
-export type ErrorMessages = {
-  [key: string]: string;
-};
+export type ErrorMessages =
+  | {
+      [key: string]: string;
+    }
+  | {};

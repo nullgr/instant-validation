@@ -15,21 +15,9 @@ var ValidationPublicApi = function (fields) {
     };
     this.validate = function (state) {
         return validator.validate(state);
-        // it is recommendet to chain validation process and errors data like
-        // const errors = validator.validate(this.state).getErrors();
-        // return this;
     };
-    // this.getStatuses = function(forEveryRule) {
-    //   return validator.getStatuses(forEveryRule);
-    // };
-    // this.getErrors = function() {
-    //   return validator.getErrors();
-    // };
-    // this.showErrors = function(fieldsNames, show) {
-    //   return validator.showErrors(fieldsNames, show);
-    // };
-    // this.isFormValid = function() {
-    //   return validator.isFormValid();
-    // };
+    this.isFormValid = function () {
+        return validator.isFormValid();
+    };
 };
 export default ValidationPublicApi;

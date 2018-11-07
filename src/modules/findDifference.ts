@@ -21,7 +21,6 @@ function findDifference<State>(
     };
   });
 
-  console.log(difference);
   return difference;
 }
 

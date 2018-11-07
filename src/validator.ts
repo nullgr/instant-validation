@@ -1,7 +1,6 @@
 import {
   RuleData,
   FieldsDescription,
-  FieldValidationState,
   FormValidationState,
   ValidateReturn,
   ErrorMessages,
@@ -18,14 +17,19 @@ import { findDifference } from './modules';
  */
 
 class Validator<State> {
+  errors: ErrorMessages;
   validationDescription: FormattedFieldsDescription;
-  validationState: FormValidationState | {};
+  validationState: FormValidationState;
   isInitValidationStateSet: boolean;
 
   constructor(fields: FieldsDescription) {
     if (typeof fields !== 'object') {
       throw new Error('Invalid fields parameter for fields, must be object');
     }
+
+    // errors object
+    this.errors = {};
+
     // { rules, message } Objects
     this.validationDescription = fields;
 
@@ -36,40 +40,33 @@ class Validator<State> {
     this.isInitValidationStateSet = false;
   }
 
-  private getErrors(): ErrorMessages {
-    const fieldNames = Object.keys(this.validationState);
-    const errorMessages: ErrorMessages = {};
-
-    fieldNames.forEach(fieldName => {
-      const statuses = this.validationState[fieldName].statuses;
-      const showError = this.validationState[fieldName].showError;
-      // check every rule
-      for (let i = 0; i < statuses.length; i++) {
-        if (!statuses[i] && showError) {
-          // always return the first failed rule error
-          errorMessages[fieldName] = this.validationDescription[fieldName][
-            i
-          ].message;
-          return;
-        }
-      }
-      errorMessages[fieldName] = '';
-      return;
-    });
-
-    return errorMessages;
-  }
-
   private updateValidationStatuses(
-    fieldObj: FormValidationState | FieldValidationState
+    partialValidationState: FormValidationState
   ) {
-    Object.keys(fieldObj).forEach(fieldName => {
-      fieldObj[fieldName].statuses = this.validateField(
-        fieldObj[fieldName].value,
+    Object.keys(partialValidationState).forEach(fieldName => {
+      const validatedStatuses = this.validateField(
+        partialValidationState[fieldName].value,
         this.validationDescription[fieldName]
       );
+
+      // Updating statuses
+      partialValidationState[fieldName].statuses = validatedStatuses;
+
+      // Updating errors
+      this.errors[fieldName] = this.findFirstFailedRuleMessage(
+        this.validationDescription[fieldName],
+        validatedStatuses
+      );
     });
-    console.log(this.validationState);
+  }
+
+  private findFirstFailedRuleMessage(
+    fieldDescripton: RuleData[],
+    statuses: boolean[]
+  ) {
+    return statuses.indexOf(false) === -1
+      ? ''
+      : fieldDescripton[statuses.indexOf(false)].message;
   }
 
   private validateField(
@@ -89,14 +86,19 @@ class Validator<State> {
         );
       }
 
-      this.isInitValidationStateSet = true;
+      // Initial errors object formation
+      this.errors[fieldName] = this.validationDescription[fieldName][0].message;
 
+      // Initial validation state formation
       this.validationState[fieldName] = {
         value: state[fieldName],
         showError: false,
-        statuses: this.validationDescription[fieldName].map(rule => false)
+        statuses: []
       };
     });
+
+    // Initial validation has been launched, so - flag = true
+    this.isInitValidationStateSet = true;
 
     this.updateValidationStatuses(this.validationState);
 
@@ -119,22 +121,18 @@ class Validator<State> {
         this.updateValidationStatuses(changedField);
       }
     }
-    return { errors: this.getErrors() };
+    return { errors: this.errors };
   }
 
-  // isFormValid(): boolean {
-  //   const keys = Object.keys(this.statuses);
-  //   for (let i = 0; i < keys.length; i++) {
-  //     const currentStatuses = this.statuses[keys[i]];
-  //     for (let j = 0; j < currentStatuses.length; j++) {
-  //       if (!currentStatuses[j]) {
-  //         return false;
-  //       }
-  //     }
-  //   }
-  //   // if form valid return true
-  //   return true;
-  // }
+  isFormValid(): boolean {
+    let isFormValid = true;
+
+    Object.keys(this.errors).forEach(fieldName => {
+      if (this.errors[fieldName] !== '') isFormValid = false;
+    });
+
+    return isFormValid;
+  }
 }
 
 export default Validator;

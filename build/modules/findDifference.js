@@ -7,15 +7,14 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 function findDifference(state, actualValidationState) {
-    var diff = {};
+    var difference = {};
     Object.keys(actualValidationState).forEach(function (fieldName) {
         if (typeof state[fieldName] === 'undefined' ||
             state[fieldName] === actualValidationState[fieldName].value) {
             return;
         }
-        diff[fieldName] = __assign({}, actualValidationState[fieldName], { value: state[fieldName], showError: true });
+        difference[fieldName] = __assign({}, actualValidationState[fieldName], { value: state[fieldName], showError: true });
     });
-    console.log(diff);
-    return diff;
+    return difference;
 }
 export { findDifference };
