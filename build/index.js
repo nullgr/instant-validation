@@ -10,9 +10,6 @@ import Validator from './validator';
 //     if project have a lot of forms(therefore a lot of instances of Validator object)
 var ValidationPublicApi = function (fields) {
     var validator = new Validator(fields);
-    this.setInitialValues = function (state) {
-        return validator.setInitialValues(state);
-    };
     this.validate = function (state) {
         return validator.validate(state);
     };

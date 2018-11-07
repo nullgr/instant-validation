@@ -8,10 +8,11 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 import { findDifference } from './modules';
 /**
- * A simle class for fields validation based on their state object (like in React.js local state)
+ * A simple class for fields validation based on their state object (like in React.js local state)
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Yurii Fediv <y.fediv@nullgr.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
+ * @author Igor Ivanov <i.ivanov@nullgr.com>
  */
 var Validator = /** @class */ (function () {
     function Validator(fields) {
@@ -88,15 +89,6 @@ var Validator = /** @class */ (function () {
             if (_this.errors[fieldName] !== '')
                 isFormValid = false;
         });
-        // for (let i = 0; i < keys.length; i++) {
-        //   const currentStatuses = this.statuses[keys[i]];
-        //   for (let j = 0; j < currentStatuses.length; j++) {
-        //     if (!currentStatuses[j]) {
-        //       return false;
-        //     }
-        //   }
-        // }
-        // if form valid return true
         return isFormValid;
     };
     return Validator;
