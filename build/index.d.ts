@@ -1,6 +1,5 @@
 import { FieldsDescription, ValidateReturn } from './types';
 interface ValidationPublicApi<State> {
-    setInitialValues: (state: State) => State;
     validate(state: State): ValidateReturn;
     isFormValid(): boolean;
 }
