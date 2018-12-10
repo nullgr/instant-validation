@@ -1,3 +1,3 @@
-import { FormValidationState, FieldValidationState } from '../types';
-declare function findDifference<State>(state: State, actualValidationState: FormValidationState): FieldValidationState | {};
+import { ValidationState } from '../types';
+declare function findDifference<ComponentState>(componentStateUpdates: ComponentState, actualValidationState: ValidationState): Partial<ComponentState>;
 export { findDifference };

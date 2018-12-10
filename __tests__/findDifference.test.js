@@ -1,41 +1,47 @@
 import { findDifference } from '../src/modules';
 
-const initialState = {
-  email: '',
-  password: ''
-};
-
-const validationState = {
-  email: {
-    value: '',
-    showError: false,
-    statuses: [false]
-  },
-  password: {
-    value: '',
-    showError: false,
-    statuses: [false]
-  }
-};
-
 describe('Unit tests for inner implementation of findDifference module', () => {
   test(`Testing initial state run`, () => {
+    const validationState = {
+      email: {
+        value: '',
+        showError: false,
+        statuses: [false]
+      },
+      password: {
+        value: '',
+        showError: false,
+        statuses: [false]
+      }
+    };
+    const initialState = {
+      email: '',
+      password: ''
+    };
+    const expectedNextDifference = {};
     const difference = findDifference(initialState, validationState);
-    expect(difference).toEqual({});
+    expect(difference).toEqual(expectedNextDifference);
   });
 
   test(`Testing one field state change run`, () => {
-    const nextState = {
-      email: 'oh god was changed',
-      password: ''
-    };
-
-    const expectedNextDifference = {
+    const validationState = {
       email: {
-        value: 'oh god was changed',
-        showError: true,
+        value: '',
+        showError: false,
+        statuses: [false]
+      },
+      password: {
+        value: '',
+        showError: false,
         statuses: [false]
       }
+    };
+    const nextState = {
+      email: 'a',
+      password: ''
+    };
+    const expectedNextDifference = {
+      email: 'a'
     };
 
     const difference = findDifference(nextState, validationState);
@@ -43,22 +49,26 @@ describe('Unit tests for inner implementation of findDifference module', () => {
   });
 
   test(`Testing two fields state change run`, () => {
-    const nextState = {
-      email: 'oh god was changed',
-      password: 'OH NO ME TOO'
-    };
-
-    const expectedNextDifference = {
+    const validationState = {
       email: {
-        value: 'oh god was changed',
-        showError: true,
+        value: '',
+        showError: false,
         statuses: [false]
       },
       password: {
-        value: 'OH NO ME TOO',
-        showError: true,
+        value: '',
+        showError: false,
         statuses: [false]
       }
+    };
+    const nextState = {
+      email: 'someMail@mail.com',
+      password: 'somepassword'
+    };
+
+    const expectedNextDifference = {
+      email: 'someMail@mail.com',
+      password: 'somepassword'
     };
 
     const difference = findDifference(nextState, validationState);
@@ -66,10 +76,22 @@ describe('Unit tests for inner implementation of findDifference module', () => {
   });
 
   test(`Testing extended state run`, () => {
+    const validationState = {
+      email: {
+        value: '',
+        showError: false,
+        statuses: [false]
+      },
+      password: {
+        value: '',
+        showError: false,
+        statuses: [false]
+      }
+    };
     const extendedState = {
       email: '',
       password: '',
-      message: 'i`m new here, whats up?'
+      message: 'no need to validate'
     };
 
     const difference = findDifference(extendedState, validationState);

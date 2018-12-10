@@ -1,24 +1,19 @@
-import { FormValidationState, FieldValidationState } from '../types';
+import { ValidationState } from '../types';
 
-function findDifference<State>(
-  state: State,
-  actualValidationState: FormValidationState
-): FieldValidationState | {} {
+function findDifference<ComponentState>(
+  componentStateUpdates: ComponentState,
+  actualValidationState: ValidationState
+): Partial<ComponentState> {
   let difference = {};
-
   Object.keys(actualValidationState).forEach(fieldName => {
     if (
-      typeof state[fieldName] === 'undefined' ||
-      state[fieldName] === actualValidationState[fieldName].value
+      typeof componentStateUpdates[fieldName] === 'undefined' ||
+      componentStateUpdates[fieldName] === actualValidationState[fieldName].value
     ) {
       return;
     }
 
-    difference[fieldName] = {
-      ...actualValidationState[fieldName],
-      value: state[fieldName],
-      showError: true
-    };
+    difference[fieldName] = componentStateUpdates[fieldName];
   });
 
   return difference;
