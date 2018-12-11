@@ -1,7 +1,8 @@
 import { FieldsDescription, ValidateReturn } from './types';
-interface ValidationPublicApi<State> {
-    validate(state: State): ValidateReturn;
+interface ValidationPublicApi<ComponentState> {
+    setInitialValues(componentState: ComponentState): void;
+    validate(componentState: ComponentState): ValidateReturn;
     isFormValid(): boolean;
 }
-declare const ValidationPublicApi: new <State>(fields: FieldsDescription) => ValidationPublicApi<State>;
+declare const ValidationPublicApi: new <ComponentState>(fields: FieldsDescription) => ValidationPublicApi<ComponentState>;
 export default ValidationPublicApi;

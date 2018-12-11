@@ -24,9 +24,9 @@ export type FieldValidationState = {
 };
 
 /**
- * FormValidationState type describes whole form validation info
+ * ValidationState type describes whole form validation info
  */
-export type FormValidationState =
+export type ValidationState =
   | {
       [key: string]: FieldValidationState;
     }

@@ -1,8 +1,9 @@
 import Validator from './validator';
 import { FieldsDescription, ValidateReturn } from './types';
 
-interface ValidationPublicApi<State> {
-  validate(state: State): ValidateReturn;
+interface ValidationPublicApi<ComponentState> {
+  setInitialValues(componentState: ComponentState): void;
+  validate(componentState: ComponentState): ValidateReturn;
   isFormValid(): boolean;
 }
 
@@ -16,21 +17,25 @@ interface ValidationPublicApi<State> {
 //     this is useful for reducing of initial render time,
 //     if project have a lot of forms(therefore a lot of instances of Validator object)
 
-const ValidationPublicApi = (function<State>(
-  this: ValidationPublicApi<State>,
+const ValidationPublicApi = (function<ComponentState>(
+  this: ValidationPublicApi<ComponentState>,
   fields: FieldsDescription
 ) {
-  const validator = new Validator<State>(fields);
+  const validator = new Validator<ComponentState>(fields);
 
-  this.validate = function(state) {
-    return validator.validate(state);
+  this.setInitialValues = function(componentState) {
+    return validator.setInitialValues(componentState);
+  };
+
+  this.validate = function(componentState) {
+    return validator.validate(componentState);
   };
 
   this.isFormValid = function() {
     return validator.isFormValid();
   };
 } as any) as {
-  new <State>(fields: FieldsDescription): ValidationPublicApi<State>;
+  new <ComponentState>(fields: FieldsDescription): ValidationPublicApi<ComponentState>;
 };
 
 export default ValidationPublicApi;
