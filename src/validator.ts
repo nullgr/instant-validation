@@ -10,7 +10,8 @@ import {
   findDifference,
   buildInitialState,
   validateFieldsByDiff,
-  getErrorMessages
+  getErrorMessages,
+  isStateValid
 } from './modules';
 
 /**
@@ -80,8 +81,7 @@ class Validator<ComponentState> {
   }
 
   isFormValid(): boolean {
-    // todo write here a quick function with break on firs invalid status
-    return false;
+    return isStateValid(this.validationState);
   }
 }
 

@@ -1,4 +1,4 @@
-import { findDifference, buildInitialState, validateFieldsByDiff, getErrorMessages } from './modules';
+import { findDifference, buildInitialState, validateFieldsByDiff, getErrorMessages, isStateValid } from './modules';
 /**
  * A simple class for fields validation based on their state object (like in React.js local state)
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
@@ -41,8 +41,7 @@ var Validator = /** @class */ (function () {
         };
     };
     Validator.prototype.isFormValid = function () {
-        // todo write here a quick function with break on firs invalid status
-        return false;
+        return isStateValid(this.validationState);
     };
     return Validator;
 }());
