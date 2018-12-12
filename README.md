@@ -91,7 +91,7 @@ class RegistrationForm extends React.Component {
   }
 
   render() {
-    const { login, password, passwordRepeat } = this.state;
+    const { email, password, passwordRepeat } = this.state;
     const { errors } = validator
         .insertArgs({
           passwordEqual: [password]
@@ -99,8 +99,8 @@ class RegistrationForm extends React.Component {
         .validate(this.state);
     return (
       <form>
-        <input name="login" value={login} onChange={this.onChange} />
-        <div className="error">{errors.login}</div>
+        <input name="email" value={email} onChange={this.onChange} />
+        <div className="error">{errors.email}</div>
 
         <input name="password" value={password} onChange={this.onChange} />
         <div className="error">{errors.password}</div>
