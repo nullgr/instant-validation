@@ -1,10 +1,10 @@
-import { RuleData, InsertedArgs } from '../types';
+import { InsertedArgs, RuleData } from '../types';
 // TODO add tests here
 function validateField(
   fieldValue: any,
   fieldRules: RuleData[],
   insertedArgs: InsertedArgs
-): Array<boolean> {
+): boolean[] {
   return fieldRules.map(item => {
     let insert = [];
     if (item.ruleId && insertedArgs[item.ruleId]) {

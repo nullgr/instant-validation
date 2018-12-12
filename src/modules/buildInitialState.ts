@@ -1,10 +1,14 @@
-import { FormattedFieldsDescription, ValidationState, InsertedArgs } from '../types';
-import { validateFieldsByDiff } from './validateFieldsByDiff'
-function buildInitialState<ComponentState> (
+import {
+  FormattedFieldsDescription,
+  InsertedArgs,
+  ValidationState
+} from '../types';
+import { validateFieldsByDiff } from './validateFieldsByDiff';
+function buildInitialState<ComponentState>(
   componentState: ComponentState,
   validationDescription: FormattedFieldsDescription,
   insertedArgs: InsertedArgs,
-  ruleIdsInFields: any,
+  ruleIdsInFields: any
 ): ValidationState {
   let initialDiff = {};
   let initialState = {};
@@ -20,14 +24,14 @@ function buildInitialState<ComponentState> (
       showError: false,
       statuses: []
     };
-    });
+  });
   return validateFieldsByDiff(
     initialDiff,
     initialState,
     validationDescription,
     false,
     insertedArgs,
-    ruleIdsInFields   
+    ruleIdsInFields
   );
 }
 export { buildInitialState };

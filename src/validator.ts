@@ -1,20 +1,20 @@
 import {
-  FieldsDescription,
-  ValidationState,
-  ValidateReturn,
   ErrorMessages,
+  FieldsDescription,
   FormattedFieldsDescription,
   InsertedArgs,
-  RuleIdsInFields
+  RuleIdsInFields,
+  ValidateReturn,
+  ValidationState
 } from './types';
 
-import { 
-  getRuleIdsInFields,
-  findDifference,
+import {
   buildInitialState,
-  validateFieldsByDiff,
+  findDifference,
   getErrorMessages,
-  isStateValid
+  getRuleIdsInFields,
+  isStateValid,
+  validateFieldsByDiff
 } from './modules';
 
 /**
@@ -45,10 +45,6 @@ class Validator<ComponentState> {
     this.insertedArgs = {};
   }
 
-  private refreshState(validationState: ValidationState) {
-    this.validationState = validationState;
-  }
-
   setInitialValues(componentState: ComponentState) {
     if (this.isInitValidationStateSet) {
       return;
@@ -61,22 +57,23 @@ class Validator<ComponentState> {
         this.insertedArgs,
         this.ruleIdsInFields
       )
-    )
+    );
   }
 
   validate(componentState: ComponentState): ValidateReturn {
     if (!this.isInitValidationStateSet) {
       this.setInitialValues(componentState);
-      return { 
+      return {
         errors: getErrorMessages(
-          this.validationState, this.validationDescription
+          this.validationState,
+          this.validationDescription
         )
       };
     }
 
     const diff = findDifference<ComponentState>(
       componentState,
-      this.validationState,
+      this.validationState
     );
     if (Object.keys(diff).length > 0) {
       this.refreshState(
@@ -90,10 +87,8 @@ class Validator<ComponentState> {
         )
       );
     }
-    return { 
-      errors: getErrorMessages(
-        this.validationState, this.validationDescription
-      )
+    return {
+      errors: getErrorMessages(this.validationState, this.validationDescription)
     };
   }
 
@@ -104,6 +99,10 @@ class Validator<ComponentState> {
   insertArgs(args: InsertedArgs) {
     this.insertedArgs = args;
     return this;
+  }
+
+  private refreshState(validationState: ValidationState) {
+    this.validationState = validationState;
   }
 }
 

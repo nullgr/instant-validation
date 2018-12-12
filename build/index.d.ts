@@ -1,4 +1,4 @@
-import { FieldsDescription, ValidateReturn, InsertedArgs } from './types';
+import { FieldsDescription, InsertedArgs, ValidateReturn } from './types';
 interface ValidationPublicApi<ComponentState> {
     setInitialValues(componentState: ComponentState): void;
     validate(componentState: ComponentState): ValidateReturn;

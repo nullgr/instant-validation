@@ -1,8 +1,8 @@
 import {
   FormattedFieldsDescription,
-  ValidationState,
   InsertedArgs,
-  RuleIdsInFields
+  RuleIdsInFields,
+  ValidationState
 } from '../types';
 import { validateField } from './validateField';
 // TODO add tests here
@@ -12,7 +12,7 @@ function validateFieldsByDiff(
   validationDescription: FormattedFieldsDescription,
   showErrors: boolean,
   insertedArgs: InsertedArgs,
-  ruleIdsInFields: RuleIdsInFields,
+  ruleIdsInFields: RuleIdsInFields
 ) {
   const newValidationState = { ...oldValidationState };
   // validate fields by diff

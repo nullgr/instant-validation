@@ -8,7 +8,8 @@ function findDifference<ComponentState>(
   Object.keys(actualValidationState).forEach(fieldName => {
     if (
       typeof componentStateUpdates[fieldName] === 'undefined' ||
-      componentStateUpdates[fieldName] === actualValidationState[fieldName].value
+      componentStateUpdates[fieldName] ===
+        actualValidationState[fieldName].value
     ) {
       return;
     }

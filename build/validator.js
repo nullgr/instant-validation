@@ -1,4 +1,4 @@
-import { getRuleIdsInFields, findDifference, buildInitialState, validateFieldsByDiff, getErrorMessages, isStateValid } from './modules';
+import { buildInitialState, findDifference, getErrorMessages, getRuleIdsInFields, isStateValid, validateFieldsByDiff } from './modules';
 /**
  * A simple class for fields validation based on their state object (like in React.js local state)
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
@@ -17,9 +17,6 @@ var Validator = /** @class */ (function () {
         this.isInitValidationStateSet = false;
         this.insertedArgs = {};
     }
-    Validator.prototype.refreshState = function (validationState) {
-        this.validationState = validationState;
-    };
     Validator.prototype.setInitialValues = function (componentState) {
         if (this.isInitValidationStateSet) {
             return;
@@ -48,6 +45,9 @@ var Validator = /** @class */ (function () {
     Validator.prototype.insertArgs = function (args) {
         this.insertedArgs = args;
         return this;
+    };
+    Validator.prototype.refreshState = function (validationState) {
+        this.validationState = validationState;
     };
     return Validator;
 }());

@@ -8,10 +8,10 @@ function getRuleIdsInFields(fields) {
                 if (result[rule.ruleId] &&
                     result[rule.ruleId].filter(function (f) { return f === field; }).length === 0) {
                     // if this ruleId is used in multiple fields
-                    return result[rule.ruleId] = result[rule.ruleId].concat([field]);
+                    return (result[rule.ruleId] = result[rule.ruleId].concat([field]));
                 }
                 // if this ruleId is used only in one field
-                return result[rule.ruleId] = [field];
+                return (result[rule.ruleId] = [field]);
             }
             return;
         });
