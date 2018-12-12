@@ -1,17 +1,19 @@
-import { FormattedFieldsDescription, ValidationState } from '../types';
+import { FormattedFieldsDescription, ValidationState, InsertedArgs } from '../types';
 import { validateField } from './validateField';
 // TODO add tests here
 function validateFieldsByDiff(
   newDiff: ValidationState,
   oldValidationState: ValidationState,
   validationDescription: FormattedFieldsDescription,
-  showErrors: boolean
+  showErrors: boolean,
+  insertedArgs: InsertedArgs
 ) {
   const newValidationState = { ...oldValidationState };
   Object.keys(newDiff).forEach(fieldName => {
     const validatedStatuses = validateField(
       newDiff[fieldName],
-      validationDescription[fieldName]
+      validationDescription[fieldName],
+      insertedArgs
     );
     newValidationState[fieldName] = {
       showError: showErrors,

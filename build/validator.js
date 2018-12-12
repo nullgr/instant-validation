@@ -14,6 +14,7 @@ var Validator = /** @class */ (function () {
         this.validationDescription = fields;
         this.validationState = {};
         this.isInitValidationStateSet = false;
+        this.insertedArgs = {};
     }
     Validator.prototype.refreshState = function (validationState) {
         this.validationState = validationState;
@@ -23,7 +24,7 @@ var Validator = /** @class */ (function () {
             return;
         }
         this.isInitValidationStateSet = true;
-        this.refreshState(buildInitialState(componentState, this.validationDescription));
+        this.refreshState(buildInitialState(componentState, this.validationDescription, this.insertedArgs));
     };
     Validator.prototype.validate = function (componentState) {
         if (!this.isInitValidationStateSet) {
@@ -34,7 +35,7 @@ var Validator = /** @class */ (function () {
         }
         var diff = findDifference(componentState, this.validationState);
         if (Object.keys(diff).length > 0) {
-            this.refreshState(validateFieldsByDiff(diff, this.validationState, this.validationDescription, true));
+            this.refreshState(validateFieldsByDiff(diff, this.validationState, this.validationDescription, true, this.insertedArgs));
         }
         return {
             errors: getErrorMessages(this.validationState, this.validationDescription)
@@ -42,6 +43,10 @@ var Validator = /** @class */ (function () {
     };
     Validator.prototype.isFormValid = function () {
         return isStateValid(this.validationState);
+    };
+    Validator.prototype.insertArgs = function (args) {
+        this.insertedArgs = args;
+        return this;
     };
     return Validator;
 }());

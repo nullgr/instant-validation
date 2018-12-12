@@ -1,6 +1,6 @@
 import { validateFieldsByDiff } from './validateFieldsByDiff';
 // TODO add tests here
-function buildInitialState(componentState, validationDescription) {
+function buildInitialState(componentState, validationDescription, insertedArgs) {
     var initialDiff = {};
     var initialState = {};
     Object.keys(validationDescription).forEach(function (fieldName) {
@@ -14,6 +14,6 @@ function buildInitialState(componentState, validationDescription) {
             statuses: []
         };
     });
-    return validateFieldsByDiff(initialDiff, initialState, validationDescription, false);
+    return validateFieldsByDiff(initialDiff, initialState, validationDescription, false, insertedArgs);
 }
 export { buildInitialState };

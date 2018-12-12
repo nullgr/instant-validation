@@ -1,9 +1,10 @@
-import { FormattedFieldsDescription, ValidationState } from '../types';
+import { FormattedFieldsDescription, ValidationState, InsertedArgs } from '../types';
 import { validateFieldsByDiff } from './validateFieldsByDiff'
 // TODO add tests here
 function buildInitialState<ComponentState> (
   componentState: ComponentState,
-  validationDescription: FormattedFieldsDescription
+  validationDescription: FormattedFieldsDescription,
+  insertedArgs: InsertedArgs
 ): ValidationState {
   let initialDiff = {};
   let initialState = {};
@@ -24,7 +25,8 @@ function buildInitialState<ComponentState> (
     initialDiff,
     initialState,
     validationDescription,
-    false   
+    false,
+    insertedArgs   
   );
 }
 export { buildInitialState };

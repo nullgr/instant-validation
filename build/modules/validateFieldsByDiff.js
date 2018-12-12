@@ -8,10 +8,10 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 import { validateField } from './validateField';
 // TODO add tests here
-function validateFieldsByDiff(newDiff, oldValidationState, validationDescription, showErrors) {
+function validateFieldsByDiff(newDiff, oldValidationState, validationDescription, showErrors, insertedArgs) {
     var newValidationState = __assign({}, oldValidationState);
     Object.keys(newDiff).forEach(function (fieldName) {
-        var validatedStatuses = validateField(newDiff[fieldName], validationDescription[fieldName]);
+        var validatedStatuses = validateField(newDiff[fieldName], validationDescription[fieldName], insertedArgs);
         newValidationState[fieldName] = {
             showError: showErrors,
             value: newDiff[fieldName],

@@ -19,5 +19,8 @@ var ValidationPublicApi = function (fields) {
     this.isFormValid = function () {
         return validator.isFormValid();
     };
+    this.insertArgs = function (args) {
+        return validator.insertArgs(args);
+    };
 };
 export default ValidationPublicApi;

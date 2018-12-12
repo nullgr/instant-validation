@@ -4,6 +4,7 @@ import {
   ValidateReturn,
   ErrorMessages,
   FormattedFieldsDescription,
+  InsertedArgs
 } from './types';
 
 import { 
@@ -27,6 +28,7 @@ class Validator<ComponentState> {
   validationDescription: FormattedFieldsDescription;
   validationState: ValidationState;
   isInitValidationStateSet: boolean;
+  insertedArgs: InsertedArgs;
 
   constructor(fields: FieldsDescription) {
     if (typeof fields !== 'object') {
@@ -36,6 +38,7 @@ class Validator<ComponentState> {
     this.validationDescription = fields;
     this.validationState = {};
     this.isInitValidationStateSet = false;
+    this.insertedArgs = {};
   }
 
   private refreshState(validationState: ValidationState) {
@@ -48,7 +51,7 @@ class Validator<ComponentState> {
     }
     this.isInitValidationStateSet = true;
     this.refreshState(
-      buildInitialState<ComponentState>(componentState, this.validationDescription)
+      buildInitialState<ComponentState>(componentState, this.validationDescription, this.insertedArgs)
     )
   }
 
@@ -69,7 +72,8 @@ class Validator<ComponentState> {
           diff,
           this.validationState,
           this.validationDescription,
-          true
+          true,
+          this.insertedArgs
         )
       );
     }
@@ -82,6 +86,11 @@ class Validator<ComponentState> {
 
   isFormValid(): boolean {
     return isStateValid(this.validationState);
+  }
+
+  insertArgs(args: InsertedArgs) {
+    this.insertedArgs = args;
+    return this;
   }
 }
 

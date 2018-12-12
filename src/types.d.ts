@@ -1,9 +1,9 @@
-export type Rule = (val: any, state?: Object) => boolean;
+export type Rule = (val: any, ...insertedArgs: any[]) => boolean;
 
 export type RuleData = {
   rule: Rule;
   message: string;
-  id?: string;
+  ruleId?: string;
 };
 
 /**
@@ -44,6 +44,10 @@ export type ValidateReturn = {
  */
 export type FormattedFieldsDescription = {
   [key: string]: RuleData[];
+};
+
+export type InsertedArgs = {
+  [key: string]: any[];
 };
 
 export type ErrorMessages =
