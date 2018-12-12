@@ -1,8 +1,8 @@
 import { buildInitialState } from '../src/modules';
-import { emailRule, requiredRule } from './testRules';
+import { emailRule, requiredRule } from './testUtils/testRules';
 
 // TODO add more tests here
-describe('Unit tests for inner implementation of buildInitialState module', () => {
+describe('Unit tests for buildInitialState module', () => {
   test(`Testing initial state run`, () => {
     const validationDescription = {
       email: [

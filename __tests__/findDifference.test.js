@@ -1,6 +1,6 @@
 import { findDifference } from '../src/modules';
 
-describe('Unit tests for inner implementation of findDifference module', () => {
+describe('Unit tests for findDifference module', () => {
   test(`Testing initial state run`, () => {
     const validationState = {
       email: {

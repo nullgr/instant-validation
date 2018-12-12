@@ -3,5 +3,11 @@ export const emailRule = value => {
   const regexp = new RegExp(EMAILREGEXP);
   return regexp.test(value);
 };
+export const requiredRule = value => !!value;
+export const passwordEqualRule = (value, passwrodOriginal) =>
+  value === passwrodOriginal;
 
-export const requiredRule = (value) => !!value;
+export const allowToWithdrawRule = (value, selectedBill, currentAmount) =>
+  value && selectedBill && value < currentAmount;
+
+export const allowToSelectBillRule = (value, bankAllows) => value && bankAllows;
