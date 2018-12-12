@@ -3,9 +3,10 @@ function findFirstFailedRuleMessage(
   fieldDescripton: RuleData[],
   statuses: boolean[]
 ) {
-  return statuses.indexOf(false) === -1
+  const searchIndex = statuses.indexOf(false);
+  return searchIndex === -1
     ? ''
-    : fieldDescripton[statuses.indexOf(false)].message;
+    : fieldDescripton[searchIndex].message;
 }
 // TODO add tests here
 function getErrorMessages(

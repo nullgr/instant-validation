@@ -1,5 +1,4 @@
 import { validateFieldsByDiff } from './validateFieldsByDiff';
-// TODO add tests here
 function buildInitialState(componentState, validationDescription, insertedArgs, ruleIdsInFields) {
     var initialDiff = {};
     var initialState = {};

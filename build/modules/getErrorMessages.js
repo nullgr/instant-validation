@@ -1,7 +1,8 @@
 function findFirstFailedRuleMessage(fieldDescripton, statuses) {
-    return statuses.indexOf(false) === -1
+    var searchIndex = statuses.indexOf(false);
+    return searchIndex === -1
         ? ''
-        : fieldDescripton[statuses.indexOf(false)].message;
+        : fieldDescripton[searchIndex].message;
 }
 // TODO add tests here
 function getErrorMessages(validationState, validationDescription) {
