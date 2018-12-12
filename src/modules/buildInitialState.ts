@@ -1,6 +1,5 @@
 import { FormattedFieldsDescription, ValidationState, InsertedArgs } from '../types';
 import { validateFieldsByDiff } from './validateFieldsByDiff'
-// TODO add tests here
 function buildInitialState<ComponentState> (
   componentState: ComponentState,
   validationDescription: FormattedFieldsDescription,
