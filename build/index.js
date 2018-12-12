@@ -10,26 +10,17 @@ import Validator from './validator';
 //     if project have a lot of forms(therefore a lot of instances of Validator object)
 var ValidationPublicApi = function (fields) {
     var validator = new Validator(fields);
-    this.setInitialValues = function (state) {
-        return validator.setInitialValues(state);
+    this.setInitialValues = function (componentState) {
+        return validator.setInitialValues(componentState);
     };
-    this.validate = function (state) {
-        validator.validate(state);
-        // it is recommendet to chain validation process and errors data like
-        // const errors = validator.validate(this.state).getErrors();
-        return this;
-    };
-    this.getStatuses = function (forEveryRule) {
-        return validator.getStatuses(forEveryRule);
-    };
-    this.getErrors = function () {
-        return validator.getErrors();
-    };
-    this.showErrors = function (fieldsNames, show) {
-        return validator.showErrors(fieldsNames, show);
+    this.validate = function (componentState) {
+        return validator.validate(componentState);
     };
     this.isFormValid = function () {
         return validator.isFormValid();
+    };
+    this.insertArgs = function (args) {
+        return validator.insertArgs(args);
     };
 };
 export default ValidationPublicApi;

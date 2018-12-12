@@ -1,30 +1,23 @@
-import { FieldsDescription, Statuses, ShowErrorMessagesOn, ErrorMessages, FormattedFieldsDescription } from './types';
+import { ErrorMessages, FieldsDescription, FormattedFieldsDescription, InsertedArgs, RuleIdsInFields, ValidateReturn, ValidationState } from './types';
 /**
- * A class for fields validation in React.js
- * Use it in your React components for forms,
- * The form should work the classical way,
- * store fields in the local component state and modify fields using this.setState method
+ * A simple class for fields validation based on their state object (like in React.js local state)
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Yurii Fediv <y.fediv@nullgr.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
+ * @author Igor Ivanov <i.ivanov@nullgr.com>
  */
-declare class Validator<State> {
-    fields: FormattedFieldsDescription;
-    values: Partial<State>;
-    valuesAreSet: boolean;
-    statuses: Statuses;
-    showErrorMessagesOn: ShowErrorMessagesOn;
-    fieldsToValidateList: Array<string>;
+declare class Validator<ComponentState> {
+    errors: ErrorMessages;
+    validationDescription: FormattedFieldsDescription;
+    validationState: ValidationState;
+    isInitValidationStateSet: boolean;
+    insertedArgs: InsertedArgs;
+    ruleIdsInFields: RuleIdsInFields;
     constructor(fields: FieldsDescription);
-    private convertAllRulesToArrays(fields);
-    private updateValidationStatuses(updatedValues);
-    private validateField(fieldValue, fieldRules);
-    private countDiff(state);
-    setInitialValues(state: State): State;
-    validate(state: State): State;
-    getStatuses(forEveryRule?: boolean): Statuses;
-    getErrors(): ErrorMessages;
-    showErrors(fieldsNames?: Array<string>, show?: boolean): void;
+    setInitialValues(componentState: ComponentState): void;
+    validate(componentState: ComponentState): ValidateReturn;
     isFormValid(): boolean;
+    insertArgs(args: InsertedArgs): this;
+    private refreshState;
 }
 export default Validator;

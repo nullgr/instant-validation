@@ -1,12 +1,15 @@
+import {
+  FieldsDescription,
+  InsertedArgs,
+  ValidateReturn
+} from './types';
 import Validator from './validator';
-import { FieldsDescription, ErrorMessages, Statuses } from './types';
-interface ValidationPublicApi<State> {
-  setInitialValues: (state: State) => State;
-  validate(state: State): ValidationPublicApi<State>;
-  getErrors(): ErrorMessages;
-  showErrors(fieldsNames?: Array<string>, show?: boolean): void;
+
+interface ValidationPublicApi<ComponentState> {
+  setInitialValues(componentState: ComponentState): void;
+  validate(componentState: ComponentState): ValidateReturn;
   isFormValid(): boolean;
-  getStatuses(forEveryRule?: boolean): Statuses;
+  insertArgs(args: InsertedArgs): ValidationPublicApi<ComponentState>;
 }
 
 // Represents Public API of library, every method presented there
@@ -19,36 +22,29 @@ interface ValidationPublicApi<State> {
 //     this is useful for reducing of initial render time,
 //     if project have a lot of forms(therefore a lot of instances of Validator object)
 
-const ValidationPublicApi = function<State>(this: ValidationPublicApi<State>, fields: FieldsDescription) {
-  const validator = new Validator<State>(fields);
+const ValidationPublicApi = (function<ComponentState>(
+  this: ValidationPublicApi<ComponentState>,
+  fields: FieldsDescription
+) {
+  const validator = new Validator<ComponentState>(fields);
 
-  this.setInitialValues = function(state) {
-    return validator.setInitialValues(state);
-  }
+  this.setInitialValues = function(componentState) {
+    return validator.setInitialValues(componentState);
+  };
 
-  this.validate = function(state) {
-    validator.validate(state);
-    // it is recommendet to chain validation process and errors data like
-    // const errors = validator.validate(this.state).getErrors();
-    return this;
-  }
-
-  this.getStatuses = function(forEveryRule) {
-    return validator.getStatuses(forEveryRule);
-  }
-
-  this.getErrors = function() {
-    return validator.getErrors();
-  }
-
-  this.showErrors = function(fieldsNames, show) {
-    return validator.showErrors(fieldsNames, show);
-  }
+  this.validate = function(componentState) {
+    return validator.validate(componentState);
+  };
 
   this.isFormValid = function() {
     return validator.isFormValid();
-  }
+  };
 
-} as any as { new<State> (fields: FieldsDescription): ValidationPublicApi<State> }; 
+  this.insertArgs = function(args) {
+    return validator.insertArgs(args);
+  };
+} as any) as {
+  new <ComponentState>(fields: FieldsDescription): ValidationPublicApi<ComponentState>;
+};
 
 export default ValidationPublicApi;

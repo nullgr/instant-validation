@@ -1,11 +1,9 @@
-import { FieldsDescription, ErrorMessages, Statuses } from './types';
-interface ValidationPublicApi<State> {
-    setInitialValues: (state: State) => State;
-    validate(state: State): ValidationPublicApi<State>;
-    getErrors(): ErrorMessages;
-    showErrors(fieldsNames?: Array<string>, show?: boolean): void;
+import { FieldsDescription, InsertedArgs, ValidateReturn } from './types';
+interface ValidationPublicApi<ComponentState> {
+    setInitialValues(componentState: ComponentState): void;
+    validate(componentState: ComponentState): ValidateReturn;
     isFormValid(): boolean;
-    getStatuses(forEveryRule?: boolean): Statuses;
+    insertArgs(args: InsertedArgs): ValidationPublicApi<ComponentState>;
 }
-declare const ValidationPublicApi: new <State>(fields: FieldsDescription) => ValidationPublicApi<State>;
+declare const ValidationPublicApi: new <ComponentState>(fields: FieldsDescription) => ValidationPublicApi<ComponentState>;
 export default ValidationPublicApi;
