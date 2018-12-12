@@ -1,7 +1,11 @@
 // TODO add tests here
-function validateField(fieldValue, fieldRules) {
+function validateField(fieldValue, fieldRules, insertedArgs) {
     return fieldRules.map(function (item) {
-        return item.rule(fieldValue);
+        var insert = [];
+        if (item.ruleId && insertedArgs[item.ruleId]) {
+            insert = insertedArgs[item.ruleId].slice();
+        }
+        return item.rule.apply(item, [fieldValue].concat(insert));
     });
 }
 export { validateField };

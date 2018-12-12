@@ -4,3 +4,5 @@ export { validateFieldsByDiff } from './validateFieldsByDiff';
 export { validateField } from './validateField';
 export { getErrorMessages } from './getErrorMessages';
 export { isStateValid } from './isStateValid';
+export { getRuleIdsInFields } from './getRuleIdsInFields';
+

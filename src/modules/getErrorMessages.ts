@@ -1,11 +1,14 @@
-import { FormattedFieldsDescription, ValidationState, RuleData } from '../types';
+import {
+  FormattedFieldsDescription,
+  RuleData,
+  ValidationState
+} from '../types';
 function findFirstFailedRuleMessage(
   fieldDescripton: RuleData[],
   statuses: boolean[]
 ) {
-  return statuses.indexOf(false) === -1
-    ? ''
-    : fieldDescripton[statuses.indexOf(false)].message;
+  const searchIndex = statuses.indexOf(false);
+  return searchIndex === -1 ? '' : fieldDescripton[searchIndex].message;
 }
 // TODO add tests here
 function getErrorMessages(
@@ -14,11 +17,12 @@ function getErrorMessages(
 ) {
   let errors = {};
   Object.keys(validationState).forEach(fieldName => {
-    errors[fieldName] = validationState[fieldName].showError ?
-    findFirstFailedRuleMessage(
-      validationDescription[fieldName],
-      validationState[fieldName].statuses
-    ) : ''
+    errors[fieldName] = validationState[fieldName].showError
+      ? findFirstFailedRuleMessage(
+          validationDescription[fieldName],
+          validationState[fieldName].statuses
+        )
+      : '';
   });
   return errors;
 }

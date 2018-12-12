@@ -1,4 +1,4 @@
-import { findDifference, buildInitialState, validateFieldsByDiff, getErrorMessages, isStateValid } from './modules';
+import { buildInitialState, findDifference, getErrorMessages, getRuleIdsInFields, isStateValid, validateFieldsByDiff } from './modules';
 /**
  * A simple class for fields validation based on their state object (like in React.js local state)
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
@@ -12,18 +12,17 @@ var Validator = /** @class */ (function () {
             throw new Error('Invalid fields parameter for fields, must be object');
         }
         this.validationDescription = fields;
+        this.ruleIdsInFields = getRuleIdsInFields(fields);
         this.validationState = {};
         this.isInitValidationStateSet = false;
+        this.insertedArgs = {};
     }
-    Validator.prototype.refreshState = function (validationState) {
-        this.validationState = validationState;
-    };
     Validator.prototype.setInitialValues = function (componentState) {
         if (this.isInitValidationStateSet) {
             return;
         }
         this.isInitValidationStateSet = true;
-        this.refreshState(buildInitialState(componentState, this.validationDescription));
+        this.refreshState(buildInitialState(componentState, this.validationDescription, this.insertedArgs, this.ruleIdsInFields));
     };
     Validator.prototype.validate = function (componentState) {
         if (!this.isInitValidationStateSet) {
@@ -34,7 +33,7 @@ var Validator = /** @class */ (function () {
         }
         var diff = findDifference(componentState, this.validationState);
         if (Object.keys(diff).length > 0) {
-            this.refreshState(validateFieldsByDiff(diff, this.validationState, this.validationDescription, true));
+            this.refreshState(validateFieldsByDiff(diff, this.validationState, this.validationDescription, true, this.insertedArgs, this.ruleIdsInFields));
         }
         return {
             errors: getErrorMessages(this.validationState, this.validationDescription)
@@ -42,6 +41,13 @@ var Validator = /** @class */ (function () {
     };
     Validator.prototype.isFormValid = function () {
         return isStateValid(this.validationState);
+    };
+    Validator.prototype.insertArgs = function (args) {
+        this.insertedArgs = args;
+        return this;
+    };
+    Validator.prototype.refreshState = function (validationState) {
+        this.validationState = validationState;
     };
     return Validator;
 }());

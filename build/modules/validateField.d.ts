@@ -1,3 +1,3 @@
-import { RuleData } from '../types';
-declare function validateField(fieldValue: any, fieldRules: RuleData[]): Array<boolean>;
+import { InsertedArgs, RuleData } from '../types';
+declare function validateField(fieldValue: any, fieldRules: RuleData[], insertedArgs: InsertedArgs): boolean[];
 export { validateField };
