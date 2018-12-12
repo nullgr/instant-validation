@@ -4,10 +4,12 @@ import {
   ValidateReturn,
   ErrorMessages,
   FormattedFieldsDescription,
-  InsertedArgs
+  InsertedArgs,
+  RuleIdsInFields
 } from './types';
 
 import { 
+  getRuleIdsInFields,
   findDifference,
   buildInitialState,
   validateFieldsByDiff,
@@ -29,6 +31,7 @@ class Validator<ComponentState> {
   validationState: ValidationState;
   isInitValidationStateSet: boolean;
   insertedArgs: InsertedArgs;
+  ruleIdsInFields: RuleIdsInFields;
 
   constructor(fields: FieldsDescription) {
     if (typeof fields !== 'object') {
@@ -36,6 +39,7 @@ class Validator<ComponentState> {
     }
 
     this.validationDescription = fields;
+    this.ruleIdsInFields = getRuleIdsInFields(fields);
     this.validationState = {};
     this.isInitValidationStateSet = false;
     this.insertedArgs = {};
@@ -51,7 +55,12 @@ class Validator<ComponentState> {
     }
     this.isInitValidationStateSet = true;
     this.refreshState(
-      buildInitialState<ComponentState>(componentState, this.validationDescription, this.insertedArgs)
+      buildInitialState<ComponentState>(
+        componentState,
+        this.validationDescription,
+        this.insertedArgs,
+        this.ruleIdsInFields
+      )
     )
   }
 
@@ -65,7 +74,10 @@ class Validator<ComponentState> {
       };
     }
 
-    const diff = findDifference<ComponentState>(componentState, this.validationState);
+    const diff = findDifference<ComponentState>(
+      componentState,
+      this.validationState,
+    );
     if (Object.keys(diff).length > 0) {
       this.refreshState(
         validateFieldsByDiff(
@@ -73,7 +85,8 @@ class Validator<ComponentState> {
           this.validationState,
           this.validationDescription,
           true,
-          this.insertedArgs
+          this.insertedArgs,
+          this.ruleIdsInFields
         )
       );
     }

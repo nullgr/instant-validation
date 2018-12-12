@@ -4,7 +4,8 @@ import { validateFieldsByDiff } from './validateFieldsByDiff'
 function buildInitialState<ComponentState> (
   componentState: ComponentState,
   validationDescription: FormattedFieldsDescription,
-  insertedArgs: InsertedArgs
+  insertedArgs: InsertedArgs,
+  ruleIdsInFields: any,
 ): ValidationState {
   let initialDiff = {};
   let initialState = {};
@@ -26,7 +27,8 @@ function buildInitialState<ComponentState> (
     initialState,
     validationDescription,
     false,
-    insertedArgs   
+    insertedArgs,
+    ruleIdsInFields   
   );
 }
 export { buildInitialState };

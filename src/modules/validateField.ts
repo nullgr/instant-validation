@@ -10,7 +10,6 @@ function validateField(
     if (item.ruleId && insertedArgs[item.ruleId]) {
       insert = [...insertedArgs[item.ruleId]];
     }
-    console.log(fieldValue, ...insert);
     return item.rule(fieldValue, ...insert);
   });
 }

@@ -15,7 +15,6 @@ function findDifference<ComponentState>(
 
     difference[fieldName] = componentStateUpdates[fieldName];
   });
-
   return difference;
 }
 

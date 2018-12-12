@@ -55,3 +55,7 @@ export type ErrorMessages =
       [key: string]: string;
     }
   | {};
+
+export type RuleIdsInFields = {
+  [ruleId: string]: string[];
+}

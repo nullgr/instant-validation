@@ -5,7 +5,6 @@ function validateField(fieldValue, fieldRules, insertedArgs) {
         if (item.ruleId && insertedArgs[item.ruleId]) {
             insert = insertedArgs[item.ruleId].slice();
         }
-        console.log.apply(console, [fieldValue].concat(insert));
         return item.rule.apply(item, [fieldValue].concat(insert));
     });
 }
