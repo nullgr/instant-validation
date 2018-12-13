@@ -45,7 +45,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nullgr/react-validation-utils.git"
+    "url": "git+https://github.com/nullgr/instant-validation.git"
   },
   "keywords": [
     "react",

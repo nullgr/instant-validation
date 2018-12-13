@@ -1,6 +1,4 @@
-# react-validation-utils
-
-[![npm version](https://badge.fury.io/js/react-validation-utils.svg)](https://badge.fury.io/js/react-validation-utils)
+# instant-validation
 
 VERSION 2.0
 
@@ -36,8 +34,8 @@ Here is the example of a simple React form
 
 ```js
 import * as React from 'react';
-import Validator from 'react-validation-utils';
-import { requiredRule, lengthRule } from 'react-validation-utils/build/rules';
+import Validator from 'instant-validation';
+import { requiredRule, lengthRule } from 'instant-validation/build/rules';
 
 const validator = new Validator({
   email: [
