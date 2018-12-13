@@ -1,14 +1,14 @@
 {
   "name": "instant-validation",
   "version": "0.1.0",
-  "description": "Quck setup. No Dependencies. Framework agnostic valitaion tool",
+  "description": "Quick setup. No Dependencies. Framework agnostic validation tool",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "checktypes": "tsc --noEmit -p ./tsconfig.json",
     "dev": "watch 'npm run build' src",
     "test": "npm run checktypes && jest",
-    "prepush": "npm test",
+    "prepush": "npm test ",
     "prepublish": "npm run build",
     "build": "tsc"
   },
@@ -48,9 +48,8 @@
     "url": "git+https://github.com/nullgr/instant-validation.git"
   },
   "keywords": [
-    "react",
     "validation",
-    "validator"
+    "forms"
   ],
   "author": "Oleksandr Chernenko (ca@nullgr.com, akazimirkas@gmail.com)",
   "license": "MIT",
