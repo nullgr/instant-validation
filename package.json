@@ -1,6 +1,6 @@
 {
   "name": "instant-validation",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Quck setup. No Dependencies. Framework agnostic valitaion tool",
   "main": "build/index.js",
   "types": "build/index.d.ts",
