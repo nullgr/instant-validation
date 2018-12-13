@@ -18,7 +18,9 @@ import {
 } from './modules';
 
 /**
- * A simple class for fields validation based on their state object (like in React.js local state)
+ * Quck setup. No Dependencies. Framework agnostic validation tool
+ * It was created based on react-validation-tools library,
+ * Thanks to ideas and participating from
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Yurii Fediv <y.fediv@nullgr.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>

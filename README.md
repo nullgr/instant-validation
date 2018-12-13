@@ -4,6 +4,9 @@
 
 VERSION 2.0
 
+- framework agnostic
+- zero dependencies
+
 Validate react form components, based on their state.
 
 Why to use:
@@ -32,9 +35,9 @@ Then you can use its own checking and state wrapping [methods](#api).
 Here is the example of a simple React form
 
 ```js
-import * as React from "react";
-import Validator from "react-validation-utils";
-import { requiredRule, lengthRule } from "react-validation-utils/build/rules";
+import * as React from 'react';
+import Validator from 'react-validation-utils';
+import { requiredRule, lengthRule } from 'react-validation-utils/build/rules';
 
 const validator = new Validator({
   email: [
@@ -51,12 +54,12 @@ const validator = new Validator({
     {
       rule: requiredRule,
       message: 'Please enter password'
-    },
+    }
   ],
   repeatPassword: [
     {
       rule: requiredRule,
-      message: 'Please repeat password',
+      message: 'Please repeat password'
     },
     {
       // passwrodOriginal will appear here trough the insertArgs method
@@ -73,8 +76,8 @@ class RegistrationForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = validator.setInitialValues({
-      login: "",
-      password: ""
+      login: '',
+      password: ''
     });
   }
 
@@ -82,21 +85,13 @@ class RegistrationForm extends React.Component {
     this.setState({ [name]: e.target.value });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-    if (!Validator.isFormValid(this.state)) {
-      return;
-    }
-    this.props.onSubmit(this.state);
-  }
-
   render() {
     const { email, password, passwordRepeat } = this.state;
     const { errors } = validator
-        .insertArgs({
-          passwordEqual: [password]
-        })
-        .validate(this.state);
+      .insertArgs({
+        passwordEqual: [password]
+      })
+      .validate(this.state);
     return (
       <form>
         <input name="email" value={email} onChange={this.onChange} />
@@ -105,10 +100,18 @@ class RegistrationForm extends React.Component {
         <input name="password" value={password} onChange={this.onChange} />
         <div className="error">{errors.password}</div>
 
-        <input name="passwordRepeat" value={passwordRepeat} onChange={this.onChange} />
+        <input
+          name="passwordRepeat"
+          value={passwordRepeat}
+          onChange={this.onChange}
+        />
         <div className="error">{errors.passwordRepeat}</div>
 
-        <button onClick={this.onSubmit} type="submit" disabled={!validator.isFormValid()} >
+        <button
+          onClick={this.onSubmit}
+          type="submit"
+          disabled={!validator.isFormValid()}
+        >
           Enter
         </button>
       </form>

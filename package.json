@@ -1,14 +1,14 @@
 {
-  "name": "react-validation-utils",
-  "version": "1.3.5",
-  "description": "Validate react form components, based on their state",
+  "name": "instant-validation",
+  "version": "1.0.0",
+  "description": "Quck setup. No Dependencies. Framework agnostic valitaion tool",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "checktypes": "tsc --noEmit -p ./tsconfig.json",
     "dev": "watch 'npm run build' src",
     "test": "npm run checktypes && jest",
-    "//": "TODO return back 'prepush' command with 'npm test' when tests will be written",
+    "prepush": "npm test",
     "prepublish": "npm run build",
     "build": "tsc"
   },
