@@ -1,50 +1,43 @@
 # instant-validation
-
-VERSION 2.0
-
+- quick setup
 - framework agnostic
 - zero dependencies
-
-Validate react form components, based on their state.
 
 Why to use:
 
 1. All the state management is under the hood.
 2. Incapsulation of all logic related to validation,
    you should only call needed method and library will care about details
-3. Easy integration to existed components
-
-Create the Validator class instance and describe the fields.
+3. Easy integration
 
 ```js
 const validator = new Validator({
   email: {
-      rule: emailRules,
+      rule: emailRule,
       message: 'Please enter a valid email'
     }
   }
 });
 ```
 
-Then you can use its own checking and state wrapping [methods](#api).
-
 ### Form example
 
-Here is the example of a simple React form
+Here is the example of a simple React form for creating an account
 
 ```js
 import * as React from 'react';
 import Validator from 'instant-validation';
-import { requiredRule, lengthRule } from 'instant-validation/build/rules';
+import { requiredRule } from 'instant-validation/build/rules';
+import { emailRule } from './validationRules';
 
 const validator = new Validator({
   email: [
     {
       rule: requiredRule,
-      message: 'Please enter a valid email'
+      message: 'Please enter an email'
     },
     {
-      rule: lengthRule(10),
+      rule: emailRule,
       message: 'Please enter a valid email'
     }
   ],
@@ -73,10 +66,11 @@ class RegistrationForm extends React.Component {
     super();
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = validator.setInitialValues({
-      login: '',
-      password: ''
-    });
+    this.state = {
+      email: '',
+      password: '',
+      passwordRepeat: ''
+    };
   }
 
   onChange(e) {
