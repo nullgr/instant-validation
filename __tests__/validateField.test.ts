@@ -30,4 +30,34 @@ describe('Unit tests for validateField module', () => {
     ]
     expect(validateField(value, rules, {})).toEqual([true, false]);
   });
+  test(`Field should be valid with many arguments rule`, () => {
+    const value = 90;
+    const rules = [
+      {
+        rule: requiredRule,
+        message: 'Please enter amount'
+      },
+      {
+        rule: allowToWithdrawRule,
+        message: 'This amount can not be withdrawed',
+        id: 'allowToWithdraw'
+      }
+    ]
+    expect(validateField(value, rules, {allowToWithdraw: [true, 100]})).toEqual([true, true]);
+  });
+  test(`Field should be not valied with many arguments rule`, () => {
+    const value = 110;
+    const rules = [
+      {
+        rule: requiredRule,
+        message: 'Please enter amount'
+      },
+      {
+        rule: allowToWithdrawRule,
+        message: 'This amount can not be withdrawed',
+        id: 'allowToWithdraw'
+      }
+    ]
+    expect(validateField(value, rules, {allowToWithdraw: [true, 100]})).toEqual([true, false]);
+  });
 });
