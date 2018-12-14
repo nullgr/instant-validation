@@ -3,7 +3,7 @@ import { emailRule, passwordEqualRule, requiredRule } from './testUtils/testRule
 
 // TODO add more tests here
 describe('Unit tests for validateFieldsByDiff module', () => {
-  test(`Field should be valid`, () => {
+  test(`Test password confirmation case`, () => {
     const validationDescription = {
       email: [
         {
