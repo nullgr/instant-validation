@@ -5,7 +5,6 @@ import {
   ValidationState
 } from '../types';
 import { validateField } from './validateField';
-// TODO add tests here
 function validateFieldsByDiff(
   newDiff: ValidationState,
   oldValidationState: ValidationState,
