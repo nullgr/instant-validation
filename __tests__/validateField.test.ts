@@ -40,12 +40,14 @@ describe('Unit tests for validateField module', () => {
       {
         rule: allowToWithdrawRule,
         message: 'This amount can not be withdrawed',
-        id: 'allowToWithdraw'
+        ruleId: 'allowToWithdraw'
       }
     ]
-    expect(validateField(value, rules, {allowToWithdraw: [true, 100]})).toEqual([true, true]);
+    const insertedArgs = {allowToWithdraw: [true, 100]};
+    expect(validateField(value, rules, insertedArgs)).toEqual([true, true]);
   });
-  test(`Field should be not valied with many arguments rule`, () => {
+
+  test(`Field should be not valid with many arguments rule`, () => {
     const value = 110;
     const rules = [
       {
@@ -55,9 +57,10 @@ describe('Unit tests for validateField module', () => {
       {
         rule: allowToWithdrawRule,
         message: 'This amount can not be withdrawed',
-        id: 'allowToWithdraw'
+        ruleId: 'allowToWithdraw'
       }
     ]
-    expect(validateField(value, rules, {allowToWithdraw: [true, 100]})).toEqual([true, false]);
+    const insertedArgs = {allowToWithdraw: [true, 100]};
+    expect(validateField(value, rules, insertedArgs)).toEqual([true, false]);
   });
 });

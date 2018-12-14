@@ -8,7 +8,10 @@ export const passwordEqualRule = (value, passwrodOriginal) =>
   value === passwrodOriginal;
 
 export const allowToWithdrawRule = (value, selectedBill, totalBillAmount) => {
-  if (value <= 0 || !value || !selectedBill) {
+  if (!value || value <= 0) {
+    return false;
+  }
+  if (!selectedBill) {
     return false;
   }
   if (value > totalBillAmount) {
