@@ -111,5 +111,5 @@ class RegistrationForm extends React.Component {
   }
 }
 
-export default LoginForm;
+export default RegistrationForm;
 ```

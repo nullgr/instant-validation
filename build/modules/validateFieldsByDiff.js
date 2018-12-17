@@ -7,7 +7,6 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import { validateField } from './validateField';
-// TODO add tests here
 function validateFieldsByDiff(newDiff, oldValidationState, validationDescription, showErrors, insertedArgs, ruleIdsInFields) {
     var newValidationState = __assign({}, oldValidationState);
     // validate fields by diff
