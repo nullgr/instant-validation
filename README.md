@@ -122,11 +122,16 @@ export default RegistrationForm;
 You can use this method, if you want to show all the untouched field errors. (For exmaple, if your submit-button is always enabled.)
 To reset error higlighting to initial state (all error messages are hidden by default), you can invoke `showAllErrors(false)`.
 Please, don't forget to manually re-render your form, after calling this method.
-Here is the example for React.js
+Here an example for React.js
 
 ```js
-onFormSend = () => {
+// submit button callback
+onFormSend() {
   validator.showAllErrors();
-  this.setState({ submitPressed: true }); // update forms state, to invoke rerender
+  this.setState({ submitPressed: true }); // update component state, to invoke rerender
+  if (!validator.isFormValid()) {
+    return; // do no send invalid form
+  }
+  this.props.send(this.state.field);
 };
 ```
