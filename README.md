@@ -128,7 +128,7 @@ Here an example for React.js
 // submit button callback
 onFormSend() {
   validator.showAllErrors();
-  this.setState({ submitPressed: true }); // update component state, to invoke rerender
+  this.setState({ submitPressed: true }); // update component state, to invoke re-render
   if (!validator.isFormValid()) {
     return; // do no send invalid form
   }
