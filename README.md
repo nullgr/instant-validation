@@ -1,4 +1,5 @@
 # instant-validation
+
 - quick setup
 - framework agnostic
 - zero dependencies
@@ -112,4 +113,20 @@ class RegistrationForm extends React.Component {
 }
 
 export default RegistrationForm;
+```
+
+## Api
+
+### showAllErrors(show = true)
+
+You can use this method, if you want to show all the untouched field errors. (For exmaple, if your submit-button is always enabled.)
+To reset error higlighting to initial state (all error messages are hidden by default), you can invoke `showAllErrors(false)`.
+Please, don't forget to manually re-render your form, after calling this method.
+Here is the example for React.js
+
+```js
+onFormSend = () => {
+  validator.showAllErrors();
+  this.setState({ submitPressed: true }); // update forms state, to invoke rerender
+};
 ```
