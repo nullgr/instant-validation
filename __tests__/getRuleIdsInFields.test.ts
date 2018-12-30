@@ -1,10 +1,10 @@
 import { getRuleIdsInFields } from '../src/modules';
 import {
-  allowToWithdrawRule,
   allowToSelectBillRule,
+  allowToWithdrawRule,
   emailRule,
-  requiredRule,
-  passwordEqualRule
+  passwordEqualRule,
+  requiredRule
 } from './testUtils/testRules';
 
 describe('Unit tests for getRuleIdsInFields module', () => {

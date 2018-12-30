@@ -1,4 +1,4 @@
-import { buildInitialState, findDifference, getErrorMessages, getRuleIdsInFields, isStateValid, validateFieldsByDiff } from './modules';
+import { buildInitialState, findDifference, getErrorMessages, getRuleIdsInFields, isStateValid, showAllErrors, validateFieldsByDiff } from './modules';
 /**
  * Quck setup. No Dependencies. Framework agnostic validation tool
  * It was created based on react-validation-tools library,
@@ -47,6 +47,10 @@ var Validator = /** @class */ (function () {
     Validator.prototype.insertArgs = function (args) {
         this.insertedArgs = args;
         return this;
+    };
+    Validator.prototype.showAllErrors = function (show) {
+        if (show === void 0) { show = true; }
+        this.refreshState(showAllErrors(this.validationState, show));
     };
     Validator.prototype.refreshState = function (validationState) {
         this.validationState = validationState;

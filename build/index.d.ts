@@ -4,6 +4,7 @@ interface ValidationPublicApi<ComponentState> {
     validate(componentState: ComponentState): ValidateReturn;
     isFormValid(): boolean;
     insertArgs(args: InsertedArgs): ValidationPublicApi<ComponentState>;
+    showAllErrors(show?: boolean): void;
 }
 declare const ValidationPublicApi: new <ComponentState>(fields: FieldsDescription) => ValidationPublicApi<ComponentState>;
 export default ValidationPublicApi;

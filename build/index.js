@@ -22,5 +22,8 @@ var ValidationPublicApi = function (fields) {
     this.insertArgs = function (args) {
         return validator.insertArgs(args);
     };
+    this.showAllErrors = function (show) {
+        return validator.showAllErrors(show);
+    };
 };
 export default ValidationPublicApi;

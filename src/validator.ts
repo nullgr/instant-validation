@@ -14,6 +14,7 @@ import {
   getErrorMessages,
   getRuleIdsInFields,
   isStateValid,
+  showAllErrors,
   validateFieldsByDiff
 } from './modules';
 
@@ -101,6 +102,10 @@ class Validator<ComponentState> {
   insertArgs(args: InsertedArgs) {
     this.insertedArgs = args;
     return this;
+  }
+
+  showAllErrors(show = true) {
+    this.refreshState(showAllErrors(this.validationState, show));
   }
 
   private refreshState(validationState: ValidationState) {
