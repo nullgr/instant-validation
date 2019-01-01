@@ -20,6 +20,7 @@ declare class Validator<ComponentState> {
     validate(componentState: ComponentState): ValidateReturn;
     isFormValid(): boolean;
     insertArgs(args: InsertedArgs): this;
+    showAllErrors(show?: boolean): void;
     private refreshState;
 }
 export default Validator;
