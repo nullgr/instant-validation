@@ -1,3 +1,4 @@
+"use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -6,9 +7,10 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 function showAllErrors(validationState, show) {
     var newState = {};
     Object.keys(validationState).forEach(function (key) { return (newState[key] = __assign({}, validationState[key], { showError: show })); });
     return newState;
 }
-export { showAllErrors };
+exports.showAllErrors = showAllErrors;

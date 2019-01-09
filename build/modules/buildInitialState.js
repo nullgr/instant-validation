@@ -1,4 +1,6 @@
-import { validateFieldsByDiff } from './validateFieldsByDiff';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var validateFieldsByDiff_1 = require("./validateFieldsByDiff");
 function buildInitialState(componentState, validationDescription, insertedArgs, ruleIdsInFields) {
     var initialDiff = {};
     var initialState = {};
@@ -13,6 +15,6 @@ function buildInitialState(componentState, validationDescription, insertedArgs, 
             statuses: []
         };
     });
-    return validateFieldsByDiff(initialDiff, initialState, validationDescription, false, insertedArgs, ruleIdsInFields);
+    return validateFieldsByDiff_1.validateFieldsByDiff(initialDiff, initialState, validationDescription, false, insertedArgs, ruleIdsInFields);
 }
-export { buildInitialState };
+exports.buildInitialState = buildInitialState;

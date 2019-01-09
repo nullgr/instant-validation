@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // TODO add tests here
 function isStateValid(validationState) {
     var keys = Object.keys(validationState);
@@ -10,4 +12,4 @@ function isStateValid(validationState) {
     }
     return true;
 }
-export { isStateValid };
+exports.isStateValid = isStateValid;

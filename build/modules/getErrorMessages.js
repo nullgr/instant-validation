@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function findFirstFailedRuleMessage(fieldDescripton, statuses) {
     var searchIndex = statuses.indexOf(false);
     return searchIndex === -1 ? '' : fieldDescripton[searchIndex].message;
@@ -12,4 +14,4 @@ function getErrorMessages(validationState, validationDescription) {
     });
     return errors;
 }
-export { getErrorMessages };
+exports.getErrorMessages = getErrorMessages;

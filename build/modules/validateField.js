@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // TODO add tests here
 function validateField(fieldValue, fieldRules, insertedArgs) {
     return fieldRules.map(function (item) {
@@ -8,4 +10,4 @@ function validateField(fieldValue, fieldRules, insertedArgs) {
         return item.rule.apply(item, [fieldValue].concat(insert));
     });
 }
-export { validateField };
+exports.validateField = validateField;
