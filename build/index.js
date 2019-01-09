@@ -1,4 +1,6 @@
-import Validator from './validator';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var validator_1 = require("./validator");
 // Represents Public API of library, every method presented there
 // may be used by user and should be described in README file
 //
@@ -9,7 +11,7 @@ import Validator from './validator';
 //     this is useful for reducing of initial render time,
 //     if project have a lot of forms(therefore a lot of instances of Validator object)
 var ValidationPublicApi = function (fields) {
-    var validator = new Validator(fields);
+    var validator = new validator_1.default(fields);
     this.setInitialValues = function (componentState) {
         return validator.setInitialValues(componentState);
     };
@@ -26,4 +28,4 @@ var ValidationPublicApi = function (fields) {
         return validator.showAllErrors(show);
     };
 };
-export default ValidationPublicApi;
+exports.default = ValidationPublicApi;

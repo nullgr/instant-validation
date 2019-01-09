@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // TODO add tests here
 // build a hashmap ruleIds -> filedNames array, where those ids are used
 function getRuleIdsInFields(fields) {
@@ -18,4 +20,4 @@ function getRuleIdsInFields(fields) {
     });
     return result;
 }
-export { getRuleIdsInFields };
+exports.getRuleIdsInFields = getRuleIdsInFields;
