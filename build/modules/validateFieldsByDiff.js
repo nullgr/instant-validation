@@ -1,3 +1,4 @@
+"use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -6,12 +7,13 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-import { validateField } from './validateField';
+Object.defineProperty(exports, "__esModule", { value: true });
+var validateField_1 = require("./validateField");
 function validateFieldsByDiff(newDiff, oldValidationState, validationDescription, showErrors, insertedArgs, ruleIdsInFields) {
     var newValidationState = __assign({}, oldValidationState);
     // validate fields by diff
     Object.keys(newDiff).forEach(function (fieldName) {
-        var validatedStatuses = validateField(newDiff[fieldName], validationDescription[fieldName], insertedArgs);
+        var validatedStatuses = validateField_1.validateField(newDiff[fieldName], validationDescription[fieldName], insertedArgs);
         newValidationState[fieldName] = {
             showError: showErrors,
             value: newDiff[fieldName],
@@ -27,10 +29,10 @@ function validateFieldsByDiff(newDiff, oldValidationState, validationDescription
             if (newDiff[field]) {
                 return;
             }
-            var validatedStatuses = validateField(newValidationState[field].value, validationDescription[field], insertedArgs);
+            var validatedStatuses = validateField_1.validateField(newValidationState[field].value, validationDescription[field], insertedArgs);
             newValidationState[field] = __assign({}, newValidationState[field], { statuses: validatedStatuses });
         });
     });
     return newValidationState;
 }
-export { validateFieldsByDiff };
+exports.validateFieldsByDiff = validateFieldsByDiff;

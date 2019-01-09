@@ -1,4 +1,6 @@
-import { buildInitialState, findDifference, getErrorMessages, getRuleIdsInFields, isStateValid, showAllErrors, validateFieldsByDiff } from './modules';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var modules_1 = require("./modules");
 /**
  * Quck setup. No Dependencies. Framework agnostic validation tool
  * It was created based on react-validation-tools library,
@@ -14,7 +16,7 @@ var Validator = /** @class */ (function () {
             throw new Error('Invalid fields parameter for fields, must be object');
         }
         this.validationDescription = fields;
-        this.ruleIdsInFields = getRuleIdsInFields(fields);
+        this.ruleIdsInFields = modules_1.getRuleIdsInFields(fields);
         this.validationState = {};
         this.isInitValidationStateSet = false;
         this.insertedArgs = {};
@@ -24,25 +26,25 @@ var Validator = /** @class */ (function () {
             return;
         }
         this.isInitValidationStateSet = true;
-        this.refreshState(buildInitialState(componentState, this.validationDescription, this.insertedArgs, this.ruleIdsInFields));
+        this.refreshState(modules_1.buildInitialState(componentState, this.validationDescription, this.insertedArgs, this.ruleIdsInFields));
     };
     Validator.prototype.validate = function (componentState) {
         if (!this.isInitValidationStateSet) {
             this.setInitialValues(componentState);
             return {
-                errors: getErrorMessages(this.validationState, this.validationDescription)
+                errors: modules_1.getErrorMessages(this.validationState, this.validationDescription)
             };
         }
-        var diff = findDifference(componentState, this.validationState);
+        var diff = modules_1.findDifference(componentState, this.validationState);
         if (Object.keys(diff).length > 0) {
-            this.refreshState(validateFieldsByDiff(diff, this.validationState, this.validationDescription, true, this.insertedArgs, this.ruleIdsInFields));
+            this.refreshState(modules_1.validateFieldsByDiff(diff, this.validationState, this.validationDescription, true, this.insertedArgs, this.ruleIdsInFields));
         }
         return {
-            errors: getErrorMessages(this.validationState, this.validationDescription)
+            errors: modules_1.getErrorMessages(this.validationState, this.validationDescription)
         };
     };
     Validator.prototype.isFormValid = function () {
-        return isStateValid(this.validationState);
+        return modules_1.isStateValid(this.validationState);
     };
     Validator.prototype.insertArgs = function (args) {
         this.insertedArgs = args;
@@ -50,11 +52,11 @@ var Validator = /** @class */ (function () {
     };
     Validator.prototype.showAllErrors = function (show) {
         if (show === void 0) { show = true; }
-        this.refreshState(showAllErrors(this.validationState, show));
+        this.refreshState(modules_1.showAllErrors(this.validationState, show));
     };
     Validator.prototype.refreshState = function (validationState) {
         this.validationState = validationState;
     };
     return Validator;
 }());
-export default Validator;
+exports.default = Validator;
