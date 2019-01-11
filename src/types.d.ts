@@ -17,12 +17,16 @@ export type FieldsDescription = {
 /**
  * FieldValidationState type describes each field validation info
  */
-export type FieldValidationState = {
+export interface FieldValidationState {
   value: string;
   touched: boolean;
   showError: boolean;
   statuses: boolean[];
-};
+}
+
+export interface PublicFieldValidationState extends FieldValidationState {
+  valid: boolean;
+}
 
 /**
  * ValidationState type describes whole form validation info
@@ -30,6 +34,15 @@ export type FieldValidationState = {
 export type ValidationState =
   | {
       [key: string]: FieldValidationState;
+    }
+  | {};
+
+/**
+ * Public ValidationState type describes whole form validation info
+ */
+export type PublicValidationState =
+  | {
+      [key: string]: PublicFieldValidationState;
     }
   | {};
 

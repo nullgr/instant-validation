@@ -9,7 +9,7 @@ function validateFieldsByDiff(
   newDiff: ValidationState,
   oldValidationState: ValidationState,
   validationDescription: FormattedFieldsDescription,
-  showErrors: boolean,
+  touched: boolean,
   insertedArgs: InsertedArgs,
   ruleIdsInFields: RuleIdsInFields
 ) {
@@ -22,10 +22,10 @@ function validateFieldsByDiff(
       insertedArgs
     );
     newValidationState[fieldName] = {
-      showError: showErrors,
+      showError: touched,
       value: newDiff[fieldName],
       statuses: validatedStatuses,
-      touched: true
+      touched
     };
   });
 
