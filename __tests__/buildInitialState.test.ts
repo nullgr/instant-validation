@@ -30,11 +30,13 @@ describe('Unit tests for buildInitialState module', () => {
       email: {
         value: '',
         showError: false,
+        touched: false,
         statuses: [false, false]
       },
       password: {
         value: '',
         showError: false,
+        touched: false,
         statuses: [false]
       }
     };

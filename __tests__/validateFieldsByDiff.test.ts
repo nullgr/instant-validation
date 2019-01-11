@@ -40,16 +40,19 @@ describe('Unit tests for validateFieldsByDiff module', () => {
       email: {
         value: '',
         showError: false,
+        touched: false,
         statuses: [false, false]
       },
       password: {
         value: '12345',
         showError: false,
+        touched: true,
         statuses: [false]
       },
       repeatPassword: {
         value: '1234',
         showError: false,
+        touched: true,
         statuses: [false, false]
       }
     };
@@ -61,16 +64,19 @@ describe('Unit tests for validateFieldsByDiff module', () => {
     const expected = {
       email: {
         showError: false,
+        touched: false,
         statuses: [false, false],
         value: ''
       },
       password: {
         showError: false,
+        touched: true,
         statuses: [false],
         value: '12345'
       },
       repeatPassword: {
         showError: true,
+        touched: true,
         statuses: [true,true],
         value: '12345'
       }
