@@ -22,6 +22,7 @@ function buildInitialState<ComponentState>(
     initialState[fieldName] = {
       value: componentState[fieldName],
       showError: false,
+      touched: false,
       statuses: []
     };
   });

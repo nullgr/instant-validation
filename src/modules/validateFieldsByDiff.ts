@@ -24,7 +24,8 @@ function validateFieldsByDiff(
     newValidationState[fieldName] = {
       showError: showErrors,
       value: newDiff[fieldName],
-      statuses: validatedStatuses
+      statuses: validatedStatuses,
+      touched: true
     };
   });
 

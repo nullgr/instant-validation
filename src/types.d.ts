@@ -19,6 +19,7 @@ export type FieldsDescription = {
  */
 export type FieldValidationState = {
   value: string;
+  touched: boolean;
   showError: boolean;
   statuses: boolean[];
 };
