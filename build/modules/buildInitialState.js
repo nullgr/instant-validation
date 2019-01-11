@@ -12,6 +12,7 @@ function buildInitialState(componentState, validationDescription, insertedArgs, 
         initialState[fieldName] = {
             value: componentState[fieldName],
             showError: false,
+            touched: false,
             statuses: []
         };
     });

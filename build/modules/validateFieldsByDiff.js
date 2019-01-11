@@ -9,15 +9,16 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var validateField_1 = require("./validateField");
-function validateFieldsByDiff(newDiff, oldValidationState, validationDescription, showErrors, insertedArgs, ruleIdsInFields) {
+function validateFieldsByDiff(newDiff, oldValidationState, validationDescription, touched, insertedArgs, ruleIdsInFields) {
     var newValidationState = __assign({}, oldValidationState);
     // validate fields by diff
     Object.keys(newDiff).forEach(function (fieldName) {
         var validatedStatuses = validateField_1.validateField(newDiff[fieldName], validationDescription[fieldName], insertedArgs);
         newValidationState[fieldName] = {
-            showError: showErrors,
+            showError: touched,
             value: newDiff[fieldName],
-            statuses: validatedStatuses
+            statuses: validatedStatuses,
+            touched: touched
         };
     });
     // validate fields, that uses additional arguments

@@ -1,4 +1,12 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var modules_1 = require("./modules");
 /**
@@ -53,6 +61,15 @@ var Validator = /** @class */ (function () {
     Validator.prototype.showAllErrors = function (show) {
         if (show === void 0) { show = true; }
         this.refreshState(modules_1.showAllErrors(this.validationState, show));
+    };
+    Validator.prototype.getFieldsState = function () {
+        var _this = this;
+        // TODO add tests and extract this method and add README desctiption and example for it
+        var result = {};
+        Object.keys(this.validationState).forEach(function (key) {
+            result[key] = __assign({}, _this.validationState[key], { valid: _this.validationState[key].statuses.filter(function (status) { return !status; }).length === 0 });
+        });
+        return result;
     };
     Validator.prototype.refreshState = function (validationState) {
         this.validationState = validationState;
