@@ -6,12 +6,14 @@ describe('Unit tests for findDifference module', () => {
       email: {
         value: '',
         showError: false,
-        statuses: [false]
+        statuses: [false],
+        touched: false,
       },
       password: {
         value: '',
         showError: false,
-        statuses: [false]
+        statuses: [false],
+        touched: false,
       }
     };
     const initialState = {
@@ -28,12 +30,14 @@ describe('Unit tests for findDifference module', () => {
       email: {
         value: '',
         showError: false,
-        statuses: [false]
+        statuses: [false],
+        touched: true,
       },
       password: {
         value: '',
         showError: false,
-        statuses: [false]
+        statuses: [false],
+        touched: false,
       }
     };
     const nextState = {
@@ -53,12 +57,14 @@ describe('Unit tests for findDifference module', () => {
       email: {
         value: '',
         showError: false,
-        statuses: [false]
+        statuses: [false],
+        touched: false,
       },
       password: {
         value: '',
         showError: false,
-        statuses: [false]
+        statuses: [false],
+        touched: false,
       }
     };
     const nextState = {
@@ -80,12 +86,14 @@ describe('Unit tests for findDifference module', () => {
       email: {
         value: '',
         showError: false,
-        statuses: [false]
+        statuses: [false],
+        touched: false,
       },
       password: {
         value: '',
         showError: false,
-        statuses: [false]
+        statuses: [false],
+        touched: false,
       }
     };
     const extendedState = {

@@ -32,17 +32,20 @@ describe('Unit tests for getErrorMessages module', () => {
       email: {
         value: 'some@@@mail',
         showError: true,
-        statuses: [true, false]
+        statuses: [true, false],
+        touched: true
       },
       password: {
         value: '',
         showError: false,
-        statuses: [false]
+        statuses: [false],
+        touched: false
       },
       message: {
         value: 'My message',
         showError: true,
-        statuses: [true]
+        statuses: [true],
+        touched: true
       }
     };
     const expected = {
