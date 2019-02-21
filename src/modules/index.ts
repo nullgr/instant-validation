@@ -6,3 +6,6 @@ export { getErrorMessages } from './getErrorMessages';
 export { isStateValid } from './isStateValid';
 export { getRuleIdsInFields } from './getRuleIdsInFields';
 export { showAllErrors } from './showAllErrors';
+export { getFieldsData } from './getFieldsData';
+
+

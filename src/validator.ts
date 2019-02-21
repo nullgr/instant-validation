@@ -3,7 +3,6 @@ import {
   FieldsDescription,
   FormattedFieldsDescription,
   InsertedArgs,
-  PublicValidationState,
   RuleIdsInFields,
   ValidateReturn,
   ValidationState
@@ -13,6 +12,7 @@ import {
   buildInitialState,
   findDifference,
   getErrorMessages,
+  getFieldsData,
   getRuleIdsInFields,
   isStateValid,
   showAllErrors,
@@ -71,7 +71,8 @@ class Validator<ComponentState> {
         errors: getErrorMessages(
           this.validationState,
           this.validationDescription
-        )
+        ),
+        fields: getFieldsData(this.validationState)
       };
     }
 
@@ -92,7 +93,8 @@ class Validator<ComponentState> {
       );
     }
     return {
-      errors: getErrorMessages(this.validationState, this.validationDescription)
+      errors: getErrorMessages(this.validationState, this.validationDescription),
+      fields: getFieldsData(this.validationState)
     };
   }
 
@@ -107,18 +109,6 @@ class Validator<ComponentState> {
 
   showAllErrors(show = true) {
     this.refreshState(showAllErrors(this.validationState, show));
-  }
-
-  getFieldsState(): PublicValidationState {
-    // TODO add tests and extract this method and add README desctiption and example for it
-    let result = {};
-    Object.keys(this.validationState).forEach(key => {
-      result[key] = {
-        ...this.validationState[key],
-        valid: this.validationState[key].statuses.filter((status: boolean) => !status).length === 0
-      }
-    })
-    return result;
   }
 
   private refreshState(validationState: ValidationState) {

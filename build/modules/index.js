@@ -16,3 +16,5 @@ var getRuleIdsInFields_1 = require("./getRuleIdsInFields");
 exports.getRuleIdsInFields = getRuleIdsInFields_1.getRuleIdsInFields;
 var showAllErrors_1 = require("./showAllErrors");
 exports.showAllErrors = showAllErrors_1.showAllErrors;
+var getFieldsData_1 = require("./getFieldsData");
+exports.getFieldsData = getFieldsData_1.getFieldsData;

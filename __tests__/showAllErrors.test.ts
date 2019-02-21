@@ -6,24 +6,28 @@ describe('Unit tests for showAllErrors module', () => {
       email: {
         value: '',
         showError: false,
-        statuses: [true, true]
+        statuses: [true, true],
+        touched: false
       },
       password: {
         value: '',
         showError: false,
-        statuses: [true]
+        statuses: [true],
+        touched: false
       }
     };
     const espectedValidationState = {
       email: {
         value: '',
         showError: true,
-        statuses: [true, true]
+        statuses: [true, true],
+        touched: false
       },
       password: {
         value: '',
         showError: true,
-        statuses: [true]
+        statuses: [true],
+        touched: false
       }
     };
     expect(showAllErrors(validationState, true)).toEqual(
@@ -35,24 +39,28 @@ describe('Unit tests for showAllErrors module', () => {
       email: {
         value: '',
         showError: false,
-        statuses: [true, true]
+        statuses: [true, true],
+        touched: true
       },
       password: {
         value: '',
         showError: true,
-        statuses: [true]
+        statuses: [true],
+        touched: true
       }
     };
     const espectedValidationState = {
       email: {
         value: '',
         showError: false,
-        statuses: [true, true]
+        statuses: [true, true],
+        touched: true
       },
       password: {
         value: '',
         showError: false,
-        statuses: [true]
+        statuses: [true],
+        touched: true
       }
     };
     expect(showAllErrors(validationState, false)).toEqual(

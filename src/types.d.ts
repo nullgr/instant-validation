@@ -40,7 +40,7 @@ export type ValidationState =
 /**
  * Public ValidationState type describes whole form validation info
  */
-export type PublicValidationState =
+export type PublicFieldsData =
   | {
       [key: string]: PublicFieldValidationState;
     }
