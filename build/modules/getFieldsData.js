@@ -9,7 +9,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 function getFieldsData(validationState) {
-    // TODO add tests and add README desctiption and example for it
+    // TODO add README desctiption and example for it
     var result = {};
     Object.keys(validationState).forEach(function (key) {
         result[key] = __assign({}, validationState[key], { valid: validationState[key].statuses.filter(function (status) { return !status; }).length === 0 });
