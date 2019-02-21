@@ -1,4 +1,4 @@
-import { ErrorMessages, FieldsDescription, FormattedFieldsDescription, InsertedArgs, PublicValidationState, RuleIdsInFields, ValidateReturn, ValidationState } from './types';
+import { ErrorMessages, FieldsDescription, FormattedFieldsDescription, InsertedArgs, RuleIdsInFields, ValidateReturn, ValidationState } from './types';
 /**
  * Quck setup. No Dependencies. Framework agnostic validation tool
  * It was created based on react-validation-tools library,
@@ -21,7 +21,6 @@ declare class Validator<ComponentState> {
     isFormValid(): boolean;
     insertArgs(args: InsertedArgs): this;
     showAllErrors(show?: boolean): void;
-    getFieldsState(): PublicValidationState;
     private refreshState;
 }
 export default Validator;

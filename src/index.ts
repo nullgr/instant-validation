@@ -1,7 +1,6 @@
 import {
   FieldsDescription,
   InsertedArgs,
-  PublicValidationState,
   ValidateReturn
 } from './types';
 import Validator from './validator';
@@ -12,7 +11,6 @@ interface ValidationPublicApi<ComponentState> {
   isFormValid(): boolean;
   insertArgs(args: InsertedArgs): ValidationPublicApi<ComponentState>;
   showAllErrors(show?: boolean): void;
-  getFieldsState(): PublicValidationState;
 }
 
 // Represents Public API of library, every method presented there
@@ -49,10 +47,6 @@ const ValidationPublicApi = (function<ComponentState>(
 
   this.showAllErrors = function(show) {
     return validator.showAllErrors(show);
-  };
-
-  this.getFieldsState = function() {
-    return validator.getFieldsState();
   };
 } as any) as {
   new <ComponentState>(fields: FieldsDescription): ValidationPublicApi<

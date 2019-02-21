@@ -27,8 +27,5 @@ var ValidationPublicApi = function (fields) {
     this.showAllErrors = function (show) {
         return validator.showAllErrors(show);
     };
-    this.getFieldsState = function () {
-        return validator.getFieldsState();
-    };
 };
 exports.default = ValidationPublicApi;

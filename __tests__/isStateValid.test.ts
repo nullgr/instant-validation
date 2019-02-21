@@ -6,12 +6,14 @@ describe('Unit tests for isStateValid module', () => {
       email: {
         value: '',
         showError: false,
-        statuses: [true, true]
+        statuses: [true, true],
+        touched: true,
       },
       password: {
         value: '',
         showError: false,
-        statuses: [true]
+        statuses: [true],
+        touched: true,
       }
     };
     expect(isStateValid(validationState)).toEqual(true);
@@ -21,12 +23,14 @@ describe('Unit tests for isStateValid module', () => {
       email: {
         value: '',
         showError: false,
-        statuses: [true, false]
+        statuses: [true, false],
+        touched: true,
       },
       password: {
         value: '',
         showError: false,
-        statuses: [true]
+        statuses: [true],
+        touched: true,
       }
     };
     expect(isStateValid(validationState)).toEqual(false);
