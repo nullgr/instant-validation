@@ -1,5 +1,4 @@
 import { getFieldsData } from '../src/modules';
-import { emailRule, requiredRule } from './testUtils/testRules';
 
 // TODO add more tests here
 describe('Unit tests for getFieldsData module', () => {
