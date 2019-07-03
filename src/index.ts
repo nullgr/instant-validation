@@ -48,10 +48,8 @@ const ValidationPublicApi = (function<ComponentState>(
   this.showAllErrors = function(show) {
     return validator.showAllErrors(show);
   };
-} as any) as {
-  new <ComponentState>(fields: FieldsDescription): ValidationPublicApi<
+} as any) as new <ComponentState>(fields: FieldsDescription) => ValidationPublicApi<
     ComponentState
   >;
-};
 
 export default ValidationPublicApi;
