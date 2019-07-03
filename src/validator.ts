@@ -67,12 +67,13 @@ class Validator<ComponentState> {
   validate(componentState: ComponentState): ValidateReturn {
     if (!this.isInitValidationStateSet) {
       this.setInitialValues(componentState);
+      let initialState = this.validationState;
       return {
         errors: getErrorMessages(
-          this.validationState,
+          initialState,
           this.validationDescription
         ),
-        fields: getFieldsData(this.validationState)
+        get fields() { return getFieldsData(initialState); }
       };
     }
 
@@ -92,9 +93,10 @@ class Validator<ComponentState> {
         )
       );
     }
+    let updatedState = this.validationState;
     return {
-      errors: getErrorMessages(this.validationState, this.validationDescription),
-      fields: getFieldsData(this.validationState)
+      errors: getErrorMessages(updatedState, this.validationDescription),
+      get fields() { return getFieldsData(updatedState); }
     };
   }
 

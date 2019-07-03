@@ -31,18 +31,20 @@ var Validator = /** @class */ (function () {
     Validator.prototype.validate = function (componentState) {
         if (!this.isInitValidationStateSet) {
             this.setInitialValues(componentState);
+            var initialState_1 = this.validationState;
             return {
-                errors: modules_1.getErrorMessages(this.validationState, this.validationDescription),
-                fields: modules_1.getFieldsData(this.validationState)
+                errors: modules_1.getErrorMessages(initialState_1, this.validationDescription),
+                get fields() { return modules_1.getFieldsData(initialState_1); }
             };
         }
         var diff = modules_1.findDifference(componentState, this.validationState);
         if (Object.keys(diff).length > 0) {
             this.refreshState(modules_1.validateFieldsByDiff(diff, this.validationState, this.validationDescription, true, this.insertedArgs, this.ruleIdsInFields));
         }
+        var updatedState = this.validationState;
         return {
-            errors: modules_1.getErrorMessages(this.validationState, this.validationDescription),
-            fields: modules_1.getFieldsData(this.validationState)
+            errors: modules_1.getErrorMessages(updatedState, this.validationDescription),
+            get fields() { return modules_1.getFieldsData(updatedState); }
         };
     };
     Validator.prototype.isFormValid = function () {
