@@ -4,18 +4,18 @@ function findDifference<ComponentState>(
   componentStateUpdates: ComponentState,
   actualValidationState: ValidationState
 ): Partial<ComponentState> {
-  let difference = {};
-  Object.keys(actualValidationState).forEach(fieldName => {
+  const difference = Object.keys(actualValidationState).reduce((acc, fieldName) => {
     if (
       typeof componentStateUpdates[fieldName] === 'undefined' ||
       componentStateUpdates[fieldName] ===
         actualValidationState[fieldName].value
     ) {
-      return;
+      return acc;
     }
 
-    difference[fieldName] = componentStateUpdates[fieldName];
-  });
+    acc[fieldName] = componentStateUpdates[fieldName];
+    return acc;
+  }, {});
   return difference;
 }
 
