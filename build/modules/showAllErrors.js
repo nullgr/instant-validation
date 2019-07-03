@@ -12,8 +12,10 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 function showAllErrors(validationState, show) {
-    var newState = {};
-    Object.keys(validationState).forEach(function (key) { return (newState[key] = __assign({}, validationState[key], { showError: show })); });
-    return newState;
+    return Object.keys(validationState)
+        .reduce(function (acc, key) {
+        acc[key] = __assign({}, validationState[key], { showError: show });
+        return acc;
+    }, {});
 }
 exports.showAllErrors = showAllErrors;

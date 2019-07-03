@@ -6,12 +6,12 @@ function findFirstFailedRuleMessage(fieldDescripton, statuses) {
 }
 // TODO add tests here
 function getErrorMessages(validationState, validationDescription) {
-    var errors = {};
-    Object.keys(validationState).forEach(function (fieldName) {
-        errors[fieldName] = validationState[fieldName].showError
+    var errors = Object.keys(validationState).reduce(function (acc, fieldName) {
+        acc[fieldName] = validationState[fieldName].showError
             ? findFirstFailedRuleMessage(validationDescription[fieldName], validationState[fieldName].statuses)
             : '';
-    });
+        return acc;
+    }, {});
     return errors;
 }
 exports.getErrorMessages = getErrorMessages;
