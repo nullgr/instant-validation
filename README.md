@@ -36,7 +36,7 @@ const validator = new Validator({
 ### Rules
 
 Each rule is a function and it should return `true` for a valid case and `false` for invalid.
-Each field should contain and array with minimum 1 rule
+Each field should contain an array with minimum 1 rule
 
 You can import ready to use rules
 
@@ -47,17 +47,27 @@ import { requiredRule, lengthRule } from 'instant-validation/rules';
 Right now there are only two rules - `requiredRule` and `lengthRule`
 but we are going to add some other useful rules in future releases.
 
-### Simple React Form example
+### React Form example
 
 Here is the example of a simple React form for creating an account
 
 ```js
 import * as React from 'react';
 import Validator from 'instant-validation';
-import { requiredRule } from 'instant-validation/rules';
-import { emailRule } from './validationRules';
+import { requiredRule, lengthRule } from 'instant-validation/rules';
+import { emailRule } from './myCustomRules';
 
 const validator = new Validator({
+  name: [
+    {
+      rule: requiredRule,
+      message: 'Please enter your name'
+    },
+    {
+      rule: lengthRule(2),
+      message: 'Your name should be at least 2 characters'
+    }
+  ],
   email: [
     {
       rule: requiredRule,
@@ -94,6 +104,7 @@ class RegistrationForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
+      name: '',
       email: '',
       password: '',
       passwordRepeat: ''
@@ -114,6 +125,9 @@ class RegistrationForm extends React.Component {
       .validate(this.state);
     return (
       <form>
+        <input name="name" value={name} onChange={this.onChange} />
+        <div className="error">{errors.name}</div>
+
         <input name="email" value={email} onChange={this.onChange} />
         <div className="error">{errors.email}</div>
 
@@ -144,6 +158,33 @@ export default RegistrationForm;
 
 ## Api
 
+### validate({ fieldsState })
+
+Get `errors` object with errormessages using validate method. You should call this method each time, when you have updates in your field values.
+Validator will apply and recalculate rules only for fields, that were changed.
+
+```js
+const { errors } = validator.validate(fieldsState);
+```
+
+If you need a detailed information for each field, you can get `fields` object
+
+```js
+const { errors, fields } = validator.validate(fieldsState);
+```
+
+Each field contains information
+
+- showError: boolean (should it show the error message)
+- statuses: boolean[] (array of booleans with the validation result for each rule)
+- touched: boolean (if this field has changed a value ever)
+- valid: boolean (if this field is valid)
+- value: any (original value of the field)
+
+### isFormValid()
+
+Just returns a boolean status of the whole form.
+
 ### showAllErrors(show = true)
 
 You can use this method, if you want to show all the untouched field errors. (For exmaple, if your submit-button is always enabled.)
@@ -162,3 +203,29 @@ onFormSend() {
   this.props.send(this.state.field);
 };
 ```
+
+### insertArgs({ [ruleId]: [...additionalArguments] })
+
+Some of the rules can be related to other fields.
+This means that you should have more than 1 argument in the rule.
+You can provide additional argument to such rules using this method.
+Don't forget to name the rule with `ruleId` for that
+
+```js
+  {
+    rule: (value, otherFieldValue) => value > otherFieldValue,
+    message: 'Field should be greater than another',
+    ruleId: 'greaterRule'
+  }
+```
+
+```js
+const { errors } = validator
+  .insertArgs({
+    greaterRule: [otherField]
+  })
+  .validate(this.state);
+```
+
+Right now you can pass as additional arguments only validatable fields. That means, that they should also have their validation rules and be checked in validator.
+But we are working on improvement of this limitation and in future releases you could pass as additinal arguments any fields and just recall validtion method, when such arguments are updated.
