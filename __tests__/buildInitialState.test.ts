@@ -1,4 +1,4 @@
-import { buildInitialState } from '../src/modules';
+import { buildInitialState } from '../src/validator/modules';
 import { emailRule, requiredRule } from './testUtils/testRules';
 
 // TODO add more tests here

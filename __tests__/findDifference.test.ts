@@ -1,4 +1,4 @@
-import { findDifference } from '../src/modules';
+import { findDifference } from '../src/validator/modules';
 
 describe('Unit tests for findDifference module', () => {
   test(`Testing initial state run`, () => {
@@ -7,13 +7,13 @@ describe('Unit tests for findDifference module', () => {
         value: '',
         showError: false,
         statuses: [false],
-        touched: false,
+        touched: false
       },
       password: {
         value: '',
         showError: false,
         statuses: [false],
-        touched: false,
+        touched: false
       }
     };
     const initialState = {
@@ -31,13 +31,13 @@ describe('Unit tests for findDifference module', () => {
         value: '',
         showError: false,
         statuses: [false],
-        touched: true,
+        touched: true
       },
       password: {
         value: '',
         showError: false,
         statuses: [false],
-        touched: false,
+        touched: false
       }
     };
     const nextState = {
@@ -58,13 +58,13 @@ describe('Unit tests for findDifference module', () => {
         value: '',
         showError: false,
         statuses: [false],
-        touched: false,
+        touched: false
       },
       password: {
         value: '',
         showError: false,
         statuses: [false],
-        touched: false,
+        touched: false
       }
     };
     const nextState = {
@@ -87,13 +87,13 @@ describe('Unit tests for findDifference module', () => {
         value: '',
         showError: false,
         statuses: [false],
-        touched: false,
+        touched: false
       },
       password: {
         value: '',
         showError: false,
         statuses: [false],
-        touched: false,
+        touched: false
       }
     };
     const extendedState = {
