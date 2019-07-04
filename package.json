@@ -1,6 +1,6 @@
 {
   "name": "instant-validation",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Quick setup. No Dependencies. Framework agnostic validation tool",
   "main": "dist/bundle.js",
   "types": "dist/index.d.ts",
