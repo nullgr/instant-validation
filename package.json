@@ -2,7 +2,7 @@
   "name": "instant-validation",
   "version": "0.4.1",
   "description": "Quick setup. No Dependencies. Framework agnostic validation tool",
-  "main": "dist/index.js",
+  "main": "dist/bundle.min.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "checktypes": "tsc --noEmit -p ./tsconfig.json",
@@ -10,7 +10,10 @@
     "test": "npm run checktypes && jest",
     "prepush": "npm test ",
     "prepublish": "npm run build",
-    "build": "tsc && tsc -p tsconfig.rules.json"
+    "ts:rules": "tsc -p tsconfig.rules.json",
+    "ts:defs": "tsc --declaration --outDir dist --emitDeclarationOnly",
+    "rollup": "./node_modules/.bin/rollup -c",
+    "build": "npm run ts:defs && npm run ts:rules && npm run rollup"
   },
   "jest": {
     "transform": {
@@ -51,6 +54,8 @@
     "husky": "^0.14.3",
     "jest": "^24.8.0",
     "prettier": "^1.15.3",
+    "rollup": "^1.16.4",
+    "rollup-plugin-typescript": "^1.0.1",
     "ts-jest": "^24.0.2",
     "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.17.0",
