@@ -2,7 +2,7 @@
   "name": "instant-validation",
   "version": "0.4.1",
   "description": "Quick setup. No Dependencies. Framework agnostic validation tool",
-  "main": "dist/bundle.min.js",
+  "main": "dist/bundle.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "checktypes": "tsc --noEmit -p ./tsconfig.json",
