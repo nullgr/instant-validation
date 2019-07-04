@@ -69,11 +69,10 @@ class Validator<ComponentState> {
       this.setInitialValues(componentState);
       let initialState = this.validationState;
       return {
-        errors: getErrorMessages(
-          initialState,
-          this.validationDescription
-        ),
-        get fields() { return getFieldsData(initialState); }
+        errors: getErrorMessages(initialState, this.validationDescription),
+        get fields() {
+          return getFieldsData(initialState);
+        }
       };
     }
 
@@ -96,7 +95,9 @@ class Validator<ComponentState> {
     let updatedState = this.validationState;
     return {
       errors: getErrorMessages(updatedState, this.validationDescription),
-      get fields() { return getFieldsData(updatedState); }
+      get fields() {
+        return getFieldsData(updatedState);
+      }
     };
   }
 

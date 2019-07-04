@@ -44,7 +44,7 @@ var Validator = /** @class */ (function () {
         var updatedState = this.validationState;
         return {
             errors: modules_1.getErrorMessages(updatedState, this.validationDescription),
-            get fields() { return modules_1.getFieldsData(updatedState); }
+            get fields() { console.log('ME FIRED'); return modules_1.getFieldsData(updatedState); }
         };
     };
     Validator.prototype.isFormValid = function () {
