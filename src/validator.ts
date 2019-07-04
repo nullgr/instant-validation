@@ -67,7 +67,7 @@ class Validator<ComponentState> {
   validate(componentState: ComponentState): ValidateReturn {
     if (!this.isInitValidationStateSet) {
       this.setInitialValues(componentState);
-      let initialState = this.validationState;
+      const initialState = this.validationState;
       return {
         errors: getErrorMessages(initialState, this.validationDescription),
         get fields() {
@@ -92,7 +92,7 @@ class Validator<ComponentState> {
         )
       );
     }
-    let updatedState = this.validationState;
+    const updatedState = this.validationState;
     return {
       errors: getErrorMessages(updatedState, this.validationDescription),
       get fields() {

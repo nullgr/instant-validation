@@ -34,7 +34,9 @@ var Validator = /** @class */ (function () {
             var initialState_1 = this.validationState;
             return {
                 errors: modules_1.getErrorMessages(initialState_1, this.validationDescription),
-                get fields() { return modules_1.getFieldsData(initialState_1); }
+                get fields() {
+                    return modules_1.getFieldsData(initialState_1);
+                }
             };
         }
         var diff = modules_1.findDifference(componentState, this.validationState);
@@ -44,7 +46,9 @@ var Validator = /** @class */ (function () {
         var updatedState = this.validationState;
         return {
             errors: modules_1.getErrorMessages(updatedState, this.validationDescription),
-            get fields() { console.log('ME FIRED'); return modules_1.getFieldsData(updatedState); }
+            get fields() {
+                return modules_1.getFieldsData(updatedState);
+            }
         };
     };
     Validator.prototype.isFormValid = function () {
