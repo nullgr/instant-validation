@@ -17,31 +17,22 @@
       "\\.(ts|tsx)$": "ts-jest",
       "\\.(js|jsx)$": "babel-jest"
     },
-    "testRegex": "/__tests__/.*.test\\.(ts|tsx|js)$",
+    "testRegex": "/__tests__/.*.test\\.(ts|js)$",
     "modulePaths": [
       "./"
     ],
     "moduleFileExtensions": [
       "js",
-      "jsx",
-      "json",
-      "ts",
-      "tsx"
+      "ts"
     ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy",
-      "\\.(css|scss)$": "identity-obj-proxy"
-    },
     "testPathIgnorePatterns": [
       "testUtils"
     ],
     "globals": {
       "ts-jest": {
-        "useBabelrc": true,
         "tsConfigFile": "./tsconfig.json"
       }
-    },
-    "testURL": "http://localhost"
+    }
   },
   "repository": {
     "type": "git",
@@ -65,7 +56,6 @@
     "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.5.1",
-    "typescript-eslint-parser": "^15.0.1",
     "watch": "^1.0.1"
   }
 }
