@@ -3,15 +3,25 @@
 - quick setup
 - framework agnostic
 - zero dependencies
+- tiny bundle size
+
+**Size**: ~6.5k, ~1.7k gzip’d,
 
 Why to use:
 
-1. All the state management is under the hood.
+1. All the validation state management of your form is under the hood.
 2. Incapsulation of all logic related to validation,
    you should only call needed method and library will care about details
 3. Easy integration
 
+```
+$ npm install --save instant-validation
+```
+
+### A simple validator creation example
+
 ```js
+import Validator from 'instant-validation';
 const validator = new Validator({
   email: {
       rule: emailRule,
@@ -21,7 +31,7 @@ const validator = new Validator({
 });
 ```
 
-### Form example
+### Simple React Form example
 
 Here is the example of a simple React form for creating an account
 
