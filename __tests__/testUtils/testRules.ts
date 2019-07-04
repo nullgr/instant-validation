@@ -21,4 +21,4 @@ export const allowToWithdrawRule = (value: number, selectedBill: number, totalBi
   return true;
 }
 
-export const allowToSelectBillRule = (value: number, bankAllows:boolean) => value && bankAllows;
+export const allowToSelectBillRule = (value: number, bankAllows:boolean) => value > 0 && bankAllows;

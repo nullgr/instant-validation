@@ -1,4 +1,4 @@
-import { getFieldsData } from '../src/modules';
+import { getFieldsData } from '../src/validator/modules';
 
 // TODO add more tests here
 describe('Unit tests for getFieldsData module', () => {
@@ -33,10 +33,7 @@ describe('Unit tests for getFieldsData module', () => {
         valid: false
       }
     };
-    const result = getFieldsData(
-      validationState,
-    );
+    const result = getFieldsData(validationState);
     expect(result).toEqual(expected);
   });
 });
-

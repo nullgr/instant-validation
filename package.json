@@ -1,47 +1,41 @@
 {
   "name": "instant-validation",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Quick setup. No Dependencies. Framework agnostic validation tool",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "dist/bundle.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "checktypes": "tsc --noEmit -p ./tsconfig.json",
     "dev": "watch 'npm run build' src",
     "test": "npm run checktypes && jest",
     "prepush": "npm test ",
     "prepublish": "npm run build",
-    "build": "tsc"
+    "ts:rules": "tsc -p tsconfig.rules.json",
+    "ts:defs": "tsc --declaration --outDir dist --emitDeclarationOnly",
+    "rollup": "./node_modules/.bin/rollup -c",
+    "build": "npm run ts:defs && npm run ts:rules && npm run rollup"
   },
   "jest": {
     "transform": {
       "\\.(ts|tsx)$": "ts-jest",
       "\\.(js|jsx)$": "babel-jest"
     },
-    "testRegex": "/__tests__/.*.test\\.(ts|tsx|js)$",
+    "testRegex": "/__tests__/.*.test\\.(ts|js)$",
     "modulePaths": [
       "./"
     ],
     "moduleFileExtensions": [
       "js",
-      "jsx",
-      "json",
-      "ts",
-      "tsx"
+      "ts"
     ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy",
-      "\\.(css|scss)$": "identity-obj-proxy"
-    },
     "testPathIgnorePatterns": [
       "testUtils"
     ],
     "globals": {
       "ts-jest": {
-        "useBabelrc": true,
         "tsConfigFile": "./tsconfig.json"
       }
-    },
-    "testURL": "http://localhost"
+    }
   },
   "repository": {
     "type": "git",
@@ -55,17 +49,17 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^24.0.13",
-    "babel-core": "^6.26.3",
     "babel-jest": "^24.8.0",
     "babel-preset-env": "^1.7.0",
     "husky": "^0.14.3",
     "jest": "^24.8.0",
     "prettier": "^1.15.3",
+    "rollup": "^1.16.4",
+    "rollup-plugin-typescript": "^1.0.1",
     "ts-jest": "^24.0.2",
     "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.5.1",
-    "typescript-eslint-parser": "^15.0.1",
     "watch": "^1.0.1"
   }
 }

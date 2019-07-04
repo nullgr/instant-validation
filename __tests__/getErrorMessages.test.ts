@@ -1,4 +1,4 @@
-import { getErrorMessages } from '../src/modules';
+import { getErrorMessages } from '../src/validator/modules';
 import { emailRule, requiredRule } from './testUtils/testRules';
 
 // TODO add more tests here

@@ -1,5 +1,9 @@
-import { validateFieldsByDiff } from '../src/modules';
-import { emailRule, passwordEqualRule, requiredRule } from './testUtils/testRules';
+import { validateFieldsByDiff } from '../src/validator/modules';
+import {
+  emailRule,
+  passwordEqualRule,
+  requiredRule
+} from './testUtils/testRules';
 
 // TODO add more tests here
 describe('Unit tests for validateFieldsByDiff module', () => {
@@ -34,7 +38,7 @@ describe('Unit tests for validateFieldsByDiff module', () => {
       ]
     };
     const diff = {
-      repeatPassword: '12345',
+      repeatPassword: '12345'
     };
     const validationState = {
       email: {
@@ -56,7 +60,7 @@ describe('Unit tests for validateFieldsByDiff module', () => {
         statuses: [false, false]
       }
     };
-    const insertedArgs = {passwordEqual: ['12345']};
+    const insertedArgs = { passwordEqual: ['12345'] };
     const ruleIdsInFields = {
       passwordEqual: ['repeatPassword']
     };
@@ -77,7 +81,7 @@ describe('Unit tests for validateFieldsByDiff module', () => {
       repeatPassword: {
         showError: true,
         touched: true,
-        statuses: [true,true],
+        statuses: [true, true],
         value: '12345'
       }
     };
