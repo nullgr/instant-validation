@@ -1,4 +1,4 @@
-import { showAllErrors } from '../src/modules';
+import { showAllErrors } from '../src/validator/modules';
 
 describe('Unit tests for showAllErrors module', () => {
   test(`All fields must get 'showError' as true`, () => {

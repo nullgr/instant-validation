@@ -2,14 +2,13 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
-    "outDir": "dist",
+    "outDir": "rules",
     "declaration": true,
     "lib": ["es6", "dom"],
-    "sourceMap": true,
-    "sourceRoot": "src/validator",
+    "sourceMap": false,
     "allowJs": false,
     "moduleResolution": "node",
-    "rootDir": "src/validator",
+    "rootDir": "src/rules",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
@@ -17,6 +16,13 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true
   },
-  "include": ["src/validator/**/*"],
-  "exclude": ["node_modules", ".tmp", "dist", "rules", "src/testUtils"]
+  "include": ["src/rules/**/*"],
+  "exclude": [
+    "src/validator/**/*",
+    "node_modules",
+    ".tmp",
+    "dist",
+    "rules",
+    "src/testUtils"
+  ]
 }

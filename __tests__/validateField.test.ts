@@ -1,5 +1,9 @@
-import { validateField } from '../src/modules';
-import { allowToWithdrawRule, emailRule, requiredRule } from './testUtils/testRules';
+import { validateField } from '../src/validator/modules';
+import {
+  allowToWithdrawRule,
+  emailRule,
+  requiredRule
+} from './testUtils/testRules';
 
 describe('Unit tests for validateField module', () => {
   test(`Field should be valid`, () => {
@@ -13,7 +17,7 @@ describe('Unit tests for validateField module', () => {
         rule: emailRule,
         message: 'Please enter a valid email'
       }
-    ]
+    ];
     expect(validateField(value, rules, {})).toEqual([true, true]);
   });
   test(`Field should be not valid`, () => {
@@ -27,7 +31,7 @@ describe('Unit tests for validateField module', () => {
         rule: emailRule,
         message: 'Please enter a valid email'
       }
-    ]
+    ];
     expect(validateField(value, rules, {})).toEqual([true, false]);
   });
   test(`Field should be valid with many arguments rule`, () => {
@@ -42,8 +46,8 @@ describe('Unit tests for validateField module', () => {
         message: 'This amount can not be withdrawed',
         ruleId: 'allowToWithdraw'
       }
-    ]
-    const insertedArgs = {allowToWithdraw: [true, 100]};
+    ];
+    const insertedArgs = { allowToWithdraw: [true, 100] };
     expect(validateField(value, rules, insertedArgs)).toEqual([true, true]);
   });
 
@@ -59,8 +63,8 @@ describe('Unit tests for validateField module', () => {
         message: 'This amount can not be withdrawed',
         ruleId: 'allowToWithdraw'
       }
-    ]
-    const insertedArgs = {allowToWithdraw: [true, 100]};
+    ];
+    const insertedArgs = { allowToWithdraw: [true, 100] };
     expect(validateField(value, rules, insertedArgs)).toEqual([true, false]);
   });
 });

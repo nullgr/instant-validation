@@ -28,7 +28,7 @@ Here is the example of a simple React form for creating an account
 ```js
 import * as React from 'react';
 import Validator from 'instant-validation';
-import { requiredRule } from 'instant-validation/build/rules';
+import { requiredRule } from 'instant-validation/rules';
 import { emailRule } from './validationRules';
 
 const validator = new Validator({

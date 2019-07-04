@@ -1,4 +1,4 @@
-import { getRuleIdsInFields } from '../src/modules';
+import { getRuleIdsInFields } from '../src/validator/modules';
 import {
   allowToSelectBillRule,
   allowToWithdrawRule,
