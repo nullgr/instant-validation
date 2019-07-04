@@ -22,12 +22,15 @@ $ npm install --save instant-validation
 
 ```js
 import Validator from 'instant-validation';
+import { requiredRule } from 'instant-validation/rules';
+
 const validator = new Validator({
-  email: {
-      rule: emailRule,
-      message: 'Please enter a valid email'
+  name: [
+    {
+      rule: requiredRule,
+      message: 'Please enter yout name'
     }
-  }
+  ]
 });
 ```
 
@@ -91,6 +94,7 @@ class RegistrationForm extends React.Component {
   render() {
     const { email, password, passwordRepeat } = this.state;
     const { errors } = validator
+      // if you have some rules with many arguments, you can pass those arguments like this
       .insertArgs({
         passwordEqual: [password]
       })
