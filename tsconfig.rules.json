@@ -20,7 +20,6 @@
   "exclude": [
     "src/validator/**/*",
     "node_modules",
-    ".tmp",
     "dist",
     "rules",
     "src/testUtils"

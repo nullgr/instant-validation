@@ -17,5 +17,11 @@
     "noUnusedLocals": true
   },
   "include": ["src/validator/**/*"],
-  "exclude": ["node_modules", ".tmp", "dist", "rules", "src/testUtils"]
+  "exclude": [
+    "src/rules/**/*",
+    "node_modules",
+    "dist",
+    "rules",
+    "src/testUtils"
+  ]
 }
