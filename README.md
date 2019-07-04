@@ -22,17 +22,30 @@ $ npm install --save instant-validation
 
 ```js
 import Validator from 'instant-validation';
-import { requiredRule } from 'instant-validation/rules';
 
 const validator = new Validator({
   name: [
     {
-      rule: requiredRule,
-      message: 'Please enter yout name'
+      rule: value => !!value,
+      message: 'Please enter your name'
     }
   ]
 });
 ```
+
+### Rules
+
+Each rule is a function and it should return `true` for a valid case and `false` for invalid.
+Each field should contain and array with minimum 1 rule
+
+You can import ready to use rules
+
+```js
+import { requiredRule, lengthRule } from 'instant-validation/rules';
+```
+
+Right now there are only two rules - `requiredRule` and `lengthRule`
+but we are going to add some other useful rules in future releases.
 
 ### Simple React Form example
 
