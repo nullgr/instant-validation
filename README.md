@@ -94,7 +94,7 @@ class RegistrationForm extends React.Component {
   render() {
     const { email, password, passwordRepeat } = this.state;
     const { errors } = validator
-      // if you have some rules with many arguments, you can pass those arguments them like this
+      // if you have some rules with many arguments, you can pass those arguments like this
       .insertArgs({
         passwordEqual: [password]
       })
