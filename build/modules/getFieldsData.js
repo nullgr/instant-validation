@@ -13,10 +13,10 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 function getFieldsData(validationState) {
     // TODO add README desctiption and example for it
-    var result = {};
-    Object.keys(validationState).forEach(function (key) {
-        result[key] = __assign({}, validationState[key], { valid: validationState[key].statuses.filter(function (status) { return !status; }).length === 0 });
-    });
+    var result = Object.keys(validationState).reduce(function (acc, key) {
+        acc[key] = __assign({}, validationState[key], { valid: validationState[key].statuses.filter(function (status) { return !status; }).length === 0 });
+        return acc;
+    }, {});
     return result;
 }
 exports.getFieldsData = getFieldsData;

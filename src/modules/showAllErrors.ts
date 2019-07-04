@@ -4,10 +4,11 @@ function showAllErrors(
   validationState: ValidationState,
   show: boolean
 ): ValidationState {
-  let newState = {};
-  Object.keys(validationState).forEach(
-    key => (newState[key] = { ...validationState[key], showError: show })
-  );
-  return newState;
+  return Object.keys(validationState)
+    .reduce((acc, key) => {
+      acc[key] = { ...validationState[key], showError: show };
+      return acc
+    }
+  , {});
 }
 export { showAllErrors };

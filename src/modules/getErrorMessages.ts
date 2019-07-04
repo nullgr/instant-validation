@@ -15,15 +15,15 @@ function getErrorMessages(
   validationState: ValidationState,
   validationDescription: FormattedFieldsDescription
 ) {
-  let errors = {};
-  Object.keys(validationState).forEach(fieldName => {
-    errors[fieldName] = validationState[fieldName].showError
+  const errors = Object.keys(validationState).reduce((acc, fieldName) => {
+    acc[fieldName] = validationState[fieldName].showError
       ? findFirstFailedRuleMessage(
           validationDescription[fieldName],
           validationState[fieldName].statuses
         )
       : '';
-  });
+    return acc;
+  }, {});
   return errors;
 }
 export { getErrorMessages };
