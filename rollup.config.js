@@ -4,7 +4,7 @@ export default {
   input: 'src/validator/index.ts',
   output: {
     file: 'dist/bundle.js',
-    format: 'esm',
+    format: 'cjs',
     name: 'InstantValidation'
   },
   plugins: [typescript()]
