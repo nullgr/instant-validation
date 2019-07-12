@@ -226,6 +226,3 @@ const { errors } = validator
   })
   .validate(this.state);
 ```
-
-Right now you can pass as additional arguments only validatable fields. That means, that they should also have their validation rules and be checked in validator.
-But we are working on improvement of this limitation and in future releases you could pass as additinal arguments any fields and just recall validtion method, when such arguments are updated.

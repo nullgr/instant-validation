@@ -1,4 +1,5 @@
 import {
+  ChangedArgsFields,
   ErrorMessages,
   FieldsDescription,
   FormattedFieldsDescription,
@@ -10,6 +11,7 @@ import {
 
 import {
   buildInitialState,
+  findArgsDifference,
   findDifference,
   getErrorMessages,
   getFieldsData,
@@ -35,6 +37,7 @@ class Validator<ComponentState> {
   validationState: ValidationState;
   isInitValidationStateSet: boolean;
   insertedArgs: InsertedArgs;
+  updatedArgsFields: ChangedArgsFields;
   ruleIdsInFields: RuleIdsInFields;
 
   constructor(fields: FieldsDescription) {
@@ -46,6 +49,7 @@ class Validator<ComponentState> {
     this.ruleIdsInFields = getRuleIdsInFields(fields);
     this.validationState = {};
     this.isInitValidationStateSet = false;
+    this.updatedArgsFields = [];
     this.insertedArgs = {};
   }
 
@@ -78,7 +82,8 @@ class Validator<ComponentState> {
 
     const diff = findDifference<ComponentState>(
       componentState,
-      this.validationState
+      this.validationState,
+      this.updatedArgsFields
     );
     if (Object.keys(diff).length > 0) {
       this.refreshState(
@@ -106,6 +111,13 @@ class Validator<ComponentState> {
   }
 
   insertArgs(args: InsertedArgs) {
+    if (Object.keys(this.insertedArgs).length > 0) {
+      this.updatedArgsFields = findArgsDifference(
+        args,
+        this.insertedArgs,
+        this.ruleIdsInFields
+      );
+    }
     this.insertedArgs = args;
     return this;
   }

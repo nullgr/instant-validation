@@ -72,4 +72,6 @@ export type ErrorMessages =
 
 export type RuleIdsInFields = {
   [ruleId: string]: string[];
-}
+};
+
+export type ChangedArgsFields = string[];

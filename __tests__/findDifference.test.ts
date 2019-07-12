@@ -1,4 +1,5 @@
 import { findDifference } from '../src/validator/modules';
+import { ChangedArgsFields } from '../src/validator/types';
 
 describe('Unit tests for findDifference module', () => {
   test(`Testing initial state run`, () => {
@@ -20,8 +21,13 @@ describe('Unit tests for findDifference module', () => {
       email: '',
       password: ''
     };
+    const updatedArgsFields: ChangedArgsFields = [];
     const expectedNextDifference = {};
-    const difference = findDifference(initialState, validationState);
+    const difference = findDifference(
+      initialState,
+      validationState,
+      updatedArgsFields
+    );
     expect(difference).toEqual(expectedNextDifference);
   });
 
@@ -44,11 +50,16 @@ describe('Unit tests for findDifference module', () => {
       email: 'a',
       password: ''
     };
+    const updatedArgsFields: ChangedArgsFields = [];
     const expectedNextDifference = {
       email: 'a'
     };
 
-    const difference = findDifference(nextState, validationState);
+    const difference = findDifference(
+      nextState,
+      validationState,
+      updatedArgsFields
+    );
     expect(difference).toEqual(expectedNextDifference);
   });
 
@@ -71,13 +82,18 @@ describe('Unit tests for findDifference module', () => {
       email: 'someMail@mail.com',
       password: 'somepassword'
     };
+    const updatedArgsFields: ChangedArgsFields = [];
 
     const expectedNextDifference = {
       email: 'someMail@mail.com',
       password: 'somepassword'
     };
 
-    const difference = findDifference(nextState, validationState);
+    const difference = findDifference(
+      nextState,
+      validationState,
+      updatedArgsFields
+    );
     expect(difference).toEqual(expectedNextDifference);
   });
 
@@ -96,13 +112,50 @@ describe('Unit tests for findDifference module', () => {
         touched: false
       }
     };
+    const updatedArgsFields: ChangedArgsFields = [];
     const extendedState = {
       email: '',
       password: '',
       message: 'no need to validate'
     };
 
-    const difference = findDifference(extendedState, validationState);
+    const difference = findDifference(
+      extendedState,
+      validationState,
+      updatedArgsFields
+    );
     expect(difference).toEqual({});
+  });
+
+  test(`Testing inserted arguments update`, () => {
+    const validationState = {
+      email: {
+        value: '',
+        showError: false,
+        statuses: [false],
+        touched: true
+      },
+      password: {
+        value: '',
+        showError: false,
+        statuses: [false],
+        touched: false
+      }
+    };
+    const nextState = {
+      email: '',
+      password: ''
+    };
+    const updatedArgsFields: ChangedArgsFields = ['email'];
+    const expectedNextDifference = {
+      email: ''
+    };
+
+    const difference = findDifference(
+      nextState,
+      validationState,
+      updatedArgsFields
+    );
+    expect(difference).toEqual(expectedNextDifference);
   });
 });
