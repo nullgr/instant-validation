@@ -20,12 +20,12 @@ describe('Unit tests for findDifference module', () => {
       email: '',
       password: ''
     };
-    const updatedArgsFiled: string[] = [];
+    const updatedArgsFields: string[] = [];
     const expectedNextDifference = {};
     const difference = findDifference(
       initialState,
       validationState,
-      updatedArgsFiled
+      updatedArgsFields
     );
     expect(difference).toEqual(expectedNextDifference);
   });
@@ -49,7 +49,7 @@ describe('Unit tests for findDifference module', () => {
       email: 'a',
       password: ''
     };
-    const updatedArgsFiled: string[] = [];
+    const updatedArgsFields: string[] = [];
     const expectedNextDifference = {
       email: 'a'
     };
@@ -57,7 +57,7 @@ describe('Unit tests for findDifference module', () => {
     const difference = findDifference(
       nextState,
       validationState,
-      updatedArgsFiled
+      updatedArgsFields
     );
     expect(difference).toEqual(expectedNextDifference);
   });
@@ -81,7 +81,7 @@ describe('Unit tests for findDifference module', () => {
       email: 'someMail@mail.com',
       password: 'somepassword'
     };
-    const updatedArgsFiled: string[] = [];
+    const updatedArgsFields: string[] = [];
 
     const expectedNextDifference = {
       email: 'someMail@mail.com',
@@ -91,7 +91,7 @@ describe('Unit tests for findDifference module', () => {
     const difference = findDifference(
       nextState,
       validationState,
-      updatedArgsFiled
+      updatedArgsFields
     );
     expect(difference).toEqual(expectedNextDifference);
   });
@@ -111,7 +111,7 @@ describe('Unit tests for findDifference module', () => {
         touched: false
       }
     };
-    const updatedArgsFiled: string[] = [];
+    const updatedArgsFields: string[] = [];
     const extendedState = {
       email: '',
       password: '',
@@ -121,7 +121,7 @@ describe('Unit tests for findDifference module', () => {
     const difference = findDifference(
       extendedState,
       validationState,
-      updatedArgsFiled
+      updatedArgsFields
     );
     expect(difference).toEqual({});
   });
@@ -145,7 +145,7 @@ describe('Unit tests for findDifference module', () => {
       email: '',
       password: ''
     };
-    const updatedArgsFiled: string[] = ['email'];
+    const updatedArgsFields: string[] = ['email'];
     const expectedNextDifference = {
       email: ''
     };
@@ -153,7 +153,7 @@ describe('Unit tests for findDifference module', () => {
     const difference = findDifference(
       nextState,
       validationState,
-      updatedArgsFiled
+      updatedArgsFields
     );
     expect(difference).toEqual(expectedNextDifference);
   });
