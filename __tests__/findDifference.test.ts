@@ -1,4 +1,5 @@
 import { findDifference } from '../src/validator/modules';
+import { ChangedArgsFields } from '../src/validator/types';
 
 describe('Unit tests for findDifference module', () => {
   test(`Testing initial state run`, () => {
@@ -20,7 +21,7 @@ describe('Unit tests for findDifference module', () => {
       email: '',
       password: ''
     };
-    const updatedArgsFields: string[] = [];
+    const updatedArgsFields: ChangedArgsFields = [];
     const expectedNextDifference = {};
     const difference = findDifference(
       initialState,
@@ -49,7 +50,7 @@ describe('Unit tests for findDifference module', () => {
       email: 'a',
       password: ''
     };
-    const updatedArgsFields: string[] = [];
+    const updatedArgsFields: ChangedArgsFields = [];
     const expectedNextDifference = {
       email: 'a'
     };
@@ -81,7 +82,7 @@ describe('Unit tests for findDifference module', () => {
       email: 'someMail@mail.com',
       password: 'somepassword'
     };
-    const updatedArgsFields: string[] = [];
+    const updatedArgsFields: ChangedArgsFields = [];
 
     const expectedNextDifference = {
       email: 'someMail@mail.com',
@@ -111,7 +112,7 @@ describe('Unit tests for findDifference module', () => {
         touched: false
       }
     };
-    const updatedArgsFields: string[] = [];
+    const updatedArgsFields: ChangedArgsFields = [];
     const extendedState = {
       email: '',
       password: '',
@@ -145,7 +146,7 @@ describe('Unit tests for findDifference module', () => {
       email: '',
       password: ''
     };
-    const updatedArgsFields: string[] = ['email'];
+    const updatedArgsFields: ChangedArgsFields = ['email'];
     const expectedNextDifference = {
       email: ''
     };
