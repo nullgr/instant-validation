@@ -1,11 +1,13 @@
 # instant-validation
 
+[![Generic badge](https://img.shields.io/npm/v/instant-validation.svg?color=success)](https://www.npmjs.com/package/instant-validation)
+
 - quick setup
 - framework agnostic
 - zero dependencies
 - tiny bundle size
 
-**Size**: ~6.5k, ~1.7k gzip’d,
+**Size**: ~6.5k, ~1.7k gzip’d
 
 Why to use:
 
