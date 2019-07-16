@@ -1,4 +1,4 @@
-# instant-validation integration recipes
+# Integration recipes
 
 ## React
 
@@ -27,13 +27,13 @@ const { errors } = v.validate(state);
 
 ### useValidator hook in TypeScript
 
-<!-- prettier-ignore -->
 useValidator.ts
 
+<!-- prettier-ignore -->
 ```js
 import * as React from 'react';
 function useValidator<FieldsState>(rules) {
-  const [validator] = React.useState(new Validator() < FieldsState > rules);
+  const [validator] = React.useState(new Validator<FieldsState>(rules));
   return [validator];
 }
 export default useValidator;
