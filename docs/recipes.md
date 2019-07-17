@@ -2,13 +2,15 @@
 
 ## React
 
-### useValidator hook
+### useValidator() hook
 
 useValidator.js
 
 <!-- prettier-ignore -->
 ```js
-import React, { useState } from 'react';
+import { useState } from 'react';
+import Validator from 'instant-validation';
+
 function useValidator(rules) {
   const [validator] = useState(new Validator(rules));
   return [validator];
@@ -25,13 +27,14 @@ const [v] = useValidator(validationRules);
 const { errors } = v.validate(state);
 ```
 
-### useValidator hook in TypeScript
+### useValidator() hook in TypeScript
 
 useValidator.ts
 
 <!-- prettier-ignore -->
 ```js
 import * as React from 'react';
+import Validator from 'instant-validation';
 function useValidator<FieldsState>(rules) {
   const [validator] = React.useState(new Validator<FieldsState>(rules));
   return [validator];
@@ -49,7 +52,7 @@ const [v] = useValidator<State>(validationRules);
 const { errors } = v.validate(state);
 ```
 
-### withValidator hoc
+### withValidator() HOC
 
 withValidator.js
 
@@ -58,15 +61,11 @@ withValidator.js
 import React from 'react';
 import Validator from 'instant-validation';
 
-function returnValidator(rules) {
-  return new Validator(rules);
-}
-
 function withValidator(WrappedComponent, rules) {
   return class extends React.Component {
     constructor(props) {
       super(props);
-      this.validator = returnValidator(rules);
+      this.validator = new Validator(rules);
     }
 
     render() {
@@ -96,7 +95,7 @@ class SomeForm extends React.Component {
 export default withValidator(SomeForm, validationRules);
 ```
 
-### withValidator hoc in TypeScript
+### withValidator() HOC in TypeScript
 
 withValidator.ts
 
