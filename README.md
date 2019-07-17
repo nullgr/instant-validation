@@ -7,7 +7,7 @@
 - zero dependencies
 - tiny bundle size
 
-**Size**: ~6.5k, ~1.7k gzip’d
+**Size**: ~4k, ~1.4k gzip’d
 
 Why to use:
 

@@ -27,8 +27,9 @@ import {
  * Thanks to ideas and participating from
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Yurii Fediv <y.fediv@nullgr.com>
- * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
+ * @author Stanislav Iliashchuk <s.iliashchuk@nullgr.com>
  * @author Igor Ivanov <i.ivanov@nullgr.com>
+ * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
 
 class Validator<ComponentState> {

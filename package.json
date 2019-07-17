@@ -1,8 +1,8 @@
 {
   "name": "instant-validation",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Quick setup. No Dependencies. Framework agnostic validation tool",
-  "main": "dist/bundle.js",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "checktypes": "tsc --noEmit -p ./tsconfig.json",
@@ -43,7 +43,8 @@
   },
   "keywords": [
     "validation",
-    "forms"
+    "forms",
+    "react"
   ],
   "author": "Oleksandr Chernenko (ca@nullgr.com, akazimirkas@gmail.com)",
   "license": "MIT",
