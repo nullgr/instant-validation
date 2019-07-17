@@ -7,7 +7,7 @@
 - zero dependencies
 - tiny bundle size
 
-**Size**: ~4k, ~1.4k gzip’d
+**Size**: ~4k, ~1.5k gzip’d
 
 Why to use:
 
@@ -17,7 +17,7 @@ Why to use:
 3. Easy integration
 
 ```
-$ npm install --save instant-validation
+$ npm i instant-validation
 ```
 
 ### A simple validator creation example
