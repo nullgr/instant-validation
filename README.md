@@ -228,3 +228,7 @@ const { errors } = validator
   })
   .validate(this.state);
 ```
+
+## Recipes
+
+[integration recipes](docs/recipes.md)
