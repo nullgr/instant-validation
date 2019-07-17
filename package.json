@@ -1,6 +1,6 @@
 {
   "name": "instant-validation",
-  "version": "0.5.5",
+  "version": "1.0.0",
   "description": "Quick setup. No Dependencies. Framework agnostic validation tool",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,8 +42,12 @@
     "url": "git+https://github.com/nullgr/instant-validation.git"
   },
   "keywords": [
+    "instant validation",
     "validation",
+    "validator",
+    "fields",
     "forms",
+    "check",
     "react"
   ],
   "author": "Oleksandr Chernenko (ca@nullgr.com, akazimirkas@gmail.com)",
