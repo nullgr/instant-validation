@@ -3,9 +3,8 @@ import typescript from 'rollup-plugin-typescript';
 export default {
   input: 'src/validator/index.ts',
   output: {
-    file: 'dist/bundle.js',
-    format: 'cjs',
-    name: 'InstantValidation'
+    file: 'dist/index.js',
+    format: 'es'
   },
   plugins: [typescript()]
 };
