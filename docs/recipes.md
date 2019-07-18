@@ -32,7 +32,7 @@ const { errors } = v.validate(state);
 useValidator.ts
 
 <!-- prettier-ignore -->
-```js
+```ts
 import * as React from 'react';
 import Validator from 'instant-validation';
 function useValidator<FieldsState>(rules) {
@@ -45,7 +45,7 @@ export default useValidator;
 in component
 
 <!-- prettier-ignore -->
-```js
+```ts
 import useValidator from './useValidator';
 ...
 const [v] = useValidator<State>(validationRules);

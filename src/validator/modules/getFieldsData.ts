@@ -1,14 +1,21 @@
 import { PublicFieldsData, ValidationState } from '../types';
 
-function getFieldsData(validationState: ValidationState): PublicFieldsData {
-    // TODO add README desctiption and example for it
-    let result = Object.keys(validationState).reduce((acc, key) => {
+function getFieldsData<ComponentState>(
+  validationState: ValidationState<ComponentState>
+): PublicFieldsData<ComponentState> {
+  // TODO add README desctiption and example for it
+  return Object.keys(validationState).reduce(
+    (acc, key) => {
       acc[key] = {
         ...validationState[key],
-        valid: validationState[key].statuses.filter((status: boolean) => !status).length === 0
+        valid:
+          validationState[key].statuses.filter((status: boolean) => !status)
+            .length === 0
       };
       return acc;
-    }, {})
-    return result;
-  }
+    },
+    {} as PublicFieldsData<ComponentState>
+  );
+}
+
 export { getFieldsData };

@@ -1,6 +1,8 @@
 import { ValidationState } from '../types';
 // TODO add tests here
-function isStateValid(validationState: ValidationState): boolean {
+function isStateValid<ComponentState>(
+  validationState: ValidationState<ComponentState>
+): boolean {
   const keys = Object.keys(validationState);
   for (let key of keys) {
     const item = validationState[key];

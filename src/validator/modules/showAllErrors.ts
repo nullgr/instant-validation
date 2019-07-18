@@ -1,14 +1,15 @@
 import { ValidationState } from '../types';
 
-function showAllErrors(
-  validationState: ValidationState,
+function showAllErrors<ComponentState>(
+  validationState: ValidationState<ComponentState>,
   show: boolean
-): ValidationState {
-  return Object.keys(validationState)
-    .reduce((acc, key) => {
+): ValidationState<ComponentState> {
+  return Object.keys(validationState).reduce(
+    (acc, key) => {
       acc[key] = { ...validationState[key], showError: show };
-      return acc
-    }
-  , {});
+      return acc;
+    },
+    {} as ValidationState<ComponentState>
+  );
 }
 export { showAllErrors };

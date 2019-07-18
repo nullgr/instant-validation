@@ -1,27 +1,22 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
+    "module": "es2015",
+    "target": "es6",
     "outDir": "dist",
     "declaration": true,
     "lib": ["es6", "dom"],
-    "sourceMap": false,
+    "sourceMap": true,
     "allowJs": false,
     "moduleResolution": "node",
-    "rootDir": "src/validator",
+    "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "strict": true
   },
-  "include": ["src/validator/**/*"],
-  "exclude": [
-    "src/rules/**/*",
-    "node_modules",
-    "dist",
-    "rules",
-    "src/testUtils"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "examples"]
 }

@@ -9,9 +9,9 @@ function buildInitialState<ComponentState>(
   validationDescription: FormattedFieldsDescription,
   insertedArgs: InsertedArgs,
   ruleIdsInFields: any
-): ValidationState {
+): ValidationState<ComponentState> {
   let initialDiff = {};
-  let initialState = {};
+  let initialState = {} as ValidationState<ComponentState>;
   Object.keys(validationDescription).forEach(fieldName => {
     if (typeof componentState[fieldName] === 'undefined') {
       throw new Error(
