@@ -16,8 +16,7 @@
   },
   "jest": {
     "transform": {
-      "\\.(ts|tsx)$": "ts-jest",
-      "\\.(js|jsx)$": "babel-jest"
+      "\\.(ts|tsx)$": "ts-jest"
     },
     "testRegex": "/__tests__/.*.test\\.(ts|js)$",
     "modulePaths": [
@@ -53,8 +52,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^24.0.13",
-    "babel-jest": "^24.8.0",
-    "babel-preset-env": "^1.7.0",
     "husky": "^0.14.3",
     "jest": "^24.8.0",
     "prettier": "^1.15.3",
