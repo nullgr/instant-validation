@@ -1,0 +1,11 @@
+__tests__
+.vscode
+src
+.editorconfig
+.gitignore
+.prettierrc
+global.d.ts
+rollup.config.js
+tsconfig.json
+tsconfig.rules.json
+tslint.json
