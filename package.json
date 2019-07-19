@@ -5,9 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "checktypes": "tsc --noEmit -p ./tsconfig.json",
     "dev": "watch 'npm run build' src",
-    "test": "npm run checktypes && jest",
+    "test": "jest",
     "prepush": "npm test ",
     "prepublish": "npm run build",
     "ts:rules": "tsc -p tsconfig.rules.json",

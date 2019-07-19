@@ -1,7 +1,6 @@
 __tests__
 src
 examples
-global.d.ts
 rollup.config.js
 tsconfig.json
 tsconfig.rules.json
