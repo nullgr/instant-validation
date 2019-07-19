@@ -9,3 +9,4 @@ rollup.config.js
 tsconfig.json
 tsconfig.rules.json
 tslint.json
+.DS_Store
