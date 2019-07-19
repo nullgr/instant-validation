@@ -2,7 +2,7 @@ import { ChangedArgsFields, ValidationState } from '../types';
 
 function findDifference<ComponentState>(
   componentStateUpdates: ComponentState,
-  actualValidationState: ValidationState,
+  actualValidationState: ValidationState<ComponentState>,
   updatedArgsField: ChangedArgsFields
 ): Partial<ComponentState> {
   const difference = Object.keys(actualValidationState).reduce(

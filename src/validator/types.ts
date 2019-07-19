@@ -1,18 +1,18 @@
 export type Rule = (val: any, ...insertedArgs: any[]) => boolean;
 
-export type RuleData = {
+export interface RuleData {
   rule: Rule;
   message: string;
   ruleId?: string;
-};
+}
 
 /**
  * FieldsDescription type for using it in constructor
  * you only can use array of objects with RuleData
  */
-export type FieldsDescription = {
+export interface FieldsDescription {
   [key: string]: RuleData[];
-};
+}
 
 /**
  * FieldValidationState type describes each field validation info
@@ -31,47 +31,42 @@ export interface PublicFieldValidationState extends FieldValidationState {
 /**
  * ValidationState type describes whole form validation info
  */
-export type ValidationState =
-  | {
-      [key: string]: FieldValidationState;
-    }
-  | {};
+export type ValidationState<ComponentState> = {
+  [key in keyof ComponentState]: FieldValidationState;
+};
 
 /**
  * Public ValidationState type describes whole form validation info
  */
-export type PublicFieldsData =
-  | {
-      [key: string]: PublicFieldValidationState;
-    }
-  | {};
+export type PublicFieldsData<ComponentState> = {
+  [key in keyof ComponentState]: PublicFieldValidationState;
+};
 
 /**
  * ValidatorReturn type describes what exactly validate method returns
  */
-export type ValidateReturn = {
-  [key: string]: ErrorMessages;
-};
+export interface ValidateReturn<ComponentState> {
+  errors: ErrorMessages<ComponentState>;
+  fields: PublicFieldsData<ComponentState>;
+}
 
 /**
  * FieldsDescription type for using it in under the hood, each ruleData is 100% an array
  */
-export type FormattedFieldsDescription = {
+export interface FormattedFieldsDescription {
   [key: string]: RuleData[];
-};
+}
 
-export type InsertedArgs = {
+export interface InsertedArgs {
   [key: string]: any[];
+}
+
+export type ErrorMessages<ComponentState> = {
+  [key in keyof ComponentState]: string;
 };
 
-export type ErrorMessages =
-  | {
-      [key: string]: string;
-    }
-  | {};
-
-export type RuleIdsInFields = {
+export interface RuleIdsInFields {
   [ruleId: string]: string[];
-};
+}
 
 export type ChangedArgsFields = string[];

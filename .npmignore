@@ -1,0 +1,10 @@
+__tests__
+src
+rollup.config.js
+tsconfig.json
+tsconfig.rules.json
+tslint.json
+.editorconfig
+.prettierrc
+.DS_Store
+.vscode

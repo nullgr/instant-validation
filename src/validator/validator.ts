@@ -28,14 +28,15 @@ import {
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Yurii Fediv <y.fediv@nullgr.com>
  * @author Stanislav Iliashchuk <s.iliashchuk@nullgr.com>
+ * @author Roman Charugin <i@charugin.ru>
  * @author Igor Ivanov <i.ivanov@nullgr.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
 
 class Validator<ComponentState> {
-  errors: ErrorMessages;
+  errors?: ErrorMessages<ComponentState>;
   validationDescription: FormattedFieldsDescription;
-  validationState: ValidationState;
+  validationState?: ValidationState<ComponentState>;
   isInitValidationStateSet: boolean;
   insertedArgs: InsertedArgs;
   updatedArgsFields: ChangedArgsFields;
@@ -48,13 +49,12 @@ class Validator<ComponentState> {
 
     this.validationDescription = fields;
     this.ruleIdsInFields = getRuleIdsInFields(fields);
-    this.validationState = {};
     this.isInitValidationStateSet = false;
     this.updatedArgsFields = [];
     this.insertedArgs = {};
   }
 
-  setInitialValues(componentState: ComponentState) {
+  setInitialValues(componentState: ComponentState): void {
     if (this.isInitValidationStateSet) {
       return;
     }
@@ -69,28 +69,30 @@ class Validator<ComponentState> {
     );
   }
 
-  validate(componentState: ComponentState): ValidateReturn {
+  validate(componentState: ComponentState): ValidateReturn<ComponentState> {
     if (!this.isInitValidationStateSet) {
       this.setInitialValues(componentState);
-      const initialState = this.validationState;
+      const initialState = this.validationState as ValidationState<
+        ComponentState
+      >;
       return {
         errors: getErrorMessages(initialState, this.validationDescription),
         get fields() {
-          return getFieldsData(initialState);
+          return getFieldsData<ComponentState>(initialState);
         }
       };
     }
 
     const diff = findDifference<ComponentState>(
       componentState,
-      this.validationState,
+      this.validationState as ValidationState<ComponentState>,
       this.updatedArgsFields
     );
     if (Object.keys(diff).length > 0) {
       this.refreshState(
         validateFieldsByDiff(
           diff,
-          this.validationState,
+          this.validationState as ValidationState<ComponentState>,
           this.validationDescription,
           true,
           this.insertedArgs,
@@ -98,20 +100,24 @@ class Validator<ComponentState> {
         )
       );
     }
-    const updatedState = this.validationState;
+    const updatedState = this.validationState as ValidationState<
+      ComponentState
+    >;
     return {
       errors: getErrorMessages(updatedState, this.validationDescription),
       get fields() {
-        return getFieldsData(updatedState);
+        return getFieldsData<ComponentState>(updatedState);
       }
     };
   }
 
   isFormValid(): boolean {
-    return isStateValid(this.validationState);
+    return isStateValid(this.validationState as ValidationState<
+      ComponentState
+    >);
   }
 
-  insertArgs(args: InsertedArgs) {
+  insertArgs(args: InsertedArgs): Validator<ComponentState> {
     if (Object.keys(this.insertedArgs).length > 0) {
       this.updatedArgsFields = findArgsDifference(
         args,
@@ -123,11 +129,16 @@ class Validator<ComponentState> {
     return this;
   }
 
-  showAllErrors(show = true) {
-    this.refreshState(showAllErrors(this.validationState, show));
+  showAllErrors(show = true): void {
+    this.refreshState(
+      showAllErrors(
+        this.validationState as ValidationState<ComponentState>,
+        show
+      )
+    );
   }
 
-  private refreshState(validationState: ValidationState) {
+  private refreshState(validationState: ValidationState<ComponentState>): void {
     this.validationState = validationState;
   }
 }

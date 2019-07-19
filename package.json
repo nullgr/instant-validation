@@ -1,13 +1,12 @@
 {
   "name": "instant-validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Quick setup. No Dependencies. Framework agnostic validation tool",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "checktypes": "tsc --noEmit -p ./tsconfig.json",
     "dev": "watch 'npm run build' src",
-    "test": "npm run checktypes && jest",
+    "test": "jest",
     "prepush": "npm test ",
     "prepublish": "npm run build",
     "ts:rules": "tsc -p tsconfig.rules.json",
@@ -17,8 +16,7 @@
   },
   "jest": {
     "transform": {
-      "\\.(ts|tsx)$": "ts-jest",
-      "\\.(js|jsx)$": "babel-jest"
+      "\\.(ts|tsx)$": "ts-jest"
     },
     "testRegex": "/__tests__/.*.test\\.(ts|js)$",
     "modulePaths": [
@@ -33,7 +31,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "./tsconfig.json"
+        "tsConfig": "./tsconfig.json"
       }
     }
   },
@@ -54,8 +52,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^24.0.13",
-    "babel-jest": "^24.8.0",
-    "babel-preset-env": "^1.7.0",
     "husky": "^0.14.3",
     "jest": "^24.8.0",
     "prettier": "^1.15.3",
