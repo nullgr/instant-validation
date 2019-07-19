@@ -12,7 +12,7 @@ function validateFieldsByDiff<ComponentState>(
   touched: boolean,
   insertedArgs: InsertedArgs,
   ruleIdsInFields: RuleIdsInFields
-) {
+): ValidationState<ComponentState> {
   // validate fields by diff
   const newValidationState = Object.keys(newDiff).reduce(
     (acc, fieldName) => {
@@ -29,7 +29,7 @@ function validateFieldsByDiff<ComponentState>(
       };
       return acc;
     },
-    { ...oldValidationState }
+    { ...(oldValidationState as object) }
   );
 
   // validate fields, that uses additional arguments
@@ -53,6 +53,6 @@ function validateFieldsByDiff<ComponentState>(
       };
     });
   });
-  return newValidationState;
+  return newValidationState as ValidationState<ComponentState>;
 }
 export { validateFieldsByDiff };

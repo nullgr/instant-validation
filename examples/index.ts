@@ -28,7 +28,7 @@ const loginFormValidator = new Validator<LoginFormFields>({
     }
   ]
 });
-loginFormValidator.setInitialValues({
-  email: '',
-  password: ''
+const {} = loginFormValidator.validate({
+  email: 'my@email.com',
+  password: 'mypass'
 });
