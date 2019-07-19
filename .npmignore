@@ -1,6 +1,5 @@
 __tests__
 src
-examples
 rollup.config.js
 tsconfig.json
 tsconfig.rules.json
