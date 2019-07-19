@@ -1,9 +1,14 @@
 import { findDifference } from '../src/validator/modules';
-import { ChangedArgsFields } from '../src/validator/types';
+import { ChangedArgsFields, ValidationState } from '../src/validator/types';
 
 describe('Unit tests for findDifference module', () => {
   test(`Testing initial state run`, () => {
-    const validationState = {
+    interface ComponentState {
+      email: string;
+      password: string;
+      message?: string;
+    }
+    const validationState: ValidationState<ComponentState> = {
       email: {
         value: '',
         showError: false,
@@ -98,7 +103,12 @@ describe('Unit tests for findDifference module', () => {
   });
 
   test(`Testing extended state run`, () => {
-    const validationState = {
+    interface ComponentState {
+      email: string;
+      password: string;
+      message?: string;
+    }
+    const validationState: ValidationState<ComponentState> = {
       email: {
         value: '',
         showError: false,
