@@ -28,6 +28,7 @@ import {
  * @author Chernenko Alexander <ca@nullgr.com>, <akazimirkas@gmail.com>
  * @author Yurii Fediv <y.fediv@nullgr.com>
  * @author Stanislav Iliashchuk <s.iliashchuk@nullgr.com>
+ * @author Roman Charugin <i@charugin.ru>
  * @author Igor Ivanov <i.ivanov@nullgr.com>
  * @author Michael Naskromnkiuk <m.naskromniuk@nullgr.com>
  */
