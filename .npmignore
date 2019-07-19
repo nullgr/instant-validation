@@ -1,12 +1,12 @@
 __tests__
-.vscode
 src
-.editorconfig
-.gitignore
-.prettierrc
+examples
 global.d.ts
 rollup.config.js
 tsconfig.json
 tsconfig.rules.json
 tslint.json
+.editorconfig
+.prettierrc
 .DS_Store
+.vscode
